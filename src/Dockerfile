@@ -1,8 +1,7 @@
 FROM archlinux
-## Executed once?
-#RUN pacman-key --init
-#
-## Update pre-installed packages
-#RUN pacman -Syyu
 
-CMD echo "hejsan"
+# Following the recommendations from:
+# https://hub.docker.com/_/archlinux/
+RUN set -xe; \
+    pacman-key --init; \
+    pacman -Syyu --noconfirm; 
