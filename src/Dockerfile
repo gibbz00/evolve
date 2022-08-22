@@ -1,7 +1,8 @@
 FROM archlinux
 
-# Following the recommendations from:
-# https://hub.docker.com/_/archlinux/
-RUN set -xe; \
-    pacman-key --init; \
-    pacman -Syyu --noconfirm; 
+# TODO: make directory dynamic?
+ENV BUILD_DIRECTORY=/tmp/build/
+COPY ./setup.sh $BUILD_DIRECTORY/setup.sh
+COPY ./packages $BUILD_DIRECTORY/packages
+
+RUN sh $BUILD_DIRECTORY/setup.sh
