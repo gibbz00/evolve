@@ -1,7 +1,7 @@
 FROM archlinux
 
 # TODO: make directory dynamic?
-ENV BUILD_DIRECTORY=/tmp/build/
+ENV BUILD_DIRECTORY=/build/
 COPY ./setup.sh $BUILD_DIRECTORY/
 COPY ./packages $BUILD_DIRECTORY/
 
