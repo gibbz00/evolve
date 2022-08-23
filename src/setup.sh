@@ -1,8 +1,10 @@
 # Following the recommendations from:
 # https://hub.docker.com/_/archlinux/
- set -xe; \
-    pacman-key --init; \
-    pacman -Syyu --noconfirm;
+# TEMP: commented out to reduce build times
+# set -xe; \
+#    pacman-key --init; \
+#    pacman -Syyu --noconfirm;
+pacman -Sy
 
 # Select mirror servers by download rate
 # pacman-contrib includes rankmirrors script

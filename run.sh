@@ -7,4 +7,5 @@ source ./env.sh
 
 # using bind mounts for faster persistent storage?
 #   https://docs.docker.com/storage/bind-mounts/
-docker run --rm -it $IMAGE_NAME /bin/sh
+# TEMP: --it flag and /bin/sh, used for interactively checking out built image
+docker run --rm -it $IMAGE_NAME 
