@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+. setup.env
+
 # networkmanager service setup
 # TODO: how is network setup on fresh machines? does this need to moved to tui?
 #   following is a requirement for networkmanager-dmenu-git
@@ -11,7 +13,7 @@ set -e
 # Sway privilege escalation and session activation setup
 # Read more at: https://wiki.archlinux.org/title/sway#Starting
 # Using seatd to avoid logind and Polkit dependencies
-sudo systemctl enable seatd
-sudo systemctl start seatd
+systemctl enable seatd
+systemctl start seatd
 upsermod $USERNAME --append seat
 

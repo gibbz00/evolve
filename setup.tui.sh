@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 # Following recommendations from: 
     # https://hub.docker.com/_/archlinux/
@@ -7,10 +6,9 @@ set -e
     # https://wiki.archlinux.org/title/installation_guide
     # https://wiki.archlinux.org/title/General_recommendations
 
-COUNTRY='SE'
-USERNAME='gibbz'
-GIT_USERNAME='gibbz00'
-GIT_EMAIL_ADRESSS='gabrielhansson00@gmail.com'
+set -e
+
+. setup.env
 
 pacman_setup() {
     pacman-key --init
@@ -39,7 +37,7 @@ user_setup() {
     passwd
     # TODO: test that skel flag works
     # TODO: make sure that files in $HOME are owned by user, is this a given when using the skel flag?
-    #   alternatively: sudo chown -R $USER:$USER /home/$USER
+    #   alternatively: chown -R $USER:$USER /home/$USER
     useradd --skel skel/ --create-home --shell /bin/bash --groups users,wheel $USERNAME
     # TODO: check that promts are understandable
     passwd $USERNAME
@@ -55,12 +53,12 @@ bash_force_xdg_base_spec() {
 swap_keys() {
     # Swaps escape with caps and lctrl with lalt  
     # POTENTIAL IMPROVEMENT: change to using the showkey(1) setkeycodes(8) API instead of this evtest, evdev-descrribe, udevrules, systemd-hwdb fuckfest
-    sudo ln /home/whiz/.config/udev/hwdb.d/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
+    cp /home/$USERNAME/.config/udev/hwdb.d/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
     # Update Hardware Dababase Index (hwdb.bin)
-    sudo systemd-hwdb update
+    systemd-hwdb update
     # Trigger reload of hwdb.bin for settings to take immediate effect.
     # Relead is normall part of bootprocess. 
-    sudo udevadm trigger
+    udevadm trigger
 }
 
 git_setup() {
