@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Following recommendations from: 
     # https://hub.docker.com/_/archlinux/
@@ -7,9 +8,9 @@
     # https://wiki.archlinux.org/title/General_recommendations
 
 COUNTRY='SE'
-
-## PREPARATIONS 
-set -e
+USERNAME='gibbz'
+GIT_USERNAME='gibbz00'
+GIT_EMAIL_ADRESSS='gabrielhansson00@gmail.com'
 
 pacman_setup() {
     pacman-key --init
@@ -25,7 +26,6 @@ pacman_setup() {
 }
 
 install_packages() {
-    # Bring existing packages up to date
     pacman -Syyu --noconfirm
 
     # IMPROVEMENT: just do this with grep
@@ -38,46 +38,38 @@ user_setup() {
     # TODO: check that promts are understandable
     passwd
     # TODO: test that skel flag works
-    useradd --skel /dev/null --create-home --shell /bin/bash --groups users,wheel gibbz
-    passwd gibbz
+    # TODO: make sure that files in $HOME are owned by user, is this a given when using the skel flag?
+    #   alternatively: sudo chown -R $USER:$USER /home/$USER
+    useradd --skel skel/ --create-home --shell /bin/bash --groups users,wheel $USERNAME
+    # TODO: check that promts are understandable
+    passwd $USERNAME
+
 }
 
-# networkmanager service setup
-# TODO: how is network setup on fresh machines?
-#   following is a requirement for networkmanager-dmenu-git
-#systemctl start NetworkManager.service
-#systemctl enable NetworkManager.service
-# TODO: make sure that dhcpcd and systemd-networkd are not enabled or started
+bash_force_xdg_base_spec() {
+    # TODO: make sure that permission are correct and that they are executable.
+    cp skel/.config/bash/bash_login_xdg.sh /etc/profile.d/
+    cp skel/.config/bash/bash_interactive_xdg.sh /etc/bashrc.d/
+}
 
-# File part of the Evolve project. 
-# Force bash to follow xdg-base spec
-# TODO: 
-    # check that profile.d directory exists and that they are sourced in /etc/profile
-    # check that symbolic link does not aleady exist by another user
-    # check that files to be linked actually exist
-    # xdg config home should be used
-ln /home/whiz/.config/bash/bash_login_xdg.sh /etc/profile.d/
-ln /home/whiz/.config/bash/bash_interactive_xdg.sh /etc/bashrc.d/
+swap_keys() {
+    # Swaps escape with caps and lctrl with lalt  
+    # POTENTIAL IMPROVEMENT: change to using the showkey(1) setkeycodes(8) API instead of this evtest, evdev-descrribe, udevrules, systemd-hwdb fuckfest
+    sudo ln /home/whiz/.config/udev/hwdb.d/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
+    # Update Hardware Dababase Index (hwdb.bin)
+    sudo systemd-hwdb update
+    # Trigger reload of hwdb.bin for settings to take immediate effect.
+    # Relead is normall part of bootprocess. 
+    sudo udevadm trigger
+}
 
-# Swaps escape with caps and lctrl with lalt  
-# TODO: change to using the showkey(1) setkeycodes(8) API instead of this evtest, evdev-descrribe, udevrules, systemd-hwdb fuckfest
-sudo ln /home/whiz/.config/udev/hwdb.d/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
-# Update Hardware Dababase Index (hwdb.bin)
-sudo systemd-hwdb update
-# Trigger reload of hwdb.bin that is normally only as part of the boot process. 
-sudo udevadm trigger
+git_setup() {
+    git config --global user.name $GIT_USERNAME
+    git config --global user.email $GIT_EMAIL_ADRESSS
+}
 
-# Sway privilege escalation and session activation setup
-# Read more at: https://wiki.archlinux.org/title/sway#Starting
-# Using seatd to avoid logind and Polkit dependencies
-sudo systemctl enable seatd
-sudo systemctl start seatd
-upsermod gibbz --append seat
+github_setup() {
+    echo "stub"
+    # TODO: gh Authentication, see workflowy
+}
 
-## Git setup
-git config --global user.name 'gibbz00'
-git config --global user.email 'gabrielhansson00@gmail.com'
-# TODO: gh Authentication, see workflowy
-
-# TODO: make sure that files in $HOME are owned by user
-# sudo chown -R $USER:$USER /home/$USER
