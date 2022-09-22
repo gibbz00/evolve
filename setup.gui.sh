@@ -1,3 +1,8 @@
+#!/bin/sh
+
+## PREPARATIONS
+set -e
+
 # Following the recommendations from:
 # https://hub.docker.com/_/archlinux/
 # TEMP: commented out to reduce build times

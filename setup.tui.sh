@@ -1,32 +1,46 @@
-# Following the recommendations from:
-# https://hub.docker.com/_/archlinux/
-# TEMP: commented out to reduce build times
-# set -xe; \
-#    pacman-key --init; \
-#    pacman -Syyu --noconfirm;
-pacman -Sy
+#!/bin/sh
 
-# Select mirror servers by download rate
-# pacman-contrib includes rankmirrors script
-pacman -S pacman-contrib --noconfirm --needed;
-cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-curl -s "https://archlinux.org/mirrorlist/?country=SE&protocol=https&use_mirror_status=on" \
-| sed -e 's/^#Server/Server/' -e '/^#/d' \
-| rankmirrors -v -n 5 - \
-> /etc/pacman.d/mirrorlist
+# Following recommendations from: 
+    # https://hub.docker.com/_/archlinux/
+    # https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4
+    # https://wiki.archlinux.org/title/installation_guide
+    # https://wiki.archlinux.org/title/General_recommendations
 
-# Install packages
-PACKAGES=$(sed -e '/^#/d' "$BUILD_DIRECTORY/packages" | tr '\n' ' ')
-pacman -S $PACKAGES --noconfirm --needed
+COUNTRY='SE'
 
-# TODO: add user
-# Add root password and user credentials
-# login shell must be listed in /etc/shells, otherwise Linux Pluggable Authentication Modules (PAM) pam_shell will deny future login requests
-# not specifying a shell will use the one in /etc/default/useradd
-#   other arch defaults can also be checked out here
-# remember that /etc/skel can be created to create a default home directory
-useradd --create-home --shell /bins/bash --groups users,wheel gibbz
-passwd gibbz
+## PREPARATIONS 
+set -e
+
+pacman_setup() {
+    pacman-key --init
+
+    # Select mirror servers by download rate
+    # (pacman-contrib includes rankmirrors script)
+    pacman -S pacman-contrib --noconfirm --needed
+    cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+    curl -s "https://archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=https&use_mirror_status=on" \
+    | sed -e 's/^#Server/Server/' -e '/^#/d' \
+    | rankmirrors -v -n 5 - \
+    > /etc/pacman.d/mirrorlist
+}
+
+install_packages() {
+    # Bring existing packages up to date
+    pacman -Syyu --noconfirm
+
+    # IMPROVEMENT: just do this with grep
+    # TODO: make sure that tabs are trimmed away
+    PACKAGES=$(sed -e '/^#/d' "./packages.tui" | tr '\n' ' ')
+    pacman -S "$PACKAGES" --noconfirm --needed
+}
+
+user_setup() {
+    # TODO: check that promts are understandable
+    passwd
+    # TODO: test that skel flag works
+    useradd --skel /dev/null --create-home --shell /bin/bash --groups users,wheel gibbz
+    passwd gibbz
+}
 
 # networkmanager service setup
 # TODO: how is network setup on fresh machines?
