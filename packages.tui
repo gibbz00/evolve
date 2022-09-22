@@ -1,0 +1,6 @@
+# test package
+bash
+    fzf
+    bash-completions # can be added as enabled optional dependency to bash
+neovim
+networkmanager
