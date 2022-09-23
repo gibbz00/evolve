@@ -7,11 +7,20 @@ All configurations and programs should work out of the box.
 
 ### System Environments
 
-| Base   | Headless (tui) | Desktop (gui) | Hardware                                | 
-| :---   | :---:          | :---:         | :---:                                   | 
+| Base   | Headless (tui) | Desktop (gui) | Hardware                                |
+| :---   | :---:          | :---:         | :---:                                   |
 | x86_64 | x              | x             | Xiaomi Notebook Pro, QNAP TS-259 Pro+   |
-| Arm    | x              |               | Raspberry Pi 4                          |
+| Arm    | x              |               | Raspberry Pi 4                          | 
 | Docker | x              |               |                                         |
+
+### Standard partitions
+
+| Base   | Table type   | BOOT              | ROOT                      |
+| :---   | :---:        | :---:             | :---:                     |
+| x86_64 |              |                   |                           |
+| Arm    | MS-DOS       | 0-1024MiB FAT32   | 1024MiB - Remaining Ext4  |
+| Docker |              |                   |                           |
+
 
 ### Architecture
 
@@ -24,6 +33,8 @@ The automation is divided into three parts. The role taken of the differenc part
 ### Features
 
 # Usage
+
+All commands beginning with a `$` should be run unpriviliged and all commands beginning with a `#` should be run as root.
  
 ## Arm on Raspberry Pi 4
 
@@ -35,9 +46,9 @@ The automation is divided into three parts. The role taken of the differenc part
 
 ### Preparation
 
-1. Have a SD-card in hand and run the preparation script.
+1. Have a SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
 
-`./prepare.sh`
+`# ./prepare.sh`
 
 ### Setup
 
@@ -64,11 +75,11 @@ I would recommend `wifi-menu` for setting up wireless networks, mostly for it's 
 
 TUI (headless) only: 
 
-`# In evolve/`
+`## In evolve/`
 `$ sh ./evolve/setup.tui.sh`
 
 GUI:
 
-`# In evolve/`
+`## In evolve/`
 `$ sh ./evolve/setup.tui.sh`
 `$ sh ./evolve/setup.gui.sh`
