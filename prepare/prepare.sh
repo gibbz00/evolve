@@ -85,6 +85,18 @@ format_and_mount_partitions() {
     esac
 }
 
+download_base() {
+    case $HARDWARE in
+        'raspberry_pi_4')
+            curl --location http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-aarch64-latest.tar.gz \
+                | bsdtar --extract --preserve-permissions --file - --directory root
+            mv root/boot/* boot
+            # https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4#aarch64installation
+            sed -i 's/mmcblk0/mmcblk1/g' root/etc/fstab
+        ;;
+    esac
+}
+
 cleanup_mounts(){
    umount boot root 
    rm --recursive --force boot root
@@ -94,4 +106,5 @@ select_hardware
 select_device
 partition_device
 format_and_mount_partitions
+download_base
 cleanup_mounts
