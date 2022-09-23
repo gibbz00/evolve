@@ -65,7 +65,7 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 
 1. Make sure that an internet connection is set up.
 
-`$ ping -c 1 google.com`
+`$ ping -c 3 google.com`
 
 I would recommend `wifi-menu` for setting up wireless networks, mostly for it's ease of use.
 

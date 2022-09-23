@@ -36,8 +36,8 @@ select_device() {
     # get device name
     device=$(
         grep --invert-match --line-regexp --fixed-strings --file /tmp/state1.log /tmp/state2.log \
-        | head --lines 1 \
-        | grep --only-matching --regexp "^\w*"
+            | head --lines 1 \
+            | grep --only-matching --regexp "^\w*"
     )
     rm state1.log state2.log
     echo "Found boot device $device."
@@ -63,7 +63,35 @@ partition_device() {
     partprobe "$device"
 }
 
+format_and_mount_partitions() {
+    # shellcheck disable=SC2046
+        # word splitting is exactly what I want in this case
+    set -- $(
+        lsblk --noheadings --output NAME --sort NAME \
+            | grep "^$device" \
+            | grep --invert-match --fixed-string --word-regexp "$device" 
+    )
+
+    case $HARDWARE in
+        'raspberry_pi_4')
+            mkdir boot
+            mkfs.vfat /dev/"$1"
+            mount /dev/"$1" boot
+
+            mkdir root
+            mkfs.ext4 /dev/"$2"
+            mount /dev/"$2" root
+        ;;
+    esac
+}
+
+cleanup_mounts(){
+   umount boot root 
+   rm --recursive --force boot root
+}
 ## Main ##
 select_hardware
 select_device
 partition_device
+format_and_mount_partitions
+cleanup_mounts
