@@ -51,15 +51,19 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 
 ### Preparation
 
-1. `$ curl --location <url> | zip -d evolve-preparation`
+1. Download the preparation script and make it executable.
+
+`$ curl --location <url> | zip -d evolve-prepare`
+`$ cd evolve-prepare`
+`$ chmod +x prepare.sh`
 
 2. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
 
-`# ./prepare.sh`
+`# ./prepare.sh -h raspberry_pi_4`
 
 ### Setup
 
-1. Make sure that an internet conneciton is set up.
+1. Make sure that an internet connection is set up.
 
 `$ ping -c 1 google.com`
 
@@ -67,7 +71,7 @@ I would recommend `wifi-menu` for setting up wireless networks, mostly for it's 
 
 2. Download the setup scripts and their helper files
 
-`$ curl --location <url> | zip -d evolve-seutp`
+`$ curl --location <url> | zip -d evolve-setup`
 
 3. Make the scripts executable. 
 

@@ -1,6 +1,30 @@
 #!/bin/sh
 set -e 
 
+select_hardware() {
+    supported_hardware="
+        raspberry_pi_4
+    "
+
+    while getopts "h:" flag
+    do
+        case "$flag" in
+            h)
+                echo "$flag $OPTARG"
+                if (echo "$supported_hardware" | grep --quiet --fixed-string --word-regexp "$OPTARG")
+                then
+                    HARDWARE="$OPTARG"
+                else 
+                    printf "Invalid hardware option. Choose on of: %s" "$supported_hardware"
+                fi
+            ;;
+            *)
+                printf "Specify hardware with the -h <hardware_option> flag. Possible hardware options: %s" "$supported_hardware"
+            ;;
+        esac
+    done 
+}
+
 select_device() {
     echo "Make sure that the boot medium is NOT plugged in. Press enter once that is the case."
     read -r
@@ -33,10 +57,6 @@ partition_device() {
             # Root Partition
             parted --script --align optimal "$device" mkpart primary "1024MiB" "100%"
         ;;
-        *)
-            echo "Unrecognized hardware option in setup.env. Aborting..."
-            exit 1
-        ;;
     esac
 
     # Inform kernel about new partition table changes
@@ -44,6 +64,6 @@ partition_device() {
 }
 
 ## Main ##
-
+select_hardware
 select_device
 partition_device
