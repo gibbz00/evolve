@@ -1,28 +1,17 @@
 #!/bin/sh
 set -e 
 
-select_hardware() {
+. ../evolve.env
+
+chech_hardware() {
     supported_hardware="
         raspberry_pi_4
     "
 
-    while getopts "h:" flag
-    do
-        case "$flag" in
-            h)
-                echo "$flag $OPTARG"
-                if (echo "$supported_hardware" | grep --quiet --fixed-string --word-regexp "$OPTARG")
-                then
-                    HARDWARE="$OPTARG"
-                else 
-                    printf "Invalid hardware option. Choose on of: %s" "$supported_hardware"
-                fi
-            ;;
-            *)
-                printf "Specify hardware with the -h <hardware_option> flag. Possible hardware options: %s" "$supported_hardware"
-            ;;
-        esac
-    done 
+    if ! (echo "$supported_hardware" | grep --quiet --fixed-string --word-regexp "$HARDWARE")
+    then
+        printf "Invalid hardware option. Edit HARDWARE in evolve.env by choosing one of: %s" "$supported_hardware"
+    fi
 }
 
 select_device() {
@@ -97,14 +86,26 @@ download_base() {
     esac
 }
 
+misc_preparations() {
+    # move evolve scripts to root
+    # ssh prep
+        # setting hostname for ssh root@hostname
+        # does root password need to be set?
+        # does dhcp need to be setup?
+    # optimize swappiness?
+    echo "stub"
+}
+
 cleanup_mounts(){
    umount boot root 
    rm --recursive --force boot root
 }
+
 ## Main ##
-select_hardware
+check_hardware
 select_device
 partition_device
 format_and_mount_partitions
 download_base
+misc_preparation
 cleanup_mounts

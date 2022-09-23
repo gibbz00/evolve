@@ -22,11 +22,10 @@ All configurations and programs should work out of the box.
 
 ### Architecture
 
-The automation is divided into three parts. The role taken of the differenc parts differ depending on the chosen base. E.g A Dockerfile can handle all tasks from the respective stages and must therefore only have one. Anyway, here's the general role of each part.
+The automation is divided into two parts. The role taken by the parts differ depending on the chosen base or hardware configuration. E.g A Dockerfile can handle all tasks from the respective stages and must therefore only have one. Anyway, here's the general role of each part.
 
-* Preparation (prepare.sh) - Preparing boot medium.
-* Install (install.sh) - Partitioning, installing bootloader. 
-* Setup (setup.sh) - User setup, install all the applications and personal configuartions.
+* Preparation (prepare.sh) - Preparation of boot and filesystem. Hostname, locale and enabling remote access with SSH.
+* Setup (setup.sh) - Upon first standalone boot. User setup, package installations and personal configuartion setup.
 
 ### Features
 
@@ -39,7 +38,7 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 ### Requirements
 
 * An SD-card (recommended size is at least 8GB)
-* A decent CLI interface in a mostly POSIX compliant environment. macOS and most Linux distros (in WSL too) should be fine. But don't quote me on that.
+* A decent CLI interface in a mostly POSIX compliant environment. Most Linux distros work for sure (WSL too). BSDs, macOS should be fine, but don't quote me on that.
     * Dependencies: 
     `
         curl
@@ -47,21 +46,31 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
         dd
         parted
     `
-* Root access
+* Root access on the preparation machine.
+* Ethernet cable internet connection to the Raspberry Pi 4 is going for the headless install.
 
 ### Preparation
 
-1. Download the preparation script and make it executable.
+1. Download the necessary scripts.
 
-`$ curl --location <url> | zip -d evolve-prepare`
-`$ cd evolve-prepare`
-`$ chmod +x prepare.sh`
+`$ curl --location <url> | tar --extract --preserve-permissions --file - --directory evolve`
 
-2. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
+2. Edit evolve.env to your liking with your favorite text editor. It will be put into root node during the preparation script but will be self-removed by the end of the setup script. 
 
+`$ nvim evolve/setup/evolve.env # ;)`
+
+3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
+
+`$ cd evolve/prepare`
 `# ./prepare.sh -h raspberry_pi_4`
 
 ### Setup
+
+0. If connecting through SSH. 
+
+`$ ssh root@evolve-raspberry_pi_4`
+
+Then skip to step 2. 
 
 1. Make sure that an internet connection is set up.
 
@@ -69,28 +78,11 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 
 I would recommend `wifi-menu` for setting up wireless networks, mostly for it's ease of use.
 
-2. Download the setup scripts and their helper files
+4. Run setup scripts. *.gui is a extension of *.tui. GUI systems must in other words run both setup scripts.  
 
-`$ curl --location <url> | zip -d evolve-setup`
-
-3. Make the scripts executable. 
-
-`$ cd evolve`
-`$ chmod +x setup.*.sh`
-
-4. Edit setup.env to your liking with your favorite text editor
-
-`$ nvim setup.env # ;)`
-
-5. Run setup scripts. *.gui is a extension of *.tui. GUI systems must in other words run both setup scripts.  
-
-TUI (headless) only: 
-
-`## In evolve/`
+`$ cd /evolve/setup`
 `$ sh ./evolve/setup.tui.sh`
 
-GUI:
+5. If using GUI:
 
-`## In evolve/`
-`$ sh ./evolve/setup.tui.sh`
 `$ sh ./evolve/setup.gui.sh`

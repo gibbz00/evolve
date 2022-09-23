@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-. setup.env
+. ../evovle.env
 
 # networkmanager service setup
 # TODO: how is network setup on fresh machines? does this need to moved to tui?

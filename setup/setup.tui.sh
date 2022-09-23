@@ -8,11 +8,25 @@
 
 set -e
 
-. setup.env
+. ../evolve.env
+
+locale_setup () {
+    # timezone using $TIMEZONE from evolve.env
+    # # ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+    # # hwclock --systohc
+    # https://wiki.archlinux.org/title/installation_guide#Localization
+    echo "stub"
+}
 
 pacman_setup() {
     pacman-key --init
 
+    if test $HARDWARE = "raspberry_pi_4"
+    then
+        pacman-key --populate archlinuxarm
+    fi
+
+    # TODO: for Arm version as well?
     # Select mirror servers by download rate
     # (pacman-contrib includes rankmirrors script)
     pacman -S pacman-contrib --noconfirm --needed
@@ -23,13 +37,17 @@ pacman_setup() {
     > /etc/pacman.d/mirrorlist
 }
 
+yay_setup() {
+    echo "stub"
+}
+
 install_packages() {
     pacman -Syyu --noconfirm
 
     # IMPROVEMENT: just do this with grep
     # TODO: make sure that tabs are trimmed away
     PACKAGES=$(sed -e '/^#/d' "./packages.tui" | tr '\n' ' ')
-    pacman -S "$PACKAGES" --noconfirm --needed
+    yay -S "$PACKAGES" --noconfirm --needed
 }
 
 user_setup() {
