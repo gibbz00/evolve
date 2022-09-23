@@ -33,6 +33,10 @@ partition_device() {
             # Root Partition
             parted --script --align optimal "$device" mkpart primary "1024MiB" "100%"
         ;;
+        *)
+            echo "Unrecognized hardware option in setup.env. Aborting..."
+            exit 1
+        ;;
     esac
 
     # Inform kernel about new partition table changes
@@ -43,4 +47,3 @@ partition_device() {
 
 select_device
 partition_device
-

@@ -15,11 +15,9 @@ All configurations and programs should work out of the box.
 
 ### Standard partitions
 
-| Base   | Table type   | BOOT              | ROOT                      |
-| :---   | :---:        | :---:             | :---:                     |
-| x86_64 |              |                   |                           |
-| Arm    | MS-DOS       | 0-1024MiB FAT32   | 1024MiB - Remaining Ext4  |
-| Docker |              |                   |                           |
+| Hardware              | Table type   | BOOT              | ROOT                      |
+| :---                  | :---:        | :---:             | :---:                     |
+| raspberry_pi_4        | MS-DOS       | 0-1024MiB FAT32   | 1024MiB - Remaining Ext4  |
 
 
 ### Architecture
@@ -42,11 +40,20 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 
 * An SD-card (recommended size is at least 8GB)
 * A decent CLI interface in a mostly POSIX compliant environment. macOS and most Linux distros (in WSL too) should be fine. But don't quote me on that.
+    * Dependencies: 
+    `
+        curl
+        lsblk
+        dd
+        parted
+    `
 * Root access
 
 ### Preparation
 
-1. Have a SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
+1. `$ curl --location <url> | zip -d evolve-preparation`
+
+2. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
 
 `# ./prepare.sh`
 
@@ -60,7 +67,7 @@ I would recommend `wifi-menu` for setting up wireless networks, mostly for it's 
 
 2. Download the setup scripts and their helper files
 
-`$ curl --location <url>/evolve.zip | zip -d evolve`
+`$ curl --location <url> | zip -d evolve-seutp`
 
 3. Make the scripts executable. 
 
