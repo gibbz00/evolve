@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e 
 
-. ../evolve.env
+. ./evolve.env
 
 chech_hardware() {
     supported_hardware="
