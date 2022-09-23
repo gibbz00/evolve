@@ -1,5 +1,4 @@
 #!/bin/sh
-# Preparing the boot medium for https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4
 set -e 
 
 select_device() {
@@ -18,20 +17,23 @@ select_device() {
     )
     rm state1.log state2.log
     echo "Found boot device $device."
-    sfdisk --dump /dev/"$device" > partitions.bak
 }
 
 partition_device() {
     # Wipe partition-table signatures
     wipefs --all /dev/"$device"
 
-    # Table type
-    parted --script --align optimal "$device" mklabel "msdos"
-    # Boot Partition
-    parted --script --align optimal "$device" mkpart primary fat32 "1MiB" "1024MiB"
-    parted --script --align optimal "$device" set 1 boot on
-    # Root Partition
-    parted --script --align optimal "$device" mkpart primary "1024MiB" "100%"
+    case $HARDWARE in
+        'raspberry_pi_4')
+            # Table type
+            parted --script --align optimal "$device" mklabel "msdos"
+            # Boot Partition
+            parted --script --align optimal "$device" mkpart primary fat32 "1MiB" "1024MiB"
+            parted --script --align optimal "$device" set 1 boot on
+            # Root Partition
+            parted --script --align optimal "$device" mkpart primary "1024MiB" "100%"
+        ;;
+    esac
 
     # Inform kernel about new partition table changes
     partprobe "$device"
