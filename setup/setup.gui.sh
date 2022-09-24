@@ -1,7 +1,4 @@
 #!/bin/sh
-set -e
-
-. ../evovle.env
 
 # networkmanager service setup
 # TODO: how is network setup on fresh machines? does this need to moved to tui?
@@ -15,5 +12,5 @@ set -e
 # Using seatd to avoid logind and Polkit dependencies
 systemctl enable seatd
 systemctl start seatd
-upsermod $USERNAME --append seat
+usermod $USERNAME --append seat
 

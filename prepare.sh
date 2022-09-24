@@ -39,12 +39,11 @@ partition_device() {
     case $HARDWARE in
         'raspberry_pi_4')
             # Table type
-            parted --script --align optimal "$device" mklabel "msdos"
-            # Boot Partition
-            parted --script --align optimal "$device" mkpart primary fat32 "1MiB" "1024MiB"
-            parted --script --align optimal "$device" set 1 boot on
-            # Root Partition
-            parted --script --align optimal "$device" mkpart primary "1024MiB" "100%"
+            parted --script --align optimal "$device" \
+                mklabel "msdos" \
+                mkpart primary fat32 "1MiB" "1024MiB" \
+                set 1 boot on \
+                mkpart primary "1024MiB" "100%" \
         ;;
     esac
 
@@ -79,6 +78,8 @@ download_base() {
         'raspberry_pi_4')
             curl --location http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-aarch64-latest.tar.gz \
                 | bsdtar --extract --preserve-permissions --file - --directory root
+            sync
+            # TODO: will this work without sync?
             mv root/boot/* boot
             # https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4#aarch64installation
             sed -i 's/mmcblk0/mmcblk1/g' root/etc/fstab
@@ -88,12 +89,11 @@ download_base() {
 
 misc_preparations() {
     # move evolve scripts to root
-    # ssh prep
-        # setting hostname for ssh root@hostname
-        # does root password need to be set?
-        # does dhcp need to be setup?
-    # optimize swappiness?
-    echo "stub"
+    mv . root/root/
+
+    # host name set in preparation step for headless functionality
+        # (easer than using nmap and testing to ssh into a bunch random of ip adresses)
+    echo $HOSTNAME >> root/etc/hostname
 }
 
 cleanup_mounts(){

@@ -6,10 +6,6 @@
     # https://wiki.archlinux.org/title/installation_guide
     # https://wiki.archlinux.org/title/General_recommendations
 
-set -e
-
-. ../evolve.env
-
 locale_setup () {
     # timezone using $TIMEZONE from evolve.env
     # # ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
@@ -21,6 +17,7 @@ locale_setup () {
 pacman_setup() {
     pacman-key --init
 
+    # TODO: why?
     if test $HARDWARE = "raspberry_pi_4"
     then
         pacman-key --populate archlinuxarm

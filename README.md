@@ -55,7 +55,7 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 
 `$ curl --location <url> | tar --extract --preserve-permissions --file - --directory evolve`
 
-2. Edit evolve.env to your liking with your favorite text editor. It will be put into root node during the preparation script but will be self-removed by the end of the setup script. 
+2. Edit evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script. 
 
 `$ nvim evolve/setup/evolve.env # ;)`
 
@@ -68,7 +68,11 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 
 0. If connecting through SSH. 
 
-`$ ssh root@evolve-raspberry_pi_4`
+
+`
+    # ssh root@$HOSTNAME
+    $ ssh root@evolve-raspberry_pi_4
+`
 
 Then skip to step 2. 
 
@@ -78,11 +82,7 @@ Then skip to step 2.
 
 I would recommend `wifi-menu` for setting up wireless networks, mostly for it's ease of use.
 
-4. Run setup scripts. *.gui is a extension of *.tui. GUI systems must in other words run both setup scripts.  
+4. Run setup script.
 
-`$ cd /evolve/setup`
-`$ sh ./evolve/setup.tui.sh`
-
-5. If using GUI:
-
-`$ sh ./evolve/setup.gui.sh`
+`$ cd /root/evolve/setup`
+`$ sh ./setup.sh`
