@@ -1,11 +1,13 @@
-# Overview
+# Description
 
-## Background
+The goal of this project is to automate setup of my personally configured Arch Linux systems. It aims to make all configurations and programs work out of the box and ready for development.
 
-The goal of this project is to automate setup of my personally configured Arch Linux systems.
-All configurations and programs should work out of the box.
+The automation is divided into two parts. The role taken by the parts differ depending on the chosen base or hardware configuration. E.g A Dockerfile can handle all tasks from the respective stages and must therefore only have one. Anyway, here's the general role of each part.
 
-### System Environments
+* Preparation (prepare.sh) - Preparation of boot and filesystem.
+* Setup (setup.sh) - After first standalone boot. User setup, package installations and personal configuartion setup.
+
+## System Environments
 
 | Base   | Headless (tui) | Desktop (gui) | Hardware                                |
 | :---   | :---:          | :---:         | :---:                                   |
@@ -13,21 +15,11 @@ All configurations and programs should work out of the box.
 | Arm    | x              |               | Raspberry Pi 4                          | 
 | Docker | soon           |               |                                         |
 
-### Standard partitions
+## Standard partitions
 
 | Hardware              | Table type   | BOOT              | ROOT                      |
 | :---                  | :---:        | :---:             | :---:                     |
 | raspberry_pi_4        | MS-DOS       | 0-1024MiB FAT32   | 1024MiB - Remaining Ext4  |
-
-
-### Architecture
-
-The automation is divided into two parts. The role taken by the parts differ depending on the chosen base or hardware configuration. E.g A Dockerfile can handle all tasks from the respective stages and must therefore only have one. Anyway, here's the general role of each part.
-
-* Preparation (prepare.sh) - Preparation of boot and filesystem.
-* Setup (setup.sh) - After first standalone boot. User setup, package installations and personal configuartion setup.
-
-### Features
 
 # Usage
 
