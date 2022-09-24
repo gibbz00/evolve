@@ -9,9 +9,9 @@ All configurations and programs should work out of the box.
 
 | Base   | Headless (tui) | Desktop (gui) | Hardware                                |
 | :---   | :---:          | :---:         | :---:                                   |
-| x86_64 | x              | x             | Xiaomi Notebook Pro, QNAP TS-259 Pro+   |
+| x86_64 | soon           | soon          | Xiaomi Notebook Pro, QNAP TS-259 Pro+   |
 | Arm    | x              |               | Raspberry Pi 4                          | 
-| Docker | x              |               |                                         |
+| Docker | soon           |               |                                         |
 
 ### Standard partitions
 
@@ -24,8 +24,8 @@ All configurations and programs should work out of the box.
 
 The automation is divided into two parts. The role taken by the parts differ depending on the chosen base or hardware configuration. E.g A Dockerfile can handle all tasks from the respective stages and must therefore only have one. Anyway, here's the general role of each part.
 
-* Preparation (prepare.sh) - Preparation of boot and filesystem. Hostname, locale and enabling remote access with SSH.
-* Setup (setup.sh) - Upon first standalone boot. User setup, package installations and personal configuartion setup.
+* Preparation (prepare.sh) - Preparation of boot and filesystem.
+* Setup (setup.sh) - After first standalone boot. User setup, package installations and personal configuartion setup.
 
 ### Features
 
@@ -53,7 +53,7 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 
 1. Download the necessary scripts.
 
-`$ curl --location <url> | tar --extract --preserve-permissions --file - --directory evolve`
+`$ curl --location https://www.github.com/gibbz00/evolve/archive/development.tar.gz | tar --extract --preserve-permissions --file - --directory evolve`
 
 2. Edit evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script. 
 
