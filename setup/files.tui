@@ -1,5 +1,0 @@
-.config/
-    bash/
-    readline/
-    udev/dwdb.d/90-custom-keybard-bindings.hwdb
-    nvim/
