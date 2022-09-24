@@ -3,7 +3,7 @@ set -e
 
 . ./evolve.env
 
-chech_hardware() {
+check_hardware() {
     supported_hardware="
         raspberry_pi_4
     "

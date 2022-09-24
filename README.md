@@ -46,20 +46,20 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 1. Download the necessary scripts.
 
 ```
-$ curl --location https://www.github.com/gibbz00/evolve/archive/development.tar.gz \
-  | tar --extract --preserve-permissions --file - --directory evolve
+$ curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
+    | tar --verbose --extract --preserve-permissions --ungzip --file -
 ```
 
 2. Edit evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script. 
 
 ```
-$ nvim evolve/setup/evolve.env # ;)
+$ cd evolve-development
+$ nvim evolve.env # ;)
 ```
 3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
 
 ```
-$ cd evolve/prepare
-# ./prepare.sh -h raspberry_pi_4
+# ./prepare.sh
 ```
 
 ### Setup
@@ -67,8 +67,7 @@ $ cd evolve/prepare
 0. If connecting through SSH. 
 
 ```
-# ssh root@$HOSTNAME
-$ ssh root@evolve-raspberry_pi_4
+$ ssh root@evolve-raspberry_pi_4 #root@$HOSTNAME
 ```
 
 Then skip to step 2. 
