@@ -64,15 +64,17 @@ $ nvim evolve.env # ;)
 
 ### Setup
 
-0. If connecting through SSH. 
+1. Insert the SD into the Raspberry Pi 4 and power it up.
+
+2. If connecting through SSH. 
 
 ```
 $ ssh root@evolve-raspberry_pi_4 #root@$HOSTNAME
 ```
 
-Then skip to step 2. 
+Then skip to step 4.
 
-1. Make sure that an internet connection is set up.
+3. Make sure that an internet connection is set up.
 
 ```
 $ ping -c 3 google.com
@@ -80,7 +82,7 @@ $ ping -c 3 google.com
 
 I would recommend `wifi-menu` for setting up wireless networks, mostly for it's ease of use.
 
-2. Run setup script.
+4. Finally, run setup script.
 
 ```
 $ cd /root/evolve/setup

@@ -30,7 +30,9 @@ select_device() {
     )
     rm state1.log state2.log
     echo "Found device: $device."
-    sync
+    # HACK: takes some time for the disk to get registered.
+        # wipefs won't find the device without this 1 second sleep
+    sleep 1s
 }
 
 partition_device() {
