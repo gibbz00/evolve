@@ -90,8 +90,8 @@ download_base() {
 }
 
 misc_preparations() {
-    # move evolve scripts to root
-    mv . "$ROOT_DIRECTORY"/root/evolve
+    # copy evolve scripts to root
+    cp --recursive . "$ROOT_DIRECTORY"/root/evolve
 
     # host name set in preparation step for headless functionality
         # (easer than using nmap and testing to ssh into a bunch random of ip adresses)
