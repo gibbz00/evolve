@@ -53,7 +53,7 @@ $ curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
 2. Edit evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script. 
 
 ```
-$ cd evolve-development
+$ cd evolve-development/src
 $ nvim evolve.env # ;)
 ```
 3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
