@@ -30,6 +30,7 @@ select_device() {
     )
     rm state1.log state2.log
     echo "Found device: $device."
+    sync
 }
 
 partition_device() {
@@ -95,7 +96,7 @@ misc_preparations() {
 
     # host name set in preparation step for headless functionality
         # (easer than using nmap and testing to ssh into a bunch random of ip adresses)
-    echo "$HOST_NAME" >> root/etc/hostname
+    echo "$HOST_NAME" >> $ROOT_DIRECTORY/etc/hostname
 }
 
 cleanup_mounts(){
