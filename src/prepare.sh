@@ -104,10 +104,10 @@ cleanup_mounts(){
 }
 
 ## Main ##
-# check_hardware
-# select_device
-# partition_device
-# format_and_mount_partitions
-# download_base
+check_hardware
+select_device
+partition_device
+format_and_mount_partitions
+download_base
 misc_preparations
 cleanup_mounts
