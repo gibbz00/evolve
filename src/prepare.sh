@@ -98,7 +98,7 @@ misc_preparations() {
 
     # host name set in preparation step for headless functionality
         # (easer than using nmap and testing to ssh into a bunch random of ip adresses)
-    echo "$HOST_NAME" >> $ROOT_DIRECTORY/etc/hostname
+    echo "$HOST_NAME" > $ROOT_DIRECTORY/etc/hostname
 }
 
 cleanup_mounts(){
