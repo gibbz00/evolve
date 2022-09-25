@@ -59,6 +59,8 @@ user_setup() {
 bash_force_xdg_base_spec() {
     # TODO: make sure that permission are correct and that they are executable.
     cp skel/.config/bash/bash_login_xdg.sh /etc/profile.d/
+    # bashrc.d not included by default in Arch Linux Arm
+    mkdir --parent /etc/bashrc.d
     cp skel/.config/bash/bash_interactive_xdg.sh /etc/bashrc.d/
 }
 
