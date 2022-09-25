@@ -99,6 +99,9 @@ misc_preparations() {
     # host name set in preparation step for headless functionality
         # (easer than using nmap and testing to ssh into a bunch random of ip adresses)
     echo "$HOST_NAME" > $ROOT_DIRECTORY/etc/hostname
+
+    # Allow for ssh root login
+    sed -e 's/^#PermitRootLogin.*/PermitRootLogin yes/' --in-place $ROOT_DIRECTORY/etc/ssh/sshd_config
 }
 
 cleanup_mounts(){
