@@ -15,9 +15,9 @@ locale_setup () {
 }
 
 pacman_setup() {
-    pacman-key --init
+    sed -e 's/^#ParallelDownloads/ParallelDownloads' --in-place /etc/pacman.conf
 
-    # TODO: why?
+    pacman-key --init
     if test "$HARDWARE" = "raspberry_pi_4"
     then
         pacman-key --populate archlinuxarm
