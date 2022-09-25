@@ -1,12 +1,6 @@
 #!/bin/sh
 
-# Following recommendations from: 
-    # https://hub.docker.com/_/archlinux/
-    # https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4
-    # https://wiki.archlinux.org/title/installation_guide
-    # https://wiki.archlinux.org/title/General_recommendations
-
-# $1 match $2 path
+# Utility function: $1 match $2 path
 uncomment(){
     sed --expression "s/^#$1/$1/" --in-place "$2"
 }
@@ -104,7 +98,6 @@ swap_keys() {
 
 package_setups() {(
     # Sudo
-    match=' %wheel ALL=(ALL:ALL) NOPASSWD: ALL'
     uncomment ' %wheel ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
 
     # Git
