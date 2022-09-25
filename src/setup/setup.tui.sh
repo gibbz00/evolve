@@ -21,6 +21,7 @@ locale_setup() {
 
 pacman_setup() {
     uncomment "ParallelDownloads" /etc/pacman.conf
+    uncomment "Color" /etc/pacman.conf
 
     pacman-key --init
     if test "$HARDWARE" = "raspberry_pi_4"
