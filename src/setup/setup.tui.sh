@@ -23,7 +23,6 @@ pacman_setup() {
         pacman-key --populate archlinuxarm
     fi
 
-    # TODO: for Arm version as well?
     # Select mirror servers by download rate
     # (pacman-contrib includes rankmirrors script)
     pacman -S pacman-contrib --noconfirm --needed
