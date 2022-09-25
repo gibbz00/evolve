@@ -6,7 +6,7 @@
     # https://wiki.archlinux.org/title/installation_guide
     # https://wiki.archlinux.org/title/General_recommendations
 
-locale_setup () {
+locale_setup() {
     # timezone using $TIMEZONE from evolve.env
     # # ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
     # # hwclock --systohc
@@ -37,16 +37,16 @@ yay_setup() {
     echo "stub"
 }
 
-install_packages() {
+install_packages() {(
     pacman -Syyu --noconfirm
 
     # IMPROVEMENT: just do this with grep
     # TODO: make sure that tabs are trimmed away
     PACKAGES=$(sed -e '/^#/d' "./packages.tui" | tr '\n' ' ')
     yay -S "$PACKAGES" --noconfirm --needed
-}
+)}
 
-user_setup() {
+user_setup() {(
     passwdpromt='Enter desired name for '
     printf "%s %s:\n" "$passwdpromt" "root"
     passwd
@@ -60,9 +60,9 @@ user_setup() {
             userdel --remove alarm
         ;;
     esac
-}
+)}
 
-bash_force_xdg_base_spec() {
+bash_force_xdg_base_spec() {(
     cp skel/.config/bash/bash_login_xdg.sh /etc/profile.d/
     # bashrc.d not included by default in Arch Linux Arm
     mkdir --parent /etc/bashrc.d
@@ -80,7 +80,7 @@ bash_force_xdg_base_spec() {
             echo "$code" >> '/etc/bash.bashrc'
         ;;
     esac
-}
+)}
 
 swap_keys() {
     # Swaps escape with caps and lctrl with lalt  
@@ -93,12 +93,24 @@ swap_keys() {
     udevadm trigger
 }
 
-git_setup() {
+package_setups() {(
+    # Sudo
+    match='%wheel ALL=(ALL:ALL) NOPASSWD: ALL'
+    sed -e "s/^# $match/$match/" --in-place /etc/sudoers
+
+    # Git
     git config --global user.name "$GIT_USERNAME"
     git config --global user.email "$GIT_EMAIL_ADRESSS"
-}
 
-github_setup() {
-    echo "stub"
+    # Github
     # TODO: gh Authentication, see workflowy
-}
+)}
+
+locale_setup
+pacman_setup
+yay_setup
+install_packages
+user_setup
+bash_force_xdg_base_spec
+swap_keys
+package_setups

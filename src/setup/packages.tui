@@ -4,5 +4,6 @@ bash
     z
     bash-completions # can be added as enabled optional dependency to bash
     fd
+sudo
 neovim
 networkmanager
