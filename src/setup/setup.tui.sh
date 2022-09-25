@@ -43,7 +43,7 @@ yay_setup() {(
     pacman -S --needed -noconfirm git base-devel
     git clone https://aur.archlinux.org/yay-bin.git
     yay-bin
-    makepkg -si --noconfirm --needed
+    makepkg --syncdeps --install --noconfirm --needed
 )}
 
 install_packages() {(
