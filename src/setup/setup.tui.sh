@@ -83,3 +83,12 @@ github_setup() {
     # TODO: gh Authentication, see workflowy
 }
 
+misc_setup() {
+    case $HARDWARE in
+        'raspberry_pi_4')
+            # Remove alarm user
+            userdel --remove alarm
+        ;;
+    esac
+}
+
