@@ -39,13 +39,12 @@ pacman_setup() {
     > /etc/pacman.d/mirrorlist
 }
 
-yay_setup() {
-    # from archi-pi
-    # tar xvf yay.tar.gz
-    # cd yay
-    # makepkg -i -s --noconfirm --needed
-    # cd ..
-}
+yay_setup() {(
+    pacman -S --needed -noconfirm git base-devel
+    git clone https://aur.archlinux.org/yay-bin.git
+    yay-bin
+    makepkg -si --noconfirm --needed
+)}
 
 install_packages() {(
     yay -Syyu --noconfirm
