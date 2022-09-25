@@ -18,7 +18,7 @@ pacman_setup() {
     pacman-key --init
 
     # TODO: why?
-    if test $HARDWARE = "raspberry_pi_4"
+    if test "$HARDWARE" = "raspberry_pi_4"
     then
         pacman-key --populate archlinuxarm
     fi
@@ -54,20 +54,39 @@ user_setup() {
     useradd --skel skel/ --create-home --shell /bin/bash --groups users,wheel "$USERNAME"
     printf "%s %s:\n" "$passwdpromt" "$USERNAME"
     passwd "$USERNAME"
+
+    case $HARDWARE in
+        'raspberry_pi_4')
+            # remove default alarm user
+            userdel --remove alarm
+        ;;
+    esac
 }
 
 bash_force_xdg_base_spec() {
-    # TODO: make sure that permission are correct and that they are executable.
     cp skel/.config/bash/bash_login_xdg.sh /etc/profile.d/
     # bashrc.d not included by default in Arch Linux Arm
     mkdir --parent /etc/bashrc.d
     cp skel/.config/bash/bash_interactive_xdg.sh /etc/bashrc.d/
+    case $HARDWARE in
+        'raspberry_pi_4')
+            code="
+            # Load run commmands from /etc/bashrc.d
+            if [ -d /etc/bashrc.d/ ]; then
+                for file in /etc/bashrc.d/*.sh; do
+                    [ -r \"\$file\" ] && . \"\$file\" 
+                done
+                unset file
+            fi"
+            echo "$code" >> '/etc/bash.bashrc'
+        ;;
+    esac
 }
 
 swap_keys() {
     # Swaps escape with caps and lctrl with lalt  
     # POTENTIAL IMPROVEMENT: change to using the showkey(1) setkeycodes(8) API instead of this evtest, evdev-descrribe, udevrules, systemd-hwdb fuckfest
-    cp /home/$USERNAME/.config/udev/hwdb.d/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
+    cp /home/"$USERNAME"/.config/udev/hwdb.d/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
     # Update Hardware Dababase Index (hwdb.bin)
     systemd-hwdb update
     # Trigger reload of hwdb.bin for settings to take immediate effect.
@@ -76,21 +95,11 @@ swap_keys() {
 }
 
 git_setup() {
-    git config --global user.name $GIT_USERNAME
-    git config --global user.email $GIT_EMAIL_ADRESSS
+    git config --global user.name "$GIT_USERNAME"
+    git config --global user.email "$GIT_EMAIL_ADRESSS"
 }
 
 github_setup() {
     echo "stub"
     # TODO: gh Authentication, see workflowy
 }
-
-misc_setup() {
-    case $HARDWARE in
-        'raspberry_pi_4')
-            # Remove alarm user
-            userdel --remove alarm
-        ;;
-    esac
-}
-
