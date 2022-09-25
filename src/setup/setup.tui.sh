@@ -6,6 +6,11 @@
     # https://wiki.archlinux.org/title/installation_guide
     # https://wiki.archlinux.org/title/General_recommendations
 
+# $1 match $2 path
+uncomment(){
+    sed --expression "s/^#$1/$1/" --in-place "$2"
+}
+
 locale_setup() {
     # timezone using $TIMEZONE from evolve.env
     # # ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
@@ -15,7 +20,7 @@ locale_setup() {
 }
 
 pacman_setup() {
-    sed -e 's/^#ParallelDownloads/ParallelDownloads' --in-place /etc/pacman.conf
+    uncomment "ParallelDownloads" /etc/pacman.conf
 
     pacman-key --init
     if test "$HARDWARE" = "raspberry_pi_4"
@@ -34,11 +39,15 @@ pacman_setup() {
 }
 
 yay_setup() {
-    echo "stub"
+    # from archi-pi
+    # tar xvf yay.tar.gz
+    # cd yay
+    # makepkg -i -s --noconfirm --needed
+    # cd ..
 }
 
 install_packages() {(
-    pacman -Syyu --noconfirm
+    yay -Syyu --noconfirm
 
     # IMPROVEMENT: just do this with grep
     # TODO: make sure that tabs are trimmed away
@@ -95,8 +104,8 @@ swap_keys() {
 
 package_setups() {(
     # Sudo
-    match='%wheel ALL=(ALL:ALL) NOPASSWD: ALL'
-    sed -e "s/^# $match/$match/" --in-place /etc/sudoers
+    match=' %wheel ALL=(ALL:ALL) NOPASSWD: ALL'
+    uncomment ' %wheel ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
 
     # Git
     git config --global user.name "$GIT_USERNAME"
