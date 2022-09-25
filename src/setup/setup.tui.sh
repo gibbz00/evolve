@@ -48,15 +48,12 @@ install_packages() {
 }
 
 user_setup() {
-    # TODO: check that promts are understandable
+    passwdpromt='Enter desired name for '
+    printf "%s %s:\n" "$passwdpromt" "root"
     passwd
-    # TODO: test that skel flag works
-    # TODO: make sure that files in $HOME are owned by user, is this a given when using the skel flag?
-    #   alternatively: chown -R $USER:$USER /home/$USER
-    useradd --skel skel/ --create-home --shell /bin/bash --groups users,wheel $USERNAME
-    # TODO: check that promts are understandable
-    passwd $USERNAME
-
+    useradd --skel skel/ --create-home --shell /bin/bash --groups users,wheel "$USERNAME"
+    printf "%s %s:\n" "$passwdpromt" "$USERNAME"
+    passwd "$USERNAME"
 }
 
 bash_force_xdg_base_spec() {

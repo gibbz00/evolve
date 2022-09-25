@@ -66,11 +66,13 @@ $ nvim evolve.env # ;)
 
 1. Insert the SD into the Raspberry Pi 4 and power it up.
 
-2. If connecting through SSH. 
+2. If connecting through SSH:
 
 ```
 $ ssh root@evolve-raspberry_pi_4 #root@$HOSTNAME
 ```
+
+Password is root. This is then interactively set to something else during the setup script.
 
 Then skip to step 4.
 
