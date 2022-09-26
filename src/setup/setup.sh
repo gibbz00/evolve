@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-. ../evolve.env
+. "../evolve.env"
 
 ./setup.tui.sh
 

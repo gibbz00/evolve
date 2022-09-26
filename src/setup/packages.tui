@@ -10,5 +10,5 @@ bash
     bash-completions 
     fd
 sudo
+man
 neovim
-# networkmanager?
