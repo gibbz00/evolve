@@ -5,12 +5,16 @@ uncomment(){
     sed --expression "s/^#$1/$1/" --in-place "$2"
 }
 
-locale_setup() {
-    # timezone using $TIMEZONE from evolve.env
-    # # ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
-    # # hwclock --systohc
-    # https://wiki.archlinux.org/title/installation_guide#Localization
-    echo "stub"
+clock_setup() {
+    # Network time syncronization
+    timedatectl set-ntp tre
+    ln -sf /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
+    hwclock --systohc
+}
+
+localization_setup() {
+    # Generate locales that will be used
+    # Select system-wide locale variables in /etc/
 }
 
 pacman_setup() {
@@ -103,7 +107,8 @@ package_setups() {(
     fi
 )}
 
-locale_setup
+clock_setup
+localization_setup
 pacman_setup
 yay_setup
 install_packages
