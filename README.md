@@ -1,21 +1,35 @@
-# Description
+# Introduction
 
-The goal of this project is to automate setup of my personally configured Arch Linux systems. It aims to make all configurations and programs work out of the box and ready for development.
+The goal of this project to make my personally configured Arch Linux systems work out of the box. 
 
-The automation is divided into two parts. The role taken by the parts differ depending on the chosen base or hardware configuration. E.g. a Dockerfile can handle all tasks from the respective stages and must therefore only have one. Anyway, here's the general role of each part.
+It's done by scripting the install process into two parts.
 
 * Preparation (prepare.sh) - Preparation of boot and filesystem.
 * Setup (setup.sh) - After first standalone boot. User setup, package installations and personal configuartion setup.
 
-## System Environments
+Most of the user and system specific configuration that is part of the install process is specified in src/evolve.env. 
+Dotfiles are placed in src/skel which then serve as the backbone for the user's homedirectory. 
 
-| Base   | Headless (tui) | Desktop (gui) | Hardware                                |
-| :---   | :---:          | :---:         | :---:                                   |
-| x86_64 | soon           | soon          | Xiaomi Notebook Pro, QNAP TS-259 Pro+   |
-| Arm    | x              |               | Raspberry Pi 4                          | 
-| Docker | soon           |               |                                         |
+These respective scripts assume that config variables are correctly configured, and they give few interactive fail-safes if the opposite is the case.
+The benifits gained from this include thinner, readable and customizable scripts, that still provide a high degree of automation. 
+A philosophic stance that differs from many of the other installers out there. 
+Some Linux experience presumed.
+But useage should be a breeze as long as the steps are carefully read and understood.
 
-## Standard partitions
+The Arch system can be seen as having two modes; tui and gui.
+They obviously serve distincly different purposes, but it should be noted that the gui version builds upon the tui verison.
+For example, all packages that are listed in packages.tui will be included in packages.gui. 
+setup.sh will internally source setup.tui.sh no matter what, and then source setup.gui.sh if the variable GUI is set to 'yes' in evolve.conf.
+
+## Supported System Environments
+
+| Base   | Headless (tui) | Desktop (gui) | Hardware       |
+| :---   | :---:          | :---:         | :---:          |
+| x86_64 | soon           | soon          | TBA            |
+| Arm    | x              |               | Raspberry Pi 4 | 
+| Docker | soon           |               |                |
+
+## Standard partitions for the given hardware
 
 | Hardware              | Table type   | BOOT              | ROOT                      |
 | :---                  | :---:        | :---:             | :---:                     |
@@ -23,22 +37,20 @@ The automation is divided into two parts. The role taken by the parts differ dep
 
 # Usage
 
-All commands beginning with a `$` should be run unpriviliged and all commands beginning with a `#` should be run as root.
+All commands beginning with a $ should be run without escalated priviliges and all commands beginning with a # should be run as root.
 
-## evolve.env
-
-Most of the user/system system specific configuration is done in src/evolve.env, which is then used by prepare.sh and setup.sh.
+## evolve.env variables
 
 ### Github
 
-It includes the`GITHUB_TOKEN` that can be set if Github will be used. It's used internally with `gh aut login`, before the autoremoval of evolve.env. The token will in other words not be written in as plain text on the system when the setup has finished. Minimum required scopes for the token are: "repo", "read:org".
+It includes the GITHUB_TOKEN that can be set if Github will be used. It's used internally with `gh aut login`, before the autoremoval of evolve.env. The token will in other words not be written in as plain text on the system when the setup has finished. Minimum required scopes for the token are: "repo", "read:org".
  
 ## Locale
 
-Locales can be a bit tricky. And I've chosen to go the route in which they're defined in `.config/locale.conf`.
+Locales can be a bit tricky. And I've chosen to go the route in which they're defined in .config/locale.conf.
 It's exception to the common system setup steps which is not configured in evolve.env. 
 A further explanation as for why that is the case can be found in that file, it's also where a short explanation is given as to how locale can be configured.
-(`src/setup/skel/.config/locale.conf` would be the repo path.)
+(src/setup/skel/.config/locale.conf would be the repo path.)
 
 ## ARMv8 on Raspberry Pi 4
 
@@ -46,7 +58,7 @@ A further explanation as for why that is the case can be found in that file, it'
 
 * An SD-card (recommended size is at least 8GB)
 * Root access on the preparation machine.
-* Ethernet cable internet connection to the Raspberry Pi 4 is going for the headless install.
+* Internet connection by ethernet. Automated wireless is currently not implemented.
 * Dependencies: 
     
     ```

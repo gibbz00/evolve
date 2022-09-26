@@ -67,12 +67,12 @@ format_and_mount_partitions() {
     ROOT_DIRECTORY="../root"
     case $HARDWARE in
         'raspberry_pi_4')
+            mkfs.vfat -v /dev/"$1"
             mkdir "$BOOT_DIRECTORY"
-            mkfs.vfat --verbose /dev/"$1"
             mount /dev/"$1" "$BOOT_DIRECTORY"
 
+            yes | mkfs.ext4 -v /dev/"$2"
             mkdir "$ROOT_DIRECTORY"
-            yes | mkfs.ext4 --verbose /dev/"$2"
             mount /dev/"$2" "$ROOT_DIRECTORY"
         ;;
     esac
