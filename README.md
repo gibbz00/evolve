@@ -24,7 +24,22 @@ The automation is divided into two parts. The role taken by the parts differ dep
 # Usage
 
 All commands beginning with a `$` should be run unpriviliged and all commands beginning with a `#` should be run as root.
+
+## evolve.env
+
+Most of the user/system system specific configuration is done in src/evolve.env and is used by prepare.sh and setup.sh.
+
+### Github
+
+It includes the`GITHUB_TOKEN` that can be set if Github will be used. It's used internally with `gh aut login`, before the autoremoval of evolve.env. The token will in other words not be written in as plain text on the system when the setup has finished. Minimum required scopes for the token are: "repo", "read:org".
  
+## Locale
+
+Locales can be a bit tricky. And I've chosen to go the route in which they're defined in `.config/locale.conf`.
+It's exception to the common system setup steps which is not configured in evolve.env. 
+A further explanation as for why that is the case can be found in that file, it's also where a short explanation is given as to how locale can be configured.
+(`src/setup/skel/.config/locale.conf` would be the repo path.)
+
 ## ARMv8 on Raspberry Pi 4
 
 ### Requirements
@@ -50,12 +65,14 @@ $ curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
     | tar --verbose --extract --preserve-permissions --ungzip --file -
 ```
 
-2. Edit evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script. 
+2. Edit evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script.
 
 ```
 $ cd evolve-development/src
 $ nvim evolve.env # ;)
 ```
+
+
 3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
 
 ```
