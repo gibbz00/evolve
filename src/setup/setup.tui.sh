@@ -12,10 +12,18 @@ clock_setup() {
     hwclock --systohc
 }
 
-localization_setup() {
-    # Generate locales that will be used
-    # Select system-wide locale variables in /etc/
-}
+localization_setup() {(
+    # Extract mentioned locales 
+    locales=$(grep --only-matching --perl-regexp "(?<==)\S*" skel/.config/locale.conf | uniq)
+    for locale in $locales
+    do
+        uncomment "$locale UTF-8" /etc/locale.gen
+    done
+    # Generate locales
+    locale-gen
+    # Changes to take immediate effect
+    . skel/.config/locale.conf
+)}
 
 pacman_setup() {
     uncomment "ParallelDownloads" /etc/pacman.conf
