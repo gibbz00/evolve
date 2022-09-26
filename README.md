@@ -2,7 +2,7 @@
 
 The goal of this project is to automate setup of my personally configured Arch Linux systems. It aims to make all configurations and programs work out of the box and ready for development.
 
-The automation is divided into two parts. The role taken by the parts differ depending on the chosen base or hardware configuration. E.g A Dockerfile can handle all tasks from the respective stages and must therefore only have one. Anyway, here's the general role of each part.
+The automation is divided into two parts. The role taken by the parts differ depending on the chosen base or hardware configuration. E.g. a Dockerfile can handle all tasks from the respective stages and must therefore only have one. Anyway, here's the general role of each part.
 
 * Preparation (prepare.sh) - Preparation of boot and filesystem.
 * Setup (setup.sh) - After first standalone boot. User setup, package installations and personal configuartion setup.
@@ -27,7 +27,7 @@ All commands beginning with a `$` should be run unpriviliged and all commands be
 
 ## evolve.env
 
-Most of the user/system system specific configuration is done in src/evolve.env and is used by prepare.sh and setup.sh.
+Most of the user/system system specific configuration is done in src/evolve.env, which is then used by prepare.sh and setup.sh.
 
 ### Github
 
@@ -73,7 +73,7 @@ $ nvim evolve.env # ;)
 ```
 
 
-3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will be irrevocaly wiped.**
+3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will irrevocaly be wiped.**
 
 ```
 # ./prepare.sh
