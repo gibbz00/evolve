@@ -1,4 +1,3 @@
-# test package
 bash
     fzf
     z
@@ -6,4 +5,6 @@ bash
     fd
 sudo
 neovim
-networkmanager
+# networkmanager?
+
+# github-cli is installed if GITHUB_TOKEN is set in evolve.env

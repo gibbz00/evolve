@@ -18,10 +18,7 @@ pacman_setup() {
     uncomment "Color" /etc/pacman.conf
 
     pacman-key --init
-    if test "$HARDWARE" = "raspberry_pi_4"
-    then
-        pacman-key --populate archlinuxarm
-    fi
+    test "$HARDWARE" = "raspberry_pi_4" && pacman-key --populate archlinuxarm
 
     # Select mirror servers by download rate
     # (pacman-contrib includes rankmirrors script)
@@ -43,8 +40,6 @@ yay_setup() {(
 install_packages() {(
     yay -Syyu --noconfirm
 
-    # IMPROVEMENT: just do this with grep
-    # TODO: make sure that tabs are trimmed away
     PACKAGES=$(sed -e '/^#/d' "./packages.tui" | tr '\n' ' ')
     yay -S "$PACKAGES" --noconfirm --needed
 )}
@@ -87,12 +82,8 @@ bash_force_xdg_base_spec() {(
 
 swap_keys() {
     # Swaps escape with caps and lctrl with lalt  
-    # POTENTIAL IMPROVEMENT: change to using the showkey(1) setkeycodes(8) API instead of this evtest, evdev-descrribe, udevrules, systemd-hwdb fuckfest
     cp /home/"$USERNAME"/.config/udev/hwdb.d/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
-    # Update Hardware Dababase Index (hwdb.bin)
     systemd-hwdb update
-    # Trigger reload of hwdb.bin for settings to take immediate effect.
-    # Relead is normall part of bootprocess. 
     udevadm trigger
 }
 
@@ -105,7 +96,11 @@ package_setups() {(
     git config --global user.email "$GIT_EMAIL_ADRESSS"
 
     # Github
-    # TODO: gh Authentication, see workflowy
+    if test -n "$GITHUB_TOKEN"
+    then
+        yay -S --noconfirm --needed github-cli
+        echo "$GITHUB_TOKEN" | gh auth login --with-token 
+    fi
 )}
 
 locale_setup
