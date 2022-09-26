@@ -40,7 +40,7 @@ yay_setup() {(
 install_packages() {(
     yay -Syyu --noconfirm
 
-    PACKAGES=$(sed -e '/^#/d' "./packages.tui" | tr '\n' ' ')
+    PACKAGES=$(sed -e '/#/d' "./packages.tui" | tr --squeeze-repeats '\n ' ' ')
     yay -S "$PACKAGES" --noconfirm --needed
 )}
 

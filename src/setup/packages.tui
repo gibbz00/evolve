@@ -1,10 +1,15 @@
+## 
+# Syntax: Tabs allowed but comments must be written as new lines
+# 
+# github-cli is installed if GITHUB_TOKEN is set in evolve.env
+##
 bash
     fzf
     z
-    bash-completions # can be added as enabled optional dependency to bash
+    # can be added as enabled optional dependency to bash
+    bash-completions 
     fd
 sudo
 neovim
 # networkmanager?
 
-# github-cli is installed if GITHUB_TOKEN is set in evolve.env
