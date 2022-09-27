@@ -2,10 +2,13 @@
 
 # Further explanation and attempts at compliance can be found in ./bash.d/xdg-exports.bash
 export XDG_CONFIG_HOME="$HOME/.config"
+mkdir --parent "$XDG_CONFIG_HOME"
 export XDG_DATA_HOME="$HOME/.local/share"
+mkdir --parent "$XDG_DATA_HOME"
 export XDG_CACHE_HOME="$HOME/.cache"
+mkdir --parent "$XDG_CACHE_HOME"
 export XDG_STATE_HOME="$HOME/.local/state"
-
+mkdir --parent "$XDG_STATE_HOME"
 
 # source shell configs
 for file in "$XDG_CONFIG_HOME/bash/bash.d/"*?.bash; do
