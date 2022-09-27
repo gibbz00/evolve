@@ -34,10 +34,6 @@ setup.sh will internally source setup.tui.sh no matter what, and then source set
 | :---                  | :---:        | :---:             | :---:                     |
 | rpi4        | MS-DOS       | 0-1024MiB FAT32   | 1024MiB - Remaining Ext4  |
 
-# Usage
-
-All commands beginning with a $ should be run without escalated priviliges and all commands beginning with a # should be run as root.
-
 ## evolve.env variables
 
 ### Github
@@ -87,7 +83,7 @@ $ nvim evolve.env # ;)
 3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will irrevocaly be wiped.**
 
 ```
-# ./prepare.sh
+$ sudo ./prepare.sh
 ```
 
 ### Setup
@@ -97,10 +93,10 @@ $ nvim evolve.env # ;)
 2. If connecting through SSH:
 
 ```
-$ ssh -o StrictHostKeyChecking=no root@evolve-rpi4 #root@$HOSTNAME
+$ ssh -o StrictHostKeyChecking=no root@evolve-rpi4.lan #root@$HOSTNAME
 ```
 
-Accept the Raspberry Pi as a known host and use password `root` for user root.
+Use password `root` for user root.
 (The root password is then interactively set to something else during the setup script.)
 
 Then skip to step 4.

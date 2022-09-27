@@ -3,11 +3,11 @@ set -e
 
 . "../evolve.env"
 
-./setup.tui.sh
+. ./setup.tui.sh
 
 if test "$GUI" = 'yes'
 then 
-    ./setup.gui.sh
+    . ./setup.gui.sh
 fi
 
 # self remove project

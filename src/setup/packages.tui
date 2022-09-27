@@ -4,6 +4,7 @@
 # github-cli: installed if GITHUB_TOKEN is set in evolve.env
 #
 ## Installed regardless:
+# pacman-contrib: used to rank mirrors
 # yay: aur helper and pacman wrapper 
 #   dependends on: sudo git base-devel
 ##

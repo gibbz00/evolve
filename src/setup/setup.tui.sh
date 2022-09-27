@@ -10,7 +10,11 @@ clock_setup() {
     # Network time syncronization
     timedatectl set-ntp true
     ln -sf /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
-    hwclock --systohc
+    # Raspberry Pi 4 does not include an on-board hardware clock
+    if test "$HARDWARE" != 'rpi4'
+    then
+        hwclock --systohc
+    fi
 }
 
 localization_setup() {(
@@ -32,6 +36,8 @@ pacman_setup() {
 
     pacman-key --init
     test "$HARDWARE" = "rpi4" && pacman-key --populate archlinuxarm
+    # Must be run before installing any packages
+    pacman -Syyu --noconfirm
 
     # Select mirror servers by download rate
     # (pacman-contrib includes rankmirrors script)
@@ -52,8 +58,6 @@ yay_setup() {(
 )}
 
 install_packages() {(
-    yay -Syyu --noconfirm
-
     PACKAGES=$(sed -e '/#/d' "./packages.tui" | tr --squeeze-repeats '\n ' ' ')
     yay -S "$PACKAGES" --noconfirm --needed
 )}
