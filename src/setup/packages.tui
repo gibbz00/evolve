@@ -12,7 +12,7 @@ bash
     fzf
     z
     # can be added as enabled optional dependency to bash
-    bash-completions 
+    bash-completion 
     fd
 man
 neovim

@@ -11,4 +11,4 @@ then
 fi
 
 # self remove project
-rm --recusive --force /root/evolve
+rm --recursive --force /root/evolve

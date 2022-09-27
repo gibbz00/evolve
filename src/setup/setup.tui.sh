@@ -70,21 +70,22 @@ user_setup() {(
 )}
 
 yay_setup() {
-    pacman -S git base-devel sudo --needed -noconfirm 
+    pacman -S git base-devel sudo --needed --noconfirm 
+    uncomment ' %wheel ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
     sudo -u "$USERNAME" sh -c "
         cd /home/$USERNAME 
         git clone https://aur.archlinux.org/yay-bin.git
         cd yay-bin
         makepkg --syncdeps --install --noconfirm --needed
-        cd .. && rm -rf yay-bin
+        cd .. && rm --recursive --force yay-bin
     "
 }
 
 install_packages() {(
     PACKAGES=$(sed -e '/#/d' "./packages.tui" | tr --squeeze-repeats '\n ' ' ')
-    yay -S "$PACKAGES" --noconfirm --needed
+    # shellcheck disable=SC2086
+    yay -S $PACKAGES --noconfirm --needed
 )}
-
 
 bash_force_xdg_base_spec() {(
     cp skel/.config/bash/bash_login_xdg.sh /etc/profile.d/
@@ -114,8 +115,6 @@ swap_keys() {
 }
 
 package_setups() {(
-    # Sudo
-    uncomment ' %wheel ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
 
     # Git
     git config --global user.name "$GIT_USERNAME"

@@ -1,8 +1,8 @@
 # Introduction
 
-The goal of this project to make my personally configured Arch Linux systems work out of the box. 
+The goal of this project to serve as a template for personally configured Arch Linux systems work out of the box. 
 
-It's done by scripting the install process into two parts.
+It's done by scripting the install process into two parts:
 
 * Preparation (prepare.sh) - Preparation of boot and filesystem.
 * Setup (setup.sh) - After first standalone boot. User setup, package installations and personal configuartion setup.
