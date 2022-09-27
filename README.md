@@ -51,7 +51,7 @@ A further explanation as for why that is the case can be found in that file.
 
 ### Requirements
 
-* An SD-card (recommended size is at least 8GB)
+* An SD-card. Recommended size is at least 8GB. (TUI base install is about 2GB)
 * Root access on the preparation machine.
 * Internet connection by ethernet. Automated wireless is currently not implemented.
 * Dependencies: 

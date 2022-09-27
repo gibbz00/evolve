@@ -124,7 +124,7 @@ package_setups() {(
     if test -n "$GITHUB_TOKEN"
     then
         yay -S --noconfirm --needed github-cli
-        echo "$GITHUB_TOKEN" | gh auth login --with-token 
+        sudo -u "$USERNAME" sh -c "echo $GITHUB_TOKEN | gh auth login --with-token"
     fi
 )}
 
