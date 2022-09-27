@@ -10,15 +10,14 @@ It's done by scripting the install process into two parts.
 Most of the user and system specific configuration that is part of the install process is specified in src/evolve.env. 
 Dotfiles are placed in src/skel which then serve as the backbone for the user's homedirectory. 
 
-These respective scripts assume that config variables are correctly configured, and they give few interactive fail-safes if the opposite is the case.
+The project takes a rather different philosophic stance to many of the existing installers.
+Config variables assumed to be correctly configured and they give few interactive fail-safes if the opposite is the case.
 The benifits gained from this include thinner, readable and customizable scripts, that still provide a high degree of automation. 
-A philosophic stance that differs from many of the other installers out there. 
-Some Linux experience presumed.
-But useage should be a breeze as long as the steps taken are carefully read and understood.
+Useage should nonethelss be a breeze as long as the steps taken are carefully read and understood.
 
-The Arch system can be seen as having two modes; tui and gui.
-They obviously serve distincly different purposes, but it should be noted that the gui version builds upon the tui verison.
-For example, all packages that are listed in packages.tui will be included in packages.gui. 
+The setup script can be seen as having two stages: tui and gui.
+The gui version builds upon the tui verison.
+Meaning that, all packages listed in packages.tui will be included the gui system.
 setup.sh will internally source setup.tui.sh no matter what, and then source setup.gui.sh if the variable GUI is set to 'yes' in evolve.conf.
 
 ## Supported System Environments
@@ -49,7 +48,7 @@ It includes the GITHUB_TOKEN that can be set if Github will be used. It's used i
 
 Locales can be a bit tricky. And I've chosen to go the route in which they're defined in .config/locale.conf.
 It's exception to the common system setup steps which is not configured in evolve.env. 
-A further explanation as for why that is the case can be found in that file, it's also where a short explanation is given as to how locale can be configured.
+A further explanation as for why that is the case can be found in that file.
 (src/setup/skel/.config/locale.conf would be the repo path.)
 
 ## ARMv8 on Raspberry Pi 4
