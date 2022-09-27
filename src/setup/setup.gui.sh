@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # networkmanager-dmenu-git uses networkmanager
 # arch linux uses systemd-networkd out of the box, must be disabled for gui version

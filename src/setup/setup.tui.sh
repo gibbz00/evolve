@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # Utility function: $1 match $2 path
 uncomment(){
@@ -7,7 +8,7 @@ uncomment(){
 
 clock_setup() {
     # Network time syncronization
-    timedatectl set-ntp tre
+    timedatectl set-ntp true
     ln -sf /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
     hwclock --systohc
 }
@@ -30,7 +31,7 @@ pacman_setup() {
     uncomment "Color" /etc/pacman.conf
 
     pacman-key --init
-    test "$HARDWARE" = "raspberry_pi_4" && pacman-key --populate archlinuxarm
+    test "$HARDWARE" = "rpi4" && pacman-key --populate archlinuxarm
 
     # Select mirror servers by download rate
     # (pacman-contrib includes rankmirrors script)
@@ -43,10 +44,11 @@ pacman_setup() {
 }
 
 yay_setup() {(
-    pacman -S --needed -noconfirm git base-devel
+    pacman -S --needed -noconfirm git base-devel sudo
     git clone https://aur.archlinux.org/yay-bin.git
-    yay-bin
-    makepkg --syncdeps --install --noconfirm --needed
+    chown -R nobody yay-bin
+    cd yay-bin
+    sudo --user nobody makepkg --syncdeps --install --noconfirm --needed
 )}
 
 install_packages() {(
@@ -65,7 +67,7 @@ user_setup() {(
     passwd "$USERNAME"
 
     case $HARDWARE in
-        'raspberry_pi_4')
+        'rpi4')
             # remove default alarm user
             userdel --remove alarm
         ;;
@@ -78,7 +80,7 @@ bash_force_xdg_base_spec() {(
     mkdir --parent /etc/bashrc.d
     cp skel/.config/bash/bash_interactive_xdg.sh /etc/bashrc.d/
     case $HARDWARE in
-        'raspberry_pi_4')
+        'rpi4')
             code="
             # Load run commmands from /etc/bashrc.d
             if [ -d /etc/bashrc.d/ ]; then

@@ -1,7 +1,11 @@
 ## 
 # Syntax: Tabs allowed but comments must be written as new lines
 # 
-# github-cli is installed if GITHUB_TOKEN is set in evolve.env
+# github-cli: installed if GITHUB_TOKEN is set in evolve.env
+#
+## Installed regardless:
+# yay: aur helper and pacman wrapper 
+#   dependends on: sudo git base-devel
 ##
 bash
     fzf
@@ -9,6 +13,5 @@ bash
     # can be added as enabled optional dependency to bash
     bash-completions 
     fd
-sudo
 man
 neovim

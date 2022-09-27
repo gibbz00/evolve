@@ -5,7 +5,7 @@ set -e
 
 check_hardware() {
     supported_hardware="
-        raspberry_pi_4
+        rpi4
     "
 
     if ! (echo "$supported_hardware" | grep --quiet --fixed-string --word-regexp "$HARDWARE")
@@ -40,7 +40,7 @@ partition_device() {
     wipefs --all /dev/"$device"
 
     case $HARDWARE in
-        'raspberry_pi_4')
+        'rpi4')
             # Table type
             parted --script --align optimal /dev/"$device" \
                 mklabel "msdos" \
@@ -66,7 +66,7 @@ format_and_mount_partitions() {
     BOOT_DIRECTORY="../boot"
     ROOT_DIRECTORY="../root"
     case $HARDWARE in
-        'raspberry_pi_4')
+        'rpi4')
             mkfs.vfat -v /dev/"$1"
             mkdir "$BOOT_DIRECTORY"
             mount /dev/"$1" "$BOOT_DIRECTORY"
@@ -80,7 +80,7 @@ format_and_mount_partitions() {
 
 download_base() {
     case $HARDWARE in
-        'raspberry_pi_4')
+        'rpi4')
             curl --location http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-aarch64-latest.tar.gz \
                 | bsdtar --extract --preserve-permissions --file - --directory "$ROOT_DIRECTORY"
             sync

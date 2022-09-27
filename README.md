@@ -14,7 +14,7 @@ These respective scripts assume that config variables are correctly configured, 
 The benifits gained from this include thinner, readable and customizable scripts, that still provide a high degree of automation. 
 A philosophic stance that differs from many of the other installers out there. 
 Some Linux experience presumed.
-But useage should be a breeze as long as the steps are carefully read and understood.
+But useage should be a breeze as long as the steps taken are carefully read and understood.
 
 The Arch system can be seen as having two modes; tui and gui.
 They obviously serve distincly different purposes, but it should be noted that the gui version builds upon the tui verison.
@@ -23,17 +23,17 @@ setup.sh will internally source setup.tui.sh no matter what, and then source set
 
 ## Supported System Environments
 
-| Base   | Headless (tui) | Desktop (gui) | Hardware       |
-| :---   | :---:          | :---:         | :---:          |
-| x86_64 | soon           | soon          | TBA            |
-| Arm    | x              |               | Raspberry Pi 4 | 
-| Docker | soon           |               |                |
+| Base   | Headless (tui) | Desktop (gui) | Hardware       | Alias |
+| :---   | :---:          | :---:         | :---:          | :---: | 
+| x86_64 | soon           | soon          | TBA            |       | 
+| Arm    | x              |               | Raspberry Pi 4 | rpi4  | 
+| Docker | soon           |               |                |       | 
 
 ## Standard partitions for the given hardware
 
 | Hardware              | Table type   | BOOT              | ROOT                      |
 | :---                  | :---:        | :---:             | :---:                     |
-| raspberry_pi_4        | MS-DOS       | 0-1024MiB FAT32   | 1024MiB - Remaining Ext4  |
+| rpi4        | MS-DOS       | 0-1024MiB FAT32   | 1024MiB - Remaining Ext4  |
 
 # Usage
 
@@ -98,10 +98,11 @@ $ nvim evolve.env # ;)
 2. If connecting through SSH:
 
 ```
-$ ssh root@evolve-raspberry_pi_4 #root@$HOSTNAME
+$ ssh -o StrictHostKeyChecking=no root@evolve-rpi4 #root@$HOSTNAME
 ```
 
-Password is root. This is then interactively set to something else during the setup script.
+Accept the Raspberry Pi as a known host and use password `root` for user root.
+(The root password is then interactively set to something else during the setup script.)
 
 Then skip to step 4.
 
@@ -117,5 +118,5 @@ I would recommend `wifi-menu` for setting up wireless networks, mostly for it's 
 
 ```
 $ cd /root/evolve/setup
-$ sh ./setup.sh
+$ ./setup.sh
 ```
