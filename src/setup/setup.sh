@@ -10,5 +10,5 @@ then
     . ./setup.gui.sh
 fi
 
-# self remove project
 rm --recursive --force /root/evolve
+su - $USERNAME

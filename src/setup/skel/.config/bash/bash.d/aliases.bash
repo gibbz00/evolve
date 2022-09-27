@@ -18,7 +18,6 @@ alias less='less --use-color'
 alias timer='time read -p "Press enter to stop"'
 alias links='find . -maxdepth 1 -type l -ls'
 alias calc='python -qi -c "from math import *"'
-alias batstat="upower -i $(upower -e | grep 'BAT')"
 
 # Git
 alias gp='git pull'
