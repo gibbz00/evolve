@@ -4,9 +4,9 @@
 # github-cli: installed if GITHUB_TOKEN is set in evolve.env
 #
 ## Installed regardless:
-# pacman-contrib: used to rank mirrors
+# pacman-contrib: used to rank mirrors for non Arm Arch install
 # yay: aur helper and pacman wrapper 
-#   dependends on: sudo git base-devel
+#   dependends on: git base-devel
 ##
 bash
     fzf

@@ -38,31 +38,23 @@ pacman_setup() {
     # Must be run before installing any packages
     pacman -Syyu --noconfirm
 
-    # Select mirror servers by download rate
-    # (pacman-contrib includes rankmirrors script)
-    pacman -S pacman-contrib --noconfirm --needed
-    cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-    curl -s "https://archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=https&use_mirror_status=on" \
-    | sed -e 's/^#Server/Server/' -e '/^#/d' \
-    | rankmirrors -v -n 5 - \
-    > /etc/pacman.d/mirrorlist
+    # Arch Arm treats mirrors a bit differently: https://archlinuxarm.org/about/mirrors
+    if test "$HARDWARE" != "rpi4"
+    then
+        # Select mirror servers by download rate
+        # (pacman-contrib includes rankmirrors script)
+        pacman -S pacman-contrib --noconfirm --needed
+        cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+        curl -s "https://archlinux.org/mirrorlist/?country=${COUNTRY}&protocol=https&use_mirror_status=on" \
+        | sed -e 's/^#Server/Server/' -e '/^#/d' \
+        | rankmirrors -v -n 5 - \
+        > /etc/pacman.d/mirrorlist
+    fi
 }
 
-yay_setup() {(
-    pacman -S --needed -noconfirm git base-devel sudo
-    git clone https://aur.archlinux.org/yay-bin.git
-    chown -R nobody yay-bin
-    cd yay-bin
-    sudo --user nobody makepkg --syncdeps --install --noconfirm --needed
-)}
-
-install_packages() {(
-    PACKAGES=$(sed -e '/#/d' "./packages.tui" | tr --squeeze-repeats '\n ' ' ')
-    yay -S "$PACKAGES" --noconfirm --needed
-)}
-
+# Setup before yay since makepkg can't be run as root
 user_setup() {(
-    passwdpromt='Enter desired name for '
+    passwdpromt='Enter desired password for '
     printf "%s %s:\n" "$passwdpromt" "root"
     passwd
     useradd --skel skel/ --create-home --shell /bin/bash --groups users,wheel "$USERNAME"
@@ -76,6 +68,23 @@ user_setup() {(
         ;;
     esac
 )}
+
+yay_setup() {(
+    pacman -S git base-devel --needed -noconfirm 
+    cd /home/"$USERNAME" 
+    su "$USERNAME" -c $(
+        git clone https://aur.archlinux.org/yay-bin.git
+        cd yay-bin
+        "$USERNAME" makepkg --syncdeps --install --noconfirm --needed
+        cd .. && rm -rf yay-bin
+    )
+)}
+
+install_packages() {(
+    PACKAGES=$(sed -e '/#/d' "./packages.tui" | tr --squeeze-repeats '\n ' ' ')
+    yay -S "$PACKAGES" --noconfirm --needed
+)}
+
 
 bash_force_xdg_base_spec() {(
     cp skel/.config/bash/bash_login_xdg.sh /etc/profile.d/
@@ -123,9 +132,9 @@ package_setups() {(
 clock_setup
 localization_setup
 pacman_setup
+user_setup
 yay_setup
 install_packages
-user_setup
 bash_force_xdg_base_spec
 swap_keys
 package_setups
