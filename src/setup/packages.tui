@@ -6,7 +6,7 @@
 ## Installed regardless:
 # pacman-contrib: used to rank mirrors for non Arm Arch install
 # yay: aur helper and pacman wrapper 
-#   dependends on: git base-devel
+#   dependends on: git base-devel sudo
 ##
 bash
     fzf

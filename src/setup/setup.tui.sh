@@ -54,7 +54,7 @@ pacman_setup() {
 
 # Setup before yay since makepkg can't be run as root
 user_setup() {(
-    passwdpromt='Enter desired password for '
+    passwdpromt='Enter desired password for'
     printf "%s %s:\n" "$passwdpromt" "root"
     passwd
     useradd --skel skel/ --create-home --shell /bin/bash --groups users,wheel "$USERNAME"
@@ -69,16 +69,16 @@ user_setup() {(
     esac
 )}
 
-yay_setup() {(
-    pacman -S git base-devel --needed -noconfirm 
-    cd /home/"$USERNAME" 
-    su "$USERNAME" -c $(
+yay_setup() {
+    pacman -S git base-devel sudo --needed -noconfirm 
+    sudo -u "$USERNAME" sh -c "
+        cd /home/$USERNAME 
         git clone https://aur.archlinux.org/yay-bin.git
         cd yay-bin
-        "$USERNAME" makepkg --syncdeps --install --noconfirm --needed
+        makepkg --syncdeps --install --noconfirm --needed
         cd .. && rm -rf yay-bin
-    )
-)}
+    "
+}
 
 install_packages() {(
     PACKAGES=$(sed -e '/#/d' "./packages.tui" | tr --squeeze-repeats '\n ' ' ')
