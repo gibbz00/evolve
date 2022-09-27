@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e 
+. ./evolve.env
 
 check_hardware() {
     supported_hardware="

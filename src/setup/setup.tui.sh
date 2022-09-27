@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 # Utility function: $1 match $2 path
 uncomment(){
