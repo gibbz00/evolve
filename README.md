@@ -18,7 +18,7 @@ Useage should nonethelss be a breeze as long as the steps taken are carefully re
 The setup script can be seen as having two stages: tui and gui.
 The gui version builds upon the tui verison.
 Meaning that, all packages listed in packages.tui will be included the gui system.
-setup.sh will internally source setup.tui.sh no matter what, and then source setup.gui.sh if the variable GUI is set to `true` in evolve.conf.
+setup.sh will internally source setup.tui.sh no matter what, and then source setup.gui.sh if the variable GUI is set to `true` in evolve.env.
 
 ## Supported System Environments
 
@@ -58,7 +58,7 @@ A further explanation as for why that is the case can be found in that file.
     
     ```
     curl
-    lsblk
+    lsbl
     dd
     parted
     sshpass
