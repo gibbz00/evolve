@@ -115,3 +115,7 @@ I would recommend `wifi-menu` for setting up wireless networks, mostly for it's 
 $ cd /root/evolve/setup
 $ ./setup.sh
 ```
+
+### Usage
+
+% ssh post setup instructions go here. 

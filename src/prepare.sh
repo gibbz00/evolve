@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e 
+set -xe 
 . ./evolve.env
 
 check_hardware() {
@@ -14,14 +14,14 @@ check_hardware() {
 }
 
 select_device() {
-    echo "Make sure that the boot medium is NOT plugged in. Press enter once that is the case."
+    printf "Take out boot USB/SD-card. When NOT be plugged in; press enter."
     read -r
     # Finding device name
     lsblk > state1.log
-    echo "Insert boot medium, press enter when done."
+    printf "Now insert boot USB/SD-card. When plugged in; press enter."
     read -r
     lsblk > state2.log
-    # get device name
+    # Get device name
     device=$(
         grep --invert-match --line-regexp --fixed-strings --file /tmp/state1.log /tmp/state2.log \
             | head --lines 1 \
@@ -80,10 +80,13 @@ format_and_mount_partitions() {
 download_base() {
     case $HARDWARE in
         'rpi4')
-            curl --location http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-aarch64-latest.tar.gz \
-                | bsdtar --extract --preserve-permissions --file - --directory "$ROOT_DIRECTORY"
+            (
+                url='http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-aarch64-latest.tar.gz'
+                printf "Downloading the latest Arch Linux Arm aarch64 root filesystem from:\n%s\n" $url
+                curl --location $url \
+                    | bsdtar --verbose --extract --preserve-permissions --file - --directory "$ROOT_DIRECTORY"
+            )
             sync
-            # TODO: will this work without sync?
             mv "$ROOT_DIRECTORY"/boot/* "$BOOT_DIRECTORY"
             # https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4#aarch64installation
             sed -i 's/mmcblk0/mmcblk1/g' "$ROOT_DIRECTORY"/etc/fstab
@@ -103,9 +106,11 @@ misc_preparations() {
     sed -e 's/^#PermitRootLogin.*/PermitRootLogin yes/' --in-place $ROOT_DIRECTORY/etc/ssh/sshd_config
 }
 
-cleanup_mounts(){
+cleanup(){
    umount "$BOOT_DIRECTORY" "$ROOT_DIRECTORY"
    rm --recursive --force "$BOOT_DIRECTORY" "$ROOT_DIRECTORY"
+   echo "Preparation complete, boot USB/SD-card can now safely be removed."
+   exit 0
 }
 
 ## Main ##
@@ -115,4 +120,4 @@ partition_device
 format_and_mount_partitions
 download_base
 misc_preparations
-cleanup_mounts
+cleanup
