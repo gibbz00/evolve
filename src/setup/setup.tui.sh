@@ -87,25 +87,26 @@ install_packages() {(
     yay -S $PACKAGES --noconfirm --needed
 )}
 
-bash_force_xdg_base_spec() {(
+bash_force_xdg_base_spec() {
     cp skel/.config/bash/bash_login_xdg.sh /etc/profile.d/
     # bashrc.d not included by default in Arch Linux Arm
     mkdir --parent /etc/bashrc.d
     cp skel/.config/bash/bash_interactive_xdg.sh /etc/bashrc.d/
     case $HARDWARE in
         'rpi4')
-            code="
-            # Load run commmands from /etc/bashrc.d
-            if [ -d /etc/bashrc.d/ ]; then
-                for file in /etc/bashrc.d/*.sh; do
-                    [ -r \"\$file\" ] && . \"\$file\" 
-                done
-                unset file
-            fi"
+# To avoid indendation in /etc/bash.bashrc
+code="
+# Load run commmands from /etc/bashrc.d
+if [ -d /etc/bashrc.d/ ]; then
+    for file in /etc/bashrc.d/*.sh; do
+        [ -r \"\$file\" ] && . \"\$file\" 
+    done
+    unset file
+fi"
             echo "$code" >> '/etc/bash.bashrc'
         ;;
     esac
-)}
+}
 
 swap_keys() {
     # Swaps escape with caps and lctrl with lalt  
