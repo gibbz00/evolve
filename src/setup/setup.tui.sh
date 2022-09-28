@@ -54,12 +54,9 @@ pacman_setup() {
 
 # Setup before yay since makepkg can't be run as root
 user_setup() {(
-    passwdpromt='Enter desired password for'
-    printf "%s %s:\n" "$passwdpromt" "root"
-    passwd
+    printf "%s\n%s" "$ROOT_PASSWORD" "$ROOT_PASSWORD" | passwd
     useradd --skel skel/ --create-home --shell /bin/bash --groups users,wheel "$USERNAME"
-    printf "%s %s:\n" "$passwdpromt" "$USERNAME"
-    passwd "$USERNAME"
+    printf "%s\n%s" "$USER_PASSWORD" "$USER_PASSWORD" | passwd "$USERNAME"
 
     case $HARDWARE in
         'rpi4')
