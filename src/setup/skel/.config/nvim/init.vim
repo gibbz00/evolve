@@ -1,49 +1,3 @@
-" === PLUGINS ===
-call plug#begin('~/.local/share/nvim/plugged')
-Plug 'jiangmiao/auto-pairs'
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'tpope/vim-surround'
-" --- General ----
-Plug 'kana/vim-textobj-user'
-Plug 'reedes/vim-textobj-sentence'
-" -- Theme --
-Plug 'ayu-theme/ayu-vim'
-" Preview colorcodes #dddddd
-Plug 'ap/vim-css-color'
- Plug 'sirver/ultisnips'
- Plug 'honza/vim-snippets'
-" --- Prose ---
-"  Distraction free writing
-Plug 'junegunn/goyo.vim'
-" Word phrasing according to word usage experts
-" :Wordy [weak, redundant, problematic, puffery, business-jargon, art-jargon, weasel, being, passive-voice, colloquial, idiomatic, similies, adjectives, adverbs, said-synonyms, opinion, contractions, vague-time]
-Plug 'reedes/vim-wordy'
-" Line-wrapping 
-Plug 'reedes/vim-pencil'
-" Specify a list of thesauruses, dictionaries, spellfiles
-Plug 'reedes/vim-lexical'
-" :Grammarcheck
-Plug 'rhysd/vim-grammarous'
-" Tex syntaxhighlighting, table of contents view, synctex etc. 
-Plug 'lervag/vimtex'
-
-" --- Programming ---
-" Linter
-Plug 'w0rp/ale'
-" Comment functions
-Plug 'tpope/vim-commentary'
-" Svelte
-Plug 'othree/html5.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'evanleck/vim-svelte', {'branch': 'main'}
-let g:svelte_preprocessors = ['typescript']
-
-call plug#end()
-
-
-
 " Theme
 set termguicolors     " enable true colors support
 " let ayucolor="light"  " for light version of theme
@@ -74,6 +28,8 @@ set history=200
 set timeoutlen=3  "pressing escape key delay fix
 set ttimeoutlen=0       
 
+" force write
+cnoremap w! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 " == Netrw
 let g:netrw_liststyle = 3
@@ -133,12 +89,11 @@ nnoremap <silent> <C-L> :noh<CR>
 
 " --- Plugins ---=
 
-" Autopairs
+" Autopairs (uncommented due to arch repo having vim as dependency)
 " let g:AutoPairsFlyMode = 1
-let g:AutoPairsShortcutBackInsert = '<M-b>'
-let g:AutoPairsShortcutFastWrap = '<M-e>'
-let g:AutoPairsShortcutToggle = ''
-
+" let g:AutoPairsShortcutBackInsert = '<M-b>'
+" let g:AutoPairsShortcutFastWrap = '<M-e>'
+" let g:AutoPairsShortcutToggle = ''
 
 " ALE
 let g:ale_sign_error = '>>'
@@ -174,9 +129,9 @@ noremap <M-c> :VimtexCompile<CR>
 let g:vimtex_compiler_progname = 'nvr'
 
 " ultinips
-let g:UltiSnipsExpandTrigger = '<tab>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+" let g:UltiSnipsExpandTrigger = '<tab>'
+" let g:UltiSnipsJumpForwardTrigger = '<tab>'
+" let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 " jump to last
 autocmd BufReadPost *
@@ -184,31 +139,19 @@ autocmd BufReadPost *
   \   exe "normal! g`\"" |
   \ endif
 
-" force write
-cnoremap w! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 function! Prose()
   call lexical#init()
   call textobj#sentence#init()
   Goyo
-  Pencil
 
   " replace common punctuation
   iabbrev <buffer> -- –
   iabbrev <buffer> --- —
   iabbrev <buffer> << «
   iabbrev <buffer> >> »
-
-  " open most folds
-  setlocal foldlevel=6
-
-  " highlight words (reedes/vim-wordy)
-  noremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
-  xnoremap <silent> <buffer> <F8> :<C-u>NextWordy<cr>
-  inoremap <silent> <buffer> <F8> <C-o>:NextWordy<cr>
 endfunction
 
-" autocmd FileType markdown,mkd,text call Prose()
 
 autocmd Filetype ruby setlocal tabstop=2 shiftwidth=2 expandtab
 " autocmd Filetype tex,latex !python3 ~/code/inkscape-shortcut-manager/main.py
