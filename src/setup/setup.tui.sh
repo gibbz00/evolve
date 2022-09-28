@@ -81,7 +81,7 @@ yay_setup() {
 install_packages() {(
     PACKAGES=$(sed -e '/#/d' "./packages.tui" | tr --squeeze-repeats '\n ' ' ')
     # shellcheck disable=SC2086
-    yay -S $PACKAGES --noconfirm --needed
+    sudo -u "$USERNAME" yay -S $PACKAGES --noconfirm --needed
 )}
 
 bash_force_xdg_base_spec() {
@@ -113,7 +113,6 @@ swap_keys() {
 }
 
 package_setups() {(
-
     # Git
     git config --global user.name "$GIT_USERNAME"
     git config --global user.email "$GIT_EMAIL_ADRESSS"
@@ -122,7 +121,14 @@ package_setups() {(
     if test -n "$GITHUB_TOKEN"
     then
         yay -S --noconfirm --needed github-cli
-        sudo -u "$USERNAME" sh -c "echo $GITHUB_TOKEN | gh auth login --with-token"
+        # HACK: creation of gitconfig doesn't respect .config of XDG_CONFIG_HOME as of 2022-09-28
+        #   better to solve issue upstream rather removing .config hardcode
+        sudo -u "$USERNAME" sh -c "
+            echo $GITHUB_TOKEN | gh auth login --with-token 
+            gh auth setup-git
+            mkdir --parent ~/.config/git
+            mv .gitconfig ~/.config/git/config
+        "
     fi
 )}
 

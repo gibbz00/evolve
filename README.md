@@ -96,14 +96,15 @@ A: If connecting through SSH: (in evolve-development/src)
 2. Run:
 
 ```
-./setup/ssh-setup.sh
+cd setup/
+./ssh-setup.sh
 ```
 
 And that's it!
 
 Future logins over ssh is simply done with:
 
-````
+```
 ssh $USERNAME@$HOSTNAME
 ```
 
