@@ -1,18 +1,16 @@
 #!/bin/sh
 
 # Created by the Evolve project.
+# https://github.com/gibbz00/evolve
+
 # This script forces bash to be more compliant to the XDG base directory specification. 
 # It is copied into /etc/profile.d/ upon initial system setup.
 # (Inspired by: https://hiphish.github.io/blog/2020/12/27/making-bash-xdg-compliant/)
 
-_confdir=${XDG_CONFIG_HOME:-$HOME/.config}/bash
-_datadir=${XDG_DATA_HOME:-$HOME/.local/share}/bash
+config_directory=${XDG_CONFIG_HOME:-$HOME/.config}/bash
 
-# TODO: is this really required?
-HISTFILE=$_datadir/history
+for file in bash_profile bashrc; do
+    test -f "$config_directory/$file" && . "$config_directory/$file"
+done
 
-test -r "$_confdir/bashrc" && . "$_confdir/bashrc"
-mkdir --parents "$_datadir"
-
-unset _confdir
-unset _datadir
+unset config_directory

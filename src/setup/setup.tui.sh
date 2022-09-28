@@ -85,10 +85,10 @@ install_packages() {(
 )}
 
 bash_force_xdg_base_spec() {
-    cp skel/.config/bash/bash_login_xdg.sh /etc/profile.d/
+    cp sys/bash_login_xdg.sh /etc/profile.d/
     # bashrc.d not included by default in Arch Linux Arm
     mkdir --parent /etc/bashrc.d
-    cp skel/.config/bash/bash_interactive_xdg.sh /etc/bashrc.d/
+    cp sys/bash_interactive_xdg.sh /etc/bashrc.d/
     case $HARDWARE in
         'rpi4')
 # To avoid indendation in /etc/bash.bashrc
@@ -107,7 +107,7 @@ fi"
 
 swap_keys() {
     # Swaps escape with caps and lctrl with lalt  
-    cp /home/"$USERNAME"/.config/udev/hwdb.d/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
+    cp sys/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
     systemd-hwdb update
     udevadm trigger
 }

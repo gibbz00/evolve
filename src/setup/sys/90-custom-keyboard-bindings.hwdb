@@ -1,3 +1,5 @@
+
+
 # Changes the hw.bin that is used to modify keyboard scancode to keycode translation
 # Done at the hw.bin level to apply behaviour to both consoles and display servers
 # Goal: 
