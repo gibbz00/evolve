@@ -5,7 +5,7 @@ set -xe
 
 . ./setup.tui.sh
 
-if test "$GUI" = 'yes'
+if "$GUI"
 then 
     . ./setup.gui.sh
 fi

@@ -110,7 +110,6 @@ cleanup(){
    umount "$BOOT_DIRECTORY" "$ROOT_DIRECTORY"
    rm --recursive --force "$BOOT_DIRECTORY" "$ROOT_DIRECTORY"
    echo "Preparation complete, boot USB/SD-card can now safely be removed."
-   exit 0
 }
 
 ## Main ##

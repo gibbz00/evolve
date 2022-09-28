@@ -18,7 +18,7 @@ Useage should nonethelss be a breeze as long as the steps taken are carefully re
 The setup script can be seen as having two stages: tui and gui.
 The gui version builds upon the tui verison.
 Meaning that, all packages listed in packages.tui will be included the gui system.
-setup.sh will internally source setup.tui.sh no matter what, and then source setup.gui.sh if the variable GUI is set to 'yes' in evolve.conf.
+setup.sh will internally source setup.tui.sh no matter what, and then source setup.gui.sh if the variable GUI is set to `true` in evolve.conf.
 
 ## Supported System Environments
 
@@ -61,6 +61,7 @@ A further explanation as for why that is the case can be found in that file.
     lsblk
     dd
     parted
+    sshpass
     ```
 
 ### Preparation
@@ -90,18 +91,25 @@ $ sudo ./prepare.sh
 
 1. Insert the SD into the Raspberry Pi 4 and power it up.
 
-2. If connecting through SSH:
+A: If connecting through SSH: (in evolve-development/src)
+
+2. Run:
 
 ```
-$ ssh -o StrictHostKeyChecking=no root@evolve-rpi4.lan #root@$HOSTNAME
+./setup/ssh-setup.sh
 ```
 
-Use password `root` for user root.
-(The root password is then interactively set to something else during the setup script.)
+And that's it!
 
-Then skip to step 4.
+Future logins over ssh is simply done with:
 
-3. Make sure that an internet connection is set up.
+````
+ssh $USERNAME@$HOSTNAME
+```
+
+B. With direct display and keyboard access:
+
+2. Make sure that an internet connection is set up.
 
 ```
 $ ping -c 3 google.com
@@ -109,13 +117,9 @@ $ ping -c 3 google.com
 
 I would recommend `wifi-menu` for setting up wireless networks, mostly for it's ease of use.
 
-4. Finally, run setup script.
+3. Finally, run setup script.
 
 ```
 $ cd /root/evolve/setup
 $ ./setup.sh
 ```
-
-### Usage
-
-% ssh post setup instructions go here. 
