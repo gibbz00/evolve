@@ -1,0 +1,9 @@
+# Generic USB keybard hardware ID glob pattern:
+evdev:input:b0003v*p*
+ KEYBOARD_KEY_70039=esc         # capslock button to escape
+ KEYBOARD_KEY_70029=capslock    # escacpe button to capslock
+
+# Generic AT keyboard hardware ID glob pattern:
+evdev:atkbd:dmi:*
+ KEYBOARD_KEY_3a=esc        # capslock button to escape
+ KEYBOARD_KEY_01=capslock   # escacpe button to capslock

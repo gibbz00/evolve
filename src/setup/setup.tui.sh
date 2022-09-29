@@ -105,9 +105,12 @@ fi"
     esac
 }
 
-swap_keys() {
-    # Swaps escape with caps and lctrl with lalt  
-    cp sys/90-custom-keyboard-bindings.hwdb /etc/udev/hwdb.d/
+swap_keys_option() {
+    ($SWAP_CAPS_ESCAPE || $SWAP_LCTRL_LALT) || return 0
+    
+    $SWAP_CAPS_ESCAPE && cp sys/90-swap-caps-escape.hwdb /etc/udev/hwdb.d/
+    $SWAP_LCTRL_LALT && cp sys/90-swap-lctrl-lalt.hwdb /etc/udev/hwdb.d/
+
     systemd-hwdb update
     udevadm trigger
 }
@@ -139,5 +142,5 @@ user_setup
 yay_setup
 install_packages
 bash_force_xdg_base_spec
-swap_keys
+swap_keys_option
 package_setups

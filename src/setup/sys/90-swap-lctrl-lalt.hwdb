@@ -1,0 +1,10 @@
+# Generic USB keybard hardware ID glob pattern:
+evdev:input:b0003v*p*
+ KEYBOARD_KEY_700e0=leftalt     # leftctrl button to leftalt
+ KEYBOARD_KEY_700e2=leftctrl    # leftalt button to leftctrl
+
+# Generic AT keyboard hardware ID glob pattern:
+evdev:atkbd:dmi:*
+ KEYBOARD_KEY_1d=leftalt    # leftctrl button to leftalt
+ KEYBOARD_KEY_38=leftctrl   # leftalt button to leftctrl
+
