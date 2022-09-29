@@ -16,12 +16,7 @@ export HISTFILE="$XDG_STATE_HOME"/bash/history
 export HISTSIZE=20000
 export EDITOR="nvim"
 export VISUAL="nvim"
-export WALLPAPER="$HOME/media/wallpapers/fish.jpg"
 
 # Generated with https://scriptim.github.io/bash-prompt-generator/
 # user:host [directory] git-branch $ 
 PS1=' \[\e[0;38;5;134m\]\u\[\e[0;2m\]:\[\e[0;2m\]\h \[\e[0m\][\[\e[0;1m\]\w\[\e[0m\]]\[\e[0;3m\]$(git branch 2>/dev/null | grep '"'"'^*'"'"' | colrm 1 2) \[\e[0m\]$ \[\e[0m\]'
-
-# TODO: better path
-# Personal scripts
-export PATH=$PATH:$HOME/.scripts

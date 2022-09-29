@@ -115,6 +115,7 @@ package_setups() {(
     # Git
     git config --global user.name "$GIT_USERNAME"
     git config --global user.email "$GIT_EMAIL_ADRESSS"
+    git config advice.addIgnoredFile false
 
     # Github
     if test -n "$GITHUB_TOKEN"
