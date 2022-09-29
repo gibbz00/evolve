@@ -1,0 +1,92 @@
+/*
+    TODO:
+        * add px to pixel values
+        * incorporate with system theme
+*/
+* {
+    highlight: bold italic;
+    /* Theme colors */
+    background: rgba(0,0,0,100%);
+    foreground: rgba(255,255,255,100%);
+    accent: purple;
+
+    /* TODO: Temp, don't understand their use */
+    light-blue: rgba(23, 147, 209, 100%);
+    test: rgba(200, 0, 0, 100%);
+
+    background-color: @background;
+    text-color: @foreground;
+}
+#window {
+    border: 0;
+    padding: 20;
+}
+#mainbox {
+    border: 0;
+    padding: 10;
+}
+#message {
+    border: 1;
+    padding: 10 2%;
+}
+#prompt {
+    padding: 5;
+}
+#listview {
+    spacing: 2;
+    scrollbar: true;
+}
+#scrollbar {
+    background-color: rgb(20,20,20);
+    width: 4px;
+    handle-width: 8px;
+    handle-color: @accent;
+}
+#element {
+    padding: 5;
+}
+#element-text {
+    background-color: inherit;
+    text-color: inherit;
+}
+#element-icon {
+    background-color: inherit;
+    text-color: inherit;
+}
+#element.normal.active {
+    background-color: @accent;
+    text-color: @foreground;
+}
+#element.selected.normal {
+    text-color: @background;
+    background-color: @foreground;
+}
+#element.selected.urgent {
+    text-color: @light-blue;
+    background-color: @test;
+}
+#element.selected.active {
+    text-color: @accent;
+    background-color: @foreground;
+}
+#sidebar {
+    padding: 1% 2% 2%;
+}
+#button {
+    padding: 8 0;
+}
+#button.selected {
+    text-color: @light-blue;
+}
+#inputbar {
+    padding: 0 1 3;
+}
+/* Text input */
+#entry {
+    spacing: 5;
+    border: 0;
+    padding: 5 5;
+}
+
+// vim: ft=css
+
