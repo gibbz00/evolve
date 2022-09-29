@@ -1,0 +1,36 @@
+Goal: 
+  swap escape and capslock
+  swap leftctrl and leftalt
+
+Changes the hw.bin that is used to modify keyboard scancode to keycode translation
+Done at the hw.bin level to apply behaviour to both consoles and display servers
+
+POTENTIAL IMPPROVEMENT: change to using the showkey(1) setkeycodes(8) API instead of this evtest, evdev-descrribe, udevrules, systemd-hwdb fuckfest
+
+Takeaways:
+* Scan codes for both USB devices and AT keyboards are standardized,
+      should work for all keyboards that fall the two categories 
+* Scan codes are matched with lowercase counterparts to key code definitions in
+      /usr/include/linux/input-event-codes.h
+* Standard USB keyboard scan codes:
+  (taken with evtest program)
+      700e2 - leftalt
+      700e0 - leftctrl   
+      70039 - capslock
+      70029 - escape
+* Standard AT keyboard scan codes:
+  (
+       taken from the column 'set 1' of table in section 10.6 from: 
+       https://www.win.tue.nl/~aeb/linux/kbd/scancodes-10.html
+   ) 
+      38 - leftalt
+      1d - leftctrl
+      3a - capslock
+      01 - escape
+
+
+Further reading:
+https://wiki.archlinux.org/title/Map_scancodes_to_keycodes
+https://wiki.archlinux.org/title/Keyboard_input
+https://askubuntu.com/questions/93624/how-do-i-swap-left-ctrl-with-left-alt-on-my-keyboard
+

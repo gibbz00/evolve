@@ -64,7 +64,7 @@ A further explanation as for why that is the case can be found in that file.
     sshpass
     ```
 
-### Preparation
+### Usage
 
 1. Download the necessary scripts.
 
@@ -73,13 +73,12 @@ $ curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
     | tar --verbose --extract --preserve-permissions --ungzip --file -
 ```
 
-2. Edit evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script.
+2. Configure evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script.
 
 ```
-$ cd evolve-development/src
+$ cd evolve-development
 $ nvim evolve.env # ;)
 ```
-
 
 3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will irrevocaly be wiped.**
 
@@ -87,40 +86,21 @@ $ nvim evolve.env # ;)
 $ sudo ./prepare.sh
 ```
 
-### Setup
+4. Insert the SD into the Raspberry Pi 4 and power it up.
 
-1. Insert the SD into the Raspberry Pi 4 and power it up.
+5. Run:
 
-A: If connecting through SSH: (in evolve-development/src)
-
-2. Run:
-
+A: If connecting through SSH:
 ```
-cd setup/
-./ssh-setup.sh
-```
-
-And that's it!
-
-Future logins over ssh is simply done with:
-
-```
-ssh $USERNAME@$HOSTNAME
+# in evolve-development/
+./setup/ssh.sh
 ```
 
 B. With direct display and keyboard access:
-
-2. Make sure that an internet connection is set up.
-
 ```
-$ ping -c 3 google.com
+# in rpi4 system
+cd /root/evolve
+./setup/main.sh
 ```
 
-I would recommend `wifi-menu` for setting up wireless networks, mostly for it's ease of use.
-
-3. Finally, run setup script.
-
-```
-$ cd /root/evolve/setup
-$ ./setup.sh
-```
+And that's it! System should now be up and running :)

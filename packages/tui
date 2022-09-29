@@ -1,0 +1,34 @@
+## 
+# Syntax: Tabs allowed but comments must be written as new lines
+# 
+## Optional packages:
+# * github-cli: installed if GITHUB_TOKEN is set in evolve.env
+#
+## Packages installed regardless:
+# * pacman-contrib: used to rank mirrors for non Arm Arch install
+# * yay: aur helper and pacman wrapper 
+#       intallation dependends on: 
+#           * git 
+#           * base-devel
+#           * sudo
+##
+bash
+    fzf
+    z
+    # can be added as enabled optional dependency to bash
+    bash-completion 
+    fd
+man
+neovim
+    # neovim plugins which are managed by pacman
+    # short explanations found in neovim config files
+    vim-ayu-git
+    vim-goyo-git
+    neovim-surround-opt-git
+    neovim-vimtex-opt-git
+    neovim-ale-opt-git
+    neovim-commentary-opt-git
+    # following plugins still have vim as a dependency in their PKGBUILD
+    # vim-auto-pairs
+    # vim-css-color-git
+
