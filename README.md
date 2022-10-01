@@ -69,21 +69,21 @@ A further explanation as for why that is the case can be found in that file.
 1. Download the necessary scripts.
 
 ```
-$ curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
+curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
     | tar --verbose --extract --preserve-permissions --ungzip --file -
 ```
 
 2. Configure evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script.
 
 ```
-$ cd evolve-development
-$ nvim evolve.env # ;)
+cd evolve-development
+nvim evolve.env # ;)
 ```
 
 3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will irrevocaly be wiped.**
 
 ```
-$ sudo ./prepare.sh
+sudo ./prepare.sh
 ```
 
 4. Insert the SD into the Raspberry Pi 4 and power it up.
