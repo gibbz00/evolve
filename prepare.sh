@@ -96,7 +96,7 @@ download_base() {
 
 misc_preparations() {
     # copy evolve scripts to root
-    cp --recursive . "$ROOT_DIRECTORY"/root/evolve
+    rsync --recursive --perms --times --verbose --exclude=$ROOT_DIRECTORY --exclude=$BOOT_DIRECTORY . "$ROOT_DIRECTORY"/root/evolve
 
     # host name set in preparation step for headless functionality
         # (easer than using nmap and testing to ssh into a bunch random of ip adresses)
