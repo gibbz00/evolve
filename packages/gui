@@ -7,7 +7,6 @@ sway
     rofi-lbonn-wayland-git
     networkmanager-dmenu-git
     # Used for inactive window transparency 
-    # TODO: would be nice to solve this with using for_window [__focused__]
     python-i3ipc
     swaybg
     kitty

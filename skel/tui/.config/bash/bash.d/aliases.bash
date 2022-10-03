@@ -10,7 +10,6 @@ alias cp='cp -iv'
 alias grep='grep --color=auto'
 alias tree='tree -a'
 alias dd="dd status=progress"
-alias curl='curl --continue-at - --location --remote-name --remote-time'
 alias rsync='rsync -v --progress'
 alias less='less --use-color'
 

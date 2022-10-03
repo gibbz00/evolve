@@ -23,7 +23,7 @@ select_device() {
     lsblk > state2.log
     # Get device name
     device=$(
-        grep --invert-match --line-regexp --fixed-strings --file /tmp/state1.log /tmp/state2.log \
+        grep --invert-match --line-regexp --fixed-strings --file state1.log state2.log \
             | head --lines 1 \
             | grep --only-matching --regexp "^\w*"
     )
@@ -62,8 +62,8 @@ format_and_mount_partitions() {
             | grep --invert-match --fixed-string --word-regexp "$device" 
     )
 
-    BOOT_DIRECTORY="./boot"
-    ROOT_DIRECTORY="./root"
+    BOOT_DIRECTORY="boot"
+    ROOT_DIRECTORY="root"
     case $HARDWARE in
         'rpi4')
             mkfs.vfat -v /dev/"$1"
