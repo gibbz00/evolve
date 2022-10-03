@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ../utils.sh
+. ./utils.sh
 
 clock_setup() {
     # Network time syncronization
@@ -15,7 +15,7 @@ clock_setup() {
 
 localization_setup() {(
     # Extract mentioned locales 
-    locales=$(grep --only-matching --perl-regexp "(?<==)\S*" ../skel.tui/.config/locale.conf | uniq)
+    locales=$(grep --only-matching --perl-regexp "(?<==)\S*" skel/tui/.config/locale.conf | uniq)
     for locale in $locales
     do
         uncomment_util "$locale UTF-8" /etc/locale.gen
@@ -23,7 +23,7 @@ localization_setup() {(
     # Generate locales
     locale-gen
     # Changes to take immediate effect
-    . ../skel/tui/.config/locale.conf
+    . skel/tui/.config/locale.conf
 )}
 
 pacman_setup() {
@@ -54,8 +54,8 @@ user_setup() {(
     printf "%s\n%s" "$ROOT_PASSWORD" "$ROOT_PASSWORD" | passwd
 
     mkdir merged-skel
-    cp -r ../skel/tui/* merged-skel
-    $GUI && cp -r ../skel/gui/* merged-skel
+    cp -r skel/tui/* merged-skel
+    $GUI && cp -r skel/gui/* merged-skel
 
     useradd --skel merged-skel --create-home --shell /bin/bash --groups users,wheel "$USERNAME"
     printf "%s\n%s" "$USER_PASSWORD" "$USER_PASSWORD" | passwd "$USERNAME"
@@ -81,10 +81,10 @@ yay_setup() {
 }
 
 bash_force_xdg_base_spec() {
-    cp ../sys/bash_login_xdg.sh /etc/profile.d/
+    cp sys/bash_login_xdg.sh /etc/profile.d/
     # bashrc.d not included by default in Arch Linux Arm
     mkdir --parent /etc/bashrc.d
-    cp ../sys/bash_interactive_xdg.sh /etc/bashrc.d/
+    cp sys/bash_interactive_xdg.sh /etc/bashrc.d/
     case $HARDWARE in
         'rpi4')
 # To avoid indendation in /etc/bash.bashrc
@@ -137,7 +137,7 @@ localization_setup
 pacman_setup
 user_setup
 yay_setup
-install_packages_util "../packages/tui"
+install_packages_util "packages/tui"
 bash_force_xdg_base_spec
 swap_keys_option
 package_setups

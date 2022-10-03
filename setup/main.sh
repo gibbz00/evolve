@@ -1,13 +1,13 @@
 #!/bin/sh
 set -e
 
-. "../evolve.env"
+. "./evolve.env"
 
-. ./tui.sh
+. ./setup/tui.sh
 
 if "$GUI"
 then 
-    . ./gui.sh
+    . ./setup/gui.sh
 fi
 
 rm --recursive --force /root/evolve

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-. "../evolve.env"
+. "./evolve.env"
 
 # Somewhat less exposed way of non-interactive ssh password login
 # See man 1 sshpass
