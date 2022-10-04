@@ -20,6 +20,7 @@ select_device() {
     lsblk > state1.log
     printf "Now insert boot USB/SD-card. When plugged in; press enter."
     read -r
+    sleep 1
     lsblk > state2.log
     # Get device name
     device=$(

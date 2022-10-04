@@ -54,8 +54,9 @@ user_setup() {(
     printf "%s\n%s" "$ROOT_PASSWORD" "$ROOT_PASSWORD" | passwd
 
     mkdir merged-skel
-    cp -r skel/tui/* merged-skel
-    $GUI && cp -r skel/gui/* merged-skel
+    # wilcard (*) doesn't match hidden files by default
+    cp -r skel/tui/{./*,./.[!.]*} merged-skel 2>/dev/null || true 
+    $GUI && cp -r skel/gui/{./*,./.[!.]*} merged-skel 2>/dev/null || true 
 
     useradd --skel merged-skel --create-home --shell /bin/bash --groups users,wheel "$USERNAME"
     printf "%s\n%s" "$USER_PASSWORD" "$USER_PASSWORD" | passwd "$USERNAME"

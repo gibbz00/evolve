@@ -14,7 +14,8 @@ shopt -s cdable_vars
 shopt -s checkhash
 shopt -s cmdhist 
 shopt -s direxpand
-shopt -s extglob dotglob
+shopt -s extglob 
+shopt -s dotglob
 shopt -s histappend 
 
 # Shopt GNU Readline specific integration
