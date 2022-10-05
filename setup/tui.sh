@@ -116,15 +116,15 @@ package_setups() {(
     # Git
     git config --global user.name "$GIT_USERNAME"
     git config --global user.email "$GIT_EMAIL_ADRESSS"
-    git config advice.addIgnoredFile false
+    git config --global advice.addIgnoredFile false
 
     # Github
     if test -n "$GITHUB_TOKEN"
     then
-        yay -S --noconfirm --needed github-cli
         # HACK: creation of gitconfig doesn't respect .config of XDG_CONFIG_HOME as of 2022-09-28
         #   better to solve issue upstream rather removing .config hardcode
         sudo -u "$USERNAME" sh -c "
+	    yay -S --noconfirm --needed github-cli
             echo $GITHUB_TOKEN | gh auth login --with-token 
 	    cd /home/$USERNAME
             gh auth setup-git
