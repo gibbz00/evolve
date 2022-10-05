@@ -12,6 +12,7 @@
 #           * base-devel
 #           * sudo
 ##
+kitty-terminfo
 bash
     fzf
     z
