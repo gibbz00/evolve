@@ -126,6 +126,7 @@ package_setups() {(
         #   better to solve issue upstream rather removing .config hardcode
         sudo -u "$USERNAME" sh -c "
             echo $GITHUB_TOKEN | gh auth login --with-token 
+	    cd /home/$USERNAME
             gh auth setup-git
             mkdir --parent ~/.config/git
             mv .gitconfig ~/.config/git/config
