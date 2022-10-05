@@ -8,9 +8,5 @@
 # (Inspired by: https://hiphish.github.io/blog/2020/12/27/making-bash-xdg-compliant/)
 
 config_directory=${XDG_CONFIG_HOME:-$HOME/.config}/bash
-
-for file in bash_profile bashrc; do
-    test -f "$config_directory/$file" && . "$config_directory/$file"
-done
-
+test -f "$config_directory/bash_profile" && . "$config_directory/bash_profile"
 unset config_directory
