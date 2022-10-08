@@ -1,0 +1,270 @@
+## Detailed config commands found at man 5 sway
+## Reference config: https://github.com/swaywm/sway/blob/master/config.in
+
+# Mod4=Super
+set $mod Mod4
+set $up k
+set $down j
+set $left h
+set $right l
+
+
+## Autostart
+output eDP-1 disable
+output DP-3 pos 0 0
+output DP-2 pos 1920 0
+output * bg '$WALLPAPER' fill
+
+# Uses inactive-windows-transparency.py (requires i3ipc-python package) 
+# Copied over personal version until https://github.com/swaywm/sway/pull/7197 gets merged.
+exec_always '/home/gibbz/.config/sway/opacity-toggle.sh'
+
+## Keyboard layouts (more info: man 5 sway-input)
+input type:keyboard {                                        
+    # Toggle between layout with alt+shift
+    xkb_options grp:alt_shift_toggle                         
+    # Cycle between US and Swedish layouts
+    xkb_layout us,se                                         
+}
+
+# Status Bar:
+# `man 5 sway-bar` for more information.
+bar {
+    position bottom
+    status_command while date +'%Y-%m-%d %H:%M:%S '; do sleep 1; done
+    tray_output none
+
+    font "Noto Sans Regular 14"
+    mode hide
+    modifier Mod4+ctrl
+
+    colors {
+        statusline #ffffff
+        background #000000f0
+        inactive_workspace #000000f0 #000000f0 #ffffff
+        active_workspace #000000f0 #000000f0 #ffffff
+	focused_workspace #5e139cf0 #5e139cf0 #ffffff 
+    }
+}
+
+
+# restart sway inplace (preserves your layout/session, can be used to upgrade sway)
+bindsym $mod+r restart
+# reload the configuration file only
+bindsym $mod+Shift+r reload
+# opacity toggle
+bindsym $mod+Shift+o exec '/home/gibbz/.config/sway/opacity-toggle.sh'
+
+## Launcher: rofi (wayland fork: lbonn/rofi)
+    # introduction: man rofi
+    # theming: man rofi-theme 
+    # custom modes: man rofi-script
+# Applications
+bindsym $mod+o exec rofi -show drun -show-icons
+# Clipboard manager
+# (Not pasting from primary clipboard, a.k.a visually selected text + middle mouse button)
+exec wl-paste -t text --watch clipman store 
+bindsym $mod+c exec clipman pick --tool rofi
+# Clear item from clipboard history
+bindsym $mod+Shift+c exec clipman clear --tool rofi
+# Clear the entire clipboard history
+bindsym $mod+Alt+c exec clipman clear --all
+# Networkmanager 
+# Config and further information at:
+# $XDG_CONFIG_HOME/networkmanager-dmenu/config.ini
+bindsym $mod+n exec networkmanager_dmenu
+# Windows
+bindsym $mod+w exec rofi -show window -show-icons
+# Exit (lock, poweroff, reboot)
+# lock calls Swaylock which then uses $XDG_CONFIG_HOME/swaylock/config
+bindsym $mod+d exec --no-startup-id "$XDG_CONFIG_HOME/rofi/exit.sh"
+# Termainal emulator
+bindsym $mod+Return exec --no-startup-id kitty &
+# Kill focused window
+bindsym $mod+q kill
+# Focused window fullscreen
+bindsym $mod+f fullscreen toggle
+# Leftmouse drag + mod on floating window modifier moves it.
+# Rightmouse drag + mod on whichever window resizes it.
+floating_modifier $mod
+# Window floating vs stacked toggle
+bindsym $mod+space floating toggle
+# Change focus between tiling / floating windows
+bindsym $mod+Shift+space focus mode_toggle
+bindsym $mod+Shift+z move scratchpad
+bindsym $mod+z scratchpad show
+# change focus
+bindsym $mod+$left  focus left
+bindsym $mod+$down  focus down
+bindsym $mod+$up    focus up
+bindsym $mod+$right focus right
+# Move focused window to new workspace if tiled, 
+# resize if window is floating
+bindsym $mod+Shift+$left  move left  90px
+bindsym $mod+Shift+$down  move down  90px
+bindsym $mod+Shift+$up    move up    90px
+bindsym $mod+Shift+$right move right 90px
+# Change window size
+bindsym $mod+Alt+$down resize grow height 90 px
+bindsym $mod+Alt+$up resize shrink height 90 px
+bindsym $mod+Alt+$right resize grow width  90 px
+bindsym $mod+Alt+$left resize shrink width  90 px
+# Layouts
+bindsym $mod+Shift+t layout tabbed
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+v layout toggle split
+bindsym $mod+v split toggle
+# Order based on workspace number, not last shown
+bindsym $mod+bracketleft workspace prev
+bindsym $mod+bracketright workspace next
+# Workspace back and forth (previous workspace)
+bindsym $mod+Tab workspace back_and_forth
+# Move window back and forth (previous workspace)
+bindsym $mod+Shift+Tab move container to workspace back_and_forth; workspace back_and_forth
+# Workspace names
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws0 "0"
+# Binding keys to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws0
+# Move focused container to workspace, but remain in current workspace.
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws0
+
+set $foreground #ffffff
+set $background #050505
+set $color0 #ffffff
+set $color1 #c5c8c6
+set $color2 #a54242 
+set $color3 #8c9440
+set $color4 #f2a310
+set $color5 #5f819d
+set $color6 #85678f
+set $color7 #5e8d87
+set $color8 #2348ff
+set $color9 #cc6666
+
+# colorclass            border  background      text    indicator   child_border
+client.focused          $color3 $foreground     $color0 $background     $color3
+client.unfocused        $color3 $background     $color0 $foreground     $background
+client.focused_inactive $color3 $color8         $color0 $foreground     $background
+client.urgent           $color3 $color8         $color0 $foreground     $color9
+client.placeholder      $color3 $color8         $color0 $foreground     $background
+client.background       $color3
+
+# font
+font pango:monospace 11
+# Smart gaps (gaps used if only more than one container on the workspace)
+smart_gaps on
+# Border gaps
+gaps inner 8
+gaps outer 8
+
+# Hides titlebar and borders
+default_border pixel none
+default_floating_border pixel none
+
+### Misc
+
+# https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
+# https://github.com/swaywm/sway/issues/5732
+# working solution copied over from /etc/sway/config.d/50-systemd-user.conf
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+
+## Unimplemented
+
+# clean up config by separating into multiple files including them all with: 
+# include ./config.d/* 
+
+# TODO: wut?
+# hide_edge_borders both
+# do not move child window to currently focused workspace
+# e.g when launcher has finished loading program 
+# switch to workspace with urgent window
+# for_window [urgent="latest"] focus
+# focus_on_window_activation   focus
+# focus, floating, & sticky
+# for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
+# for_window [window_role="(?i)(?:pop-up|setup)"]      floating enable
+
+
+# wayland way?
+# Xresources      var      value       fallback
+# set_from_resource $bg       background  #aa2ca0
+# set_from_resource $fg       foreground  #aa2ca0
+# set_from_resource $color0   color0      #aa2ca0
+# set_from_resource $color1   color1      #aa2ca0
+# set_from_resource $color2   color2      #aa2ca0
+# set_from_resource $color3   color3      #aa2ca0
+# set_from_resource $color4   color4      #aa2ca0
+# set_from_resource $color5   color5      #aa2ca0
+# set_from_resource $color6   color6      #aa2ca0
+# set_from_resource $color7   color7      #aa2ca0
+
+# doesn't really seem to be working
+# just tested it with chrome popups
+# bindsym $mod+p focus parent
+# mod+shift+p could be an alternative
+# change to other bindin, mod+c for showing the clipboard (maybe mod+n)
+# bindsym $mod+c focus child
+
+## Screenshots
+#   proper directory and don't open window
+# bindsym Print exec --no-startup-id "scrot '%S.png' -e 'mv $f $$(xdg-user-dir PICTURES)/linux-%S-$wx$h.png ; feh $$(xdg-user-dir PICTURES)/linux-%S-$wx$h.png'"
+
+# audio, pipewire conversion?
+# bindsym XF86AudioPlay        exec --no-startup-id playerctl play-pause
+# bindsym XF86AudioNext        exec --no-startup-id playerctl next
+# bindsym XF86AudioPrev        exec --no-startup-id playerctl previous
+# bindsym XF86AudioStop        exec --no-startup-id playerctl stop
+# bindsym XF86AudioMute        exec --no-startup-id pamixer -t
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 2
+# bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 2
+
+# backlight
+# bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 10
+# bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
+
+# # libqalc, learn how to use
+# bindsym $mod+m exec rofi_run -q
+# # browse with surfraw, learn how to use
+# bindsym $mod+s exec rofi_run -b
+# bindsym $mod+e exec rofi -modi "emoji:rofimoji" -show emoji
+
+## Copied from sway reference config: 
+
+## Touchpad config: (copied from reference config)
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+# inputs by running: swaymsg -t get_inputs
+# also: `man 5 sway-input` 
