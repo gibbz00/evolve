@@ -1,5 +1,4 @@
 #!/bin/sh
-
 . ./utils.sh
 
 sway_setup() {
@@ -9,6 +8,7 @@ sway_setup() {
     systemctl enable seatd
     systemctl start seatd
     usermod "$USERNAME" --append seat
+    gpasswd --add $USERNAME seat
     
     echo "
     [[ !$DISPLAY && XDG_VTNR -eq 1 ]] && exec sway $($NVIDIA_GPU && echo "--unsupported-gpu") 

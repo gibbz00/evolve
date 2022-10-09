@@ -1,5 +1,4 @@
 #!/bin/sh
-
 . ./utils.sh
 
 clock_setup() {
