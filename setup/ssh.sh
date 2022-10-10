@@ -9,6 +9,7 @@ export SSHPASS="root"
 sshpass -e ssh -o StrictHostKeyChecking=no root@"$HOST_NAME" "
     cd /root/evolve
     ./setup/main.sh
+    exit
 "
 
 echo "
