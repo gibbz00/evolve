@@ -7,7 +7,6 @@ sway_setup() {
     # Read more at: https://wiki.archlinux.org/title/sway#Starting
     systemctl enable seatd
     systemctl start seatd
-    usermod "$USERNAME" --append seat
     gpasswd --add $USERNAME seat
     
     echo "
