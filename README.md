@@ -88,19 +88,10 @@ sudo ./prepare.sh
 
 4. Insert the SD into the Raspberry Pi 4 and power it up.
 
-5. Run:
+5. Still from the first computer:
 
-A: If connecting through SSH:
 ```
 # in evolve-development/
 ./setup/ssh.sh
 ```
-
-B. With direct display and keyboard access:
-```
-# in rpi4 system
-cd /root/evolve
-./setup/main.sh
-```
-
 And that's it! System should now be up and running :)
