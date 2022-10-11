@@ -11,7 +11,7 @@ sway_setup() {
     
     echo "
     [[ ! \$DISPLAY && XDG_VTNR -eq 1 ]] && exec sway $($NVIDIA_GPU && echo "--unsupported-gpu") 
-    " >> /home/"$USERNAME"/.config/bash/bash_profile
+    " >> /home/"$USERNAME"/.config/bash/profile.d/sway
     # Using personal version until https://github.com/swaywm/sway/pull/7197 gets merged.
     cp sys/inactive-windows-transparency.py /usr/share/sway/scripts/
 }

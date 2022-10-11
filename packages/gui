@@ -9,11 +9,12 @@ sway
     # Used for inactive window transparency 
     python-i3ipc
     swaybg
-foot
 pipewire
-wireplumber
-jack-pipewire
-rtkit
+	wireplumber
+	jack-pipewire
+	rtkit
+nerd-fonts-complete
+foot
 firefox
 zathura
 vlc

@@ -17,7 +17,7 @@ output * bg '$WALLPAPER' fill
 
 # Uses inactive-windows-transparency.py (requires i3ipc-python package) 
 # Copied over personal version until https://github.com/swaywm/sway/pull/7197 gets merged.
-exec_always '/home/gibbz/.config/sway/opacity-toggle.sh'
+exec_always '$XDG_CONFIG_HOME/sway/opacity-toggle.sh'
 
 ## Keyboard layouts (more info: man 5 sway-input)
 input type:keyboard {                                        
@@ -53,7 +53,7 @@ bindsym $mod+r restart
 # reload the configuration file only
 bindsym $mod+Shift+r reload
 # opacity toggle
-bindsym $mod+Shift+o exec '/home/gibbz/.config/sway/opacity-toggle.sh'
+bindsym $mod+Shift+o exec '$XDG_CONFIG_HOME/sway/opacity-toggle.sh'
 
 ## Launcher: rofi (wayland fork: lbonn/rofi)
     # introduction: man rofi
