@@ -4,6 +4,8 @@ runtime! archlinux.vim
 " use system clipboard (requires +clipboard)
 set clipboard^=unnamed,unnamedplus
 
+set tabstop=4
+set shiftwidth=4
 set relativenumber     " relative line numbers 
 set number             " line number on current line
 

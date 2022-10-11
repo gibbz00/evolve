@@ -1,5 +1,8 @@
 sway
     seatd
+    pipewire
+    wireplumber
+    jack-pipewire
     qt5-wayland
     qt6-wayland
     wl-clipboard

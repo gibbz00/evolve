@@ -33,6 +33,11 @@ pacman_setup() {
     test "$HARDWARE" = "rpi4" && pacman-key --populate archlinuxarm
     # Must be run before installing any packages
     pacman -Syyu --noconfirm
+    # Better GPU support out of the box:
+    if test "$HARDWARE" = "rpi4"
+    then
+		pacman -S linux-rpi raspberrypi-firmware raspberrypi-bootloader
+    fi
 
     # Arch Arm treats mirrors a bit differently: https://archlinuxarm.org/about/mirrors
     if test "$HARDWARE" != "rpi4"

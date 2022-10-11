@@ -11,6 +11,7 @@
 #           * git 
 #           * base-devel
 #           * sudo
+# * if using rpi4: linux-rpi raspberrypi-firmware raspberrypi-bootloader
 ##
 kitty-terminfo
 bash
