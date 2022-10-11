@@ -77,9 +77,10 @@ bindsym $mod+n exec networkmanager_dmenu
 bindsym $mod+w exec rofi -show window -show-icons
 # Exit (lock, poweroff, reboot)
 # lock calls Swaylock which then uses $XDG_CONFIG_HOME/swaylock/config
-bindsym $mod+d exec --no-startup-id "$XDG_CONFIG_HOME/rofi/exit.sh"
+bindsym $mod+d exec "$XDG_CONFIG_HOME/rofi/exit.sh"
 # Termainal emulator
-bindsym $mod+Return exec --no-startup-id kitty &
+exec foot --server
+bindsym $mod+Return exec footclient
 # Kill focused window
 bindsym $mod+q kill
 # Focused window fullscreen
