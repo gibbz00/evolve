@@ -11,4 +11,3 @@ then
 fi
 
 rm --recursive --force /root/evolve
-su - "$USERNAME"
