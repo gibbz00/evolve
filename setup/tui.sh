@@ -36,7 +36,8 @@ pacman_setup() {
     # Better GPU support out of the box:
     if test "$HARDWARE" = "rpi4"
     then
-		pacman -S --needed --noconfirm linux-rpi raspberrypi-firmware raspberrypi-bootloader
+		pacman --remove --recursive --noconfirm linux-aarch64 uboot-raspberrypi
+		pacman --sync --needed --noconfirm linux-rpi raspberrypi-firmware raspberrypi-bootloader
     fi
 
     # Arch Arm treats mirrors a bit differently: https://archlinuxarm.org/about/mirrors

@@ -11,14 +11,14 @@ sway
     swaybg
 pipewire
 	wireplumber
-	jack-pipewire
+	pipewire-jack
 	rtkit
 nerd-fonts-complete
 foot
 firefox
 zathura
 vlc
-transmission
+transmission-gtk
 # kicad
 # gimp
 # spotify-launcher
