@@ -1,18 +1,14 @@
-# Environment variable setup for forcing apps to use Wayland 
-# More info at:
-# https://wiki.archlinux.org/title/wayland#GUI_libraries
+
+# More info at: https://wiki.archlinux.org/title/wayland#GUI_libraries
 
 # GTK3
 # https://docs.gtk.org/gtk3/wayland.html
 export GDK_BACKEND=wayland
-
 # Qt - requires the qt5-wayland and qt6-wayland plugins
 export QT_QPA_PLATFORM=wayland
-
 # Clutter - discontinued, but adding anyways in case a clutter program happens to get installed.
 export CLUTTER_BACKEND=wayland
-
-# SDL2 - check wiki article is having issues with proprietary games
+# SDL2 - check wiki article if having issues with proprietary games
 # https://wiki.archlinux.org/title/wayland#SDL2
 export SDL_VIDEODRIVER=wayland
 
