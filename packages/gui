@@ -1,8 +1,5 @@
 sway
     seatd
-    pipewire
-    wireplumber
-    jack-pipewire
     qt5-wayland
     qt6-wayland
     wl-clipboard
@@ -12,13 +9,15 @@ sway
     # Used for inactive window transparency 
     python-i3ipc
     swaybg
-    foot
-
-# Personal
-# firefox
-# zathura
-# vlc
-# transmission
+foot
+pipewire
+wireplumber
+jack-pipewire
+rtkit
+firefox
+zathura
+vlc
+transmission
 # kicad
 # gimp
 # spotify-launcher
