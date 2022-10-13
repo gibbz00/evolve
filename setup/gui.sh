@@ -1,4 +1,5 @@
 #!/bin/sh
+
 . ./utils.sh
 
 sway_setup() {
@@ -26,7 +27,7 @@ misc_packages_setup() {
     systemctl start NetworkManager.service
     systemctl enable NetworkManager.service
 
-	systemctl start pipewire-pulse.service
+	systemctl --user start pipewire-pulse.service
 }
 
 install_packages_util "packages/gui"
