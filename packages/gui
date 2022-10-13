@@ -10,6 +10,7 @@ sway
     # Used for inactive window transparency 
     python-i3ipc
     swaybg
+	swaylock
 pipewire
 	wireplumber
 	pipewire-jack
