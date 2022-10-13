@@ -25,6 +25,8 @@ misc_packages_setup() {
     systemctl disable systemd-networkd
     systemctl start NetworkManager.service
     systemctl enable NetworkManager.service
+
+	systemctl start pipewire-pulse.service
 }
 
 install_packages_util "packages/gui"

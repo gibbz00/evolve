@@ -1,6 +1,4 @@
 #!/bin/sh
-set -e
-
 . "./evolve.env"
 
 . ./setup/tui.sh
@@ -11,3 +9,5 @@ then
 fi
 
 rm --recursive --force /root/evolve
+echo "Rebooting..."
+$REBOOT_REQUIRED && reboot 

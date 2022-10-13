@@ -5,6 +5,7 @@ sway
     wl-clipboard
     clipman
     rofi-lbonn-wayland-git
+	ttf-icomoon-feather
     networkmanager-dmenu-git
     # Used for inactive window transparency 
     python-i3ipc
@@ -12,8 +13,9 @@ sway
 pipewire
 	wireplumber
 	pipewire-jack
+	pipewire-alsa
+	pipewire-pulse
 	rtkit
-nerd-fonts-complete
 foot
 firefox
 zathura

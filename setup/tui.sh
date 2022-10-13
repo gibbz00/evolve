@@ -37,7 +37,8 @@ pacman_setup() {
     if test "$HARDWARE" = "rpi4"
     then
 		pacman --remove --recursive --noconfirm linux-aarch64 uboot-raspberrypi
-		pacman --sync --needed --noconfirm linux-rpi raspberrypi-firmware raspberrypi-bootloader
+		pacman -S --needed --noconfirm linux-rpi raspberrypi-firmware raspberrypi-bootloader
+		export REBOOT_REQUIRED=true
     fi
 
     # Arch Arm treats mirrors a bit differently: https://archlinuxarm.org/about/mirrors
@@ -119,7 +120,9 @@ swap_keys_option() {
     udevadm trigger
 }
 
-package_setups() {(
+misc_setup() {(
+	cp sys/20-quiet-printk.conf /etc/sysctl.d/
+
     # Git
     git config --global user.name "$GIT_USERNAME"
     git config --global user.email "$GIT_EMAIL_ADRESSS"
@@ -149,4 +152,4 @@ yay_setup
 install_packages_util "packages/tui"
 bash_force_xdg_base_spec
 swap_keys_option
-package_setups
+misc_setup
