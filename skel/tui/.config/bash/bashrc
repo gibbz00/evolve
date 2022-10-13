@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# source shell configs
+. $HOME/.config/bash/xdg_base.env
+
 for file in "$XDG_CONFIG_HOME/bash/bash.d/"*?.bash; do
     . "$file"
 done
