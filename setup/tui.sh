@@ -87,7 +87,9 @@ yay_setup() {
 }
 
 bash_force_xdg_base_spec() {
-    cp sys/bash_login_xdg.sh /etc/profile.d/
+	# Appended to /etc/profile rather then added to /etc/profile.d to ensure
+	# that everything in profile.d/ (e.g locale.sh) is sourced first. 
+    cat sys/bash_login_xdg.sh >> /etc/profile
     # bashrc.d not included by default in Arch Linux Arm
     mkdir --parent /etc/bashrc.d
     cp sys/bash_interactive_xdg.sh /etc/bashrc.d/

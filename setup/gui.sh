@@ -9,9 +9,11 @@ sway_setup() {
     systemctl start seatd
     gpasswd --add $USERNAME seat
     
-    echo "
-    [[ ! \$DISPLAY && XDG_VTNR -eq 1 ]] && exec sway $($NVIDIA_GPU && echo "--unsupported-gpu") 
-    " >> /home/"$USERNAME"/.config/bash/profile.d/sway
+    echo \
+"$(test $HARDWARE = 'rpi4' && echo 'export WLR_NO_HARDWARE_CURSORS=1')
+[[ ! \$DISPLAY && XDG_VTNR -eq 1 ]] && exec sway $($NVIDIA_GPU && echo "--unsupported-gpu")" \
+	>> /home/"$USERNAME"/.config/bash/profile.d/sway.bash
+
     # Using personal version until https://github.com/swaywm/sway/pull/7197 gets merged.
     cp sys/inactive-windows-transparency.py /usr/share/sway/scripts/
 }
