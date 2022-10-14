@@ -1,0 +1,30 @@
+indicator-idle-visible
+indicator-thickness=13
+indicator-x-position=100
+indicator-y-position=960
+
+# default
+inside-color=000000e8
+line-color=000000e8
+ring-color=000000e8
+key-hl-color=5e139ce8
+bs-hl-color=ffffffe8
+
+# caps
+inside-caps-lock-color=000000e8
+text-caps-lock-color=ffffffe8
+
+# verification
+inside-ver-color=000000e8
+text-ver-color=5e139ce8
+ring-ver-color=5e139ce8
+
+# clear
+inside-clear-color=000000e8
+text-clear-color=ffffffe8
+ring-clear-color=ffffffe8
+
+# wrong
+inside-wrong-color=000000e8
+text-wrong-color=ff0000e8
+ring-wrong-color=ff0000e8
