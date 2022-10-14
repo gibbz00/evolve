@@ -121,7 +121,13 @@ swap_keys_option() {
 }
 
 misc_setup() {(
+	# Supress some error messages in console
 	cp sys/20-quiet-printk.conf /etc/sysctl.d/
+
+	# Consolefont setting
+	cp sys/vconsole.conf /etc/
+	# Make changes immediate
+	systemctl restart systemd-vconsole-setup
 
     # Git
     git config --global user.name "$GIT_USERNAME"
