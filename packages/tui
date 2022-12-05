@@ -20,12 +20,16 @@ bash
     bash-completion 
     fd
 man
+tree
+rsync
+usbutils
+net-tools
 tmux
 neovim
     # neovim plugins which are managed by pacman
-    # short explanations found in neovim config files
-    vim-ayu-git
-    vim-goyo-git
+    # set up
+    neovim-ayu-git
+    # not yet set up
     neovim-surround-opt-git
     neovim-vimtex-opt-git
     neovim-ale-opt-git
