@@ -26,6 +26,14 @@ usbutils
 net-tools
 tmux
 neovim
+	mason.nvim
+		neovim-lspconfig
+		mason-lspconfig.nvim
+		# Mason installs packages from the followig package managers
+		luarocks
+		npm
+		cargo-git
+
     # neovim plugins which are managed by pacman
     # set up
     neovim-ayu-git
