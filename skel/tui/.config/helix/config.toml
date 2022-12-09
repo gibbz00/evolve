@@ -1,0 +1,49 @@
+theme = 'evolve'
+
+[editor]
+line-number = "relative"
+idle-timeout = 0
+completion-trigger-len = 1
+
+[editor.cursor-shape]
+insert = "bar"
+# select = "underline"
+
+[editor.statusline]
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[keys.normal]
+
+"esc" = "collapse_selection"
+X = "extend_line_above"
+D = "delete_char_backward"
+k = "toggle_comments"
+l = "flip_selections"
+"home" = "goto_first_nonwhitespace"
+"0" = "goto_line_start"
+
+## Duplicates that can be used for other things ##
+"?" = "no_op"
+# Not needed when using the Borne Keyboard
+h = "no_op"
+j = "no_op"
+
+[keys.normal.g]
+# Bug? unable to change more than one g keymap
+e = ["goto_last_line", "goto_line_end"] 
+s = "no_op" 
+l = "no_op" 
+h = "no_op" 
+
+[keys.normal.space]
+
+[keys.select]
+X = "extend_line_above"
+# Not needed when using the Borne Keyboard
+h = "no_op"
+j = "no_op"
+k = "no_op"
+l = "flip_selections"
+g = { e = ["goto_last_line", "goto_line_end"] }
