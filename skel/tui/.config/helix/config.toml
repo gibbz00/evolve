@@ -15,33 +15,133 @@ mode.insert = "INSERT"
 mode.select = "SELECT"
 
 [keys.normal]
+# keep_primary_selection only still bound to ,
+"esc" = [ "collapse_selection", "keep_primary_selection" ]
 
-"esc" = "collapse_selection"
 X = "extend_line_above"
 D = "delete_char_backward"
-k = "toggle_comments"
-l = "flip_selections"
 "home" = "goto_first_nonwhitespace"
-"0" = "goto_line_start"
+"end" = "extend_to_line_end"
+"0" = "extend_to_line_start"
+# Prefer to just use space+w
+C-w = "no_op"
 
-## Duplicates that can be used for other things ##
-"?" = "no_op"
-# Not needed when using the Borne Keyboard
+# h, j, k, l don't make much sense with Borne Keyboard
 h = "no_op"
 j = "no_op"
+k = "no_op"
+l = "flip_selections"
+# Rededundant when I also have easy access to page up/down
+C-b = "no_op"
+C-f = "no_op"
 
+### GLOBAL GOTO
 [keys.normal.g]
-# Bug? unable to change more than one g keymap
-e = ["goto_last_line", "goto_line_end"] 
+# gs replaced by normal "home"
 s = "no_op" 
+# using normal "end" instead
 l = "no_op" 
-h = "no_op" 
+# gh replaced by normal "0"
+h = "no_op"
+# Prefer to use number + arrows instead
+t = "no_op"
+c = "no_op"
+b = "no_op"
 
+### LEADER
 [keys.normal.space]
+"space" = ":w"
 
+### WINDOW
+[keys.normal.space.w]
+# Swap as I prefer vsplit
+f = "goto_file_vsplit" 
+F = "goto_file_hsplit" 
+# Having o as a nemonic for 'close all except this one' is confusing  given that  :o opens a file
+o = "no_op"
+Q = "wonly"
+
+# Why use C-key when key is available?
+C-o = "no_op"
+C-q = "no_op"
+C-h = "no_op"
+C-j = "no_op"
+C-k = "no_op"
+C-l = "no_op"
+C-w = "no_op"
+C-s = "no_op"
+C-v = "no_op"
+C-t = "no_op"
+# Add arrowkey options for the shifted hjkl
+"C-left" = "swap_view_left"
+"C-down" = "swap_view_down"
+"C-up" = "swap_view_up"
+"C-right" = "swap_view_right"
+
+# Since h, j, k, l don't make much sense when using the Borne Keyboard
+j = "no_op"
+k = "no_op"
+l = "no_op"
+H = "no_op"
+J = "no_op"
+K = "no_op"
+L = "no_op"
+# Easier to remember, besides; there is no such thing as :split
+h = "hsplit" # replaces s
+s = "no_op"
+[keys.normal.space.w.n]
+h = "hsplit_new"
+s = "no_op"
+# Why use C-key when key is available?
+C-s = "no_op"
+C-v = "no_op"
+
+###VIEW
+[keys.normal.z]
+# Prefer zz
+c = "no_op"
+# Have arrow keys at my disposal
+j = "no_op"
+k = "no_op"
+# Redundant as they are the same in normal mode
+"pageup" = "no_op"
+"pagedown" = "no_op"
+"space" = "no_op"
+"backspace" = "no_op"
+"C-b" = "no_op"
+"C-f" = "no_op"
+"C-u" = "no_op"
+"C-d" = "no_op"
+"/" = "no_op"
+"?" = "no_op"
+"n" = "no_op"
+"N" = "no_op"
+
+### STICKY VIEW
+[keys.normal.Z]
+# Prefer Zz
+c = "no_op"
+# Have arrow keys at my disposal
+j = "no_op"
+k = "no_op"
+# Redundant as they are the same in normal mode
+"pageup" = "no_op"
+"pagedown" = "no_op"
+"space" = "no_op"
+"backspace" = "no_op"
+"C-b" = "no_op"
+"C-f" = "no_op"
+"C-u" = "no_op"
+"C-d" = "no_op"
+"/" = "no_op"
+"?" = "no_op"
+"n" = "no_op"
+"N" = "no_op"
+
+### SELECT
 [keys.select]
 X = "extend_line_above"
-# Not needed when using the Borne Keyboard
+# h, j, k, l Not needed when using the Borne Keyboard
 h = "no_op"
 j = "no_op"
 k = "no_op"
