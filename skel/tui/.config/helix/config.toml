@@ -1,9 +1,12 @@
+# Commands can be found at 
+# https://docs.helix-editor.com/configuration.html
 theme = 'evolve'
 
 [editor]
 line-number = "relative"
 idle-timeout = 0
 completion-trigger-len = 1
+scrolloff = 0
 
 [editor.cursor-shape]
 insert = "bar"
@@ -21,14 +24,24 @@ D = "delete_char_backward"
 "end" = "extend_to_line_end"
 "0" = "extend_to_line_start"
 "esc" = "collapse_selection"
+
 # Prefer to just use space+w
 C-w = "no_op"
-# Always use system clipboard for yank and paste operations
-y = "yank_joined_to_clipboard"
-Y = "yank_main_selection_to_clipboard"
-p = "paste_clipboard_after"
-P = "paste_clipboard_before"
-R = "replace_selections_with_clipboard"
+
+# Tree-sitter aware movements
+"C-up" = "expand_selection"
+"C-down" = "shrink_selection"
+"C-left" = "select_prev_sibling"
+"C-right" = "select_next_sibling"
+
+"A-o" = "no_op"
+"A-up" = "no_op"
+"A-i" = "no_op"
+"A-down" = "no_op"
+"A-p" = "no_op"
+"A-left" = "no_op"
+"A-n" = "no_op"
+"A-right" = "no_op"
 
 # h, j, k, l don't make much sense with Borne Keyboard
 h = "no_op"
@@ -157,3 +170,7 @@ j = "no_op"
 k = "no_op"
 l = "flip_selections"
 g = { e = ["goto_last_line", "goto_line_end"] }
+
+### FILE PICKER
+[editor.file-picker]
+hidden = false
