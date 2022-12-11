@@ -20,6 +20,7 @@ inherits = 'ayu_dark'
 
 "ui.cursor" = { fg = "dark_gray", bg = "light_gray" }
 "ui.cursor.primary" = { fg = "dark_gray", bg = "orange" }
+"ui.cursor.select" = { fg = "dark_gray", bg = "magenta" }
 
 [palette]
 background = '#020202'

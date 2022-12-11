@@ -7,6 +7,7 @@ line-number = "relative"
 idle-timeout = 0
 completion-trigger-len = 1
 scrolloff = 0
+bufferline = "multiple"
 
 [editor.cursor-shape]
 insert = "bar"
@@ -68,12 +69,6 @@ b = "no_op"
 ### LEADER
 [keys.normal.space]
 "space" = ":w"
-# System clipboard used in normal mode
-y = "no_op"
-Y = "no_op"
-p = "no_op"
-P = "no_op"
-R = "no_op"
 
 ### WINDOW
 [keys.normal.space.w]
