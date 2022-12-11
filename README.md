@@ -1,3 +1,5 @@
+**WIP: Only Rpi4 tui version can be expected to work.**
+
 # Introduction
 
 The goal of this project to serve as a template for personally configured Arch Linux systems work out of the box. 
