@@ -9,11 +9,8 @@ completion-trigger-len = 1
 scrolloff = 0
 bufferline = "multiple"
 
-[editor.cursor-shape]
-insert = "bar"
-# select = "underline"
-
 [editor.statusline]
+# Remove once https://github.com/helix-editor/helix/pull/4596 can be leveraged
 mode.normal = "NORMAL"
 mode.insert = "INSERT"
 mode.select = "SELECT"
