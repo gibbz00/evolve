@@ -28,34 +28,72 @@ setup.sh will internally source setup.tui.sh no matter what, and then source set
 | :---   | :---:          | :---:         | :---:          | :---: | 
 | x86_64 | soon           | soon          | TBA            |       | 
 | Arm    | x              |               | Raspberry Pi 4 | rpi4  | 
+| WSL    | x              |               | -              | wsl   | 
 | Docker | soon           |               |                |       | 
 
-## Standard partitions for the given hardware
+### Standard partitions for the given hardware
 
 | Hardware              | Table type   | BOOT              | ROOT                      |
 | :---                  | :---:        | :---:             | :---:                     |
-| rpi4        | MS-DOS       | 0-1024MiB FAT32   | 1024MiB - Remaining Ext4  |
+| rpi4        | MS-DOS       | 0-1024MiB FAT32   | 1024MiB - Remaining Ext4            |
 
 ## evolve.env variables
 
 ### Github
 
-It includes the GITHUB_TOKEN that can be set if Github will be used. It's used internally with `gh aut login`, before the autoremoval of evolve.env. The token will in other words not be written in as plain text on the system when the setup has finished. Minimum required scopes for the token are: "repo", "read:org".
+It includes the GITHUB_TOKEN that can be set if Github will be used.
+It's used internally with `gh aut login`, before the autoremoval of evolve.env.
+The token will in other words not be written as plain text once the setup is finished. 
+Minimum required scopes for the provided token are: "repo", "read:org".
  
-## Locale
+### Locale
 
-Locales can be a bit tricky. And I've chosen to go the route in which they're defined in .config/locale.conf.
+Locales can be a bit tricky.
+And I've chosen to go the route in which they're defined in .config/locale.conf.
 It's exception to the common system setup steps which is not configured in evolve.env. 
 A further explanation as for why that is the case can be found in that file.
 (src/setup/skel/.config/locale.conf would be the repo path.)
 
-## ARMv8 on Raspberry Pi 4
+## WSL
+
+Makes use of ArchWSL: https://github.com/yuk7/ArchWSL#archwsl
+
+### Requirements
+
+* WSL2 cabable computer with Administator access. I.e a x86_64 (x64) system with Windows 10 version 1903 or later.
+
+### Usage
+
+1. Open Powershell as Admininstator and download the necessary scripts.
+
+```bash
+curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
+    | tar --verbose --extract --preserve-permissions --ungzip --file -
+```
+
+
+2. Configure evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script.
+
+```bash
+cd evolve-development
+hx evolve.env # ;)
+```
+
+Only requirement is setting `HARDWARE = wsl`.
+
+3. Now run prepare.cmd
+
+```
+prepare.cmd
+```
+
+ ## ARMv8 on Raspberry Pi 4
 
 ### Requirements
 
 * An SD-card. Recommended size is at least 8GB. (TUI base install is about 2GB)
 * Root access on the preparation machine.
-* Internet connection by ethernet. Automated wireless is currently not implemented.
+* Internet connection by ethernet. Wireless install is currently not implemented.
 * Dependencies: 
     
     ```
@@ -70,17 +108,19 @@ A further explanation as for why that is the case can be found in that file.
 
 1. Download the necessary scripts.
 
-```
+```bash
 curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
     | tar --verbose --extract --preserve-permissions --ungzip --file -
 ```
 
 2. Configure evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script.
 
-```
+```bash
 cd evolve-development
-nvim evolve.env # ;)
+hx evolve.env # ;)
 ```
+
+Only requirement is setting `HARDWARE = rpi4`.
 
 3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will irrevocaly be wiped.**
 
