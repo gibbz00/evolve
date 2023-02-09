@@ -30,7 +30,12 @@ pacman_setup() {
     uncomment_util "Color" /etc/pacman.conf
 
     pacman-key --init
-    test "$HARDWARE" = "rpi4" && pacman-key --populate archlinuxarm
+    case $HARDWARE in 
+        'rpi4') pacman-key --populate archlinuxarm ;;
+        * ) pacman-key --populate ;;
+    esac
+    pacman -Sy archlinux-keyring --noconfirm
+        
     # Must be run before installing any packages
     pacman -Syyu --noconfirm
     # Better GPU support out of the box:
