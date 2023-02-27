@@ -26,10 +26,10 @@ setup.sh will internally source setup.tui.sh no matter what, and then source set
 
 | Base   | Headless (tui) | Desktop (gui) | Hardware       | Alias |
 | :---   | :---:          | :---:         | :---:          | :---: | 
-| x86_64 | soon           | soon          | TBA            |       | 
+| x86_64 | WIP           | WIP          | TBA            |       | 
 | Arm    | x              |               | Raspberry Pi 4 | rpi4  | 
-| WSL    | x              |               | -              | wsl   | 
-| Docker | soon           |               |                |       | 
+| WSL    | WIP              |               | -              | wsl   | 
+| Docker | WIP           |               |                |       | 
 
 ### Standard partitions for the given hardware
 
