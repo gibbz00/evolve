@@ -12,7 +12,7 @@ sway_setup() {
     
     echo \
 "$(test $HARDWARE = 'rpi4' && echo 'export WLR_NO_HARDWARE_CURSORS=1')
-[[ ! \$DISPLAY && XDG_VTNR -eq 1 ]] && exec sway $($NVIDIA_GPU && echo "--unsupported-gpu")" \
+[[ ! \$DISPLAY && XDG_VTNR -eq 1 ]] && exec sway" \
 	>> /home/"$USERNAME"/.config/bash/profile.d/sway.bash
 
     # Using personal version until https://github.com/swaywm/sway/pull/7197 gets merged.

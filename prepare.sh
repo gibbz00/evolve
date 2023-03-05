@@ -1,10 +1,12 @@
 #!/bin/sh
 set -e 
 . ./evolve.env
+. ./hidden.env
 
 check_hardware() {
     supported_hardware="
         rpi4
+        wrk
     "
 
     if ! (echo "$supported_hardware" | grep --quiet --fixed-string --word-regexp "$HARDWARE")
@@ -41,12 +43,16 @@ partition_device() {
 
     case $HARDWARE in
         'rpi4')
-            # Table type
             parted --script --align optimal /dev/"$device" \
                 mklabel "msdos" \
                 mkpart primary fat32 "1MiB" "1024MiB" \
                 set 1 boot on \
                 mkpart primary "1024MiB" "100%" \
+        ;;
+        'wrk')
+            parted --script --align optimal /dev/"$device" \
+                mklabel "gpt" \
+                mkpart primary fat32 "0%" "100%" \
         ;;
     esac
 
@@ -63,17 +69,22 @@ format_and_mount_partitions() {
             | grep --invert-match --fixed-string --word-regexp "$device" 
     )
 
-    BOOT_DIRECTORY="boot"
-    ROOT_DIRECTORY="root"
+    _root_directory='root'
     case $HARDWARE in
         'rpi4')
+            _boot_directory='boot'
             mkfs.vfat -v /dev/"$1"
-            mkdir "$BOOT_DIRECTORY"
-            mount /dev/"$1" "$BOOT_DIRECTORY"
+            mkdir "$_boot_directory"
+            mount /dev/"$1" "$_boot_directory"
 
             yes | mkfs.ext4 -v /dev/"$2"
-            mkdir "$ROOT_DIRECTORY"
-            mount /dev/"$2" "$ROOT_DIRECTORY"
+            mkdir "$_root_directory"
+            mount /dev/"$2" "$_root_directory"
+        ;;
+        'wrk')
+            mkfs.fat -F 32 /dev/"$1"
+            mkdir "$_root_directory"
+            mount /dev/"$1" "$_root_directory"
         ;;
     esac
 }
@@ -81,36 +92,65 @@ format_and_mount_partitions() {
 download_base() {
     case $HARDWARE in
         'rpi4')
-            (
-                url='http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-aarch64-latest.tar.gz'
-                printf "Downloading the latest Arch Linux Arm aarch64 root filesystem from:\n%s\n" $url
-                curl --location $url \
-                    | bsdtar --verbose --extract --preserve-permissions --file - --directory "$ROOT_DIRECTORY"
-            )
+            # TEMP: Use torrents instead.
+            url='http://os.archlinuxarm.org/os/ArchLinuxARM-rpi-aarch64-latest.tar.gz'
+            printf "Downloading the latest Arch Linux Arm aarch64 root filesystem from:\n%s\n" $url
+            curl --location "$url" \
+                bsdtar --verbose --extract --preserve-permissions --file - --directory "$_root_directory"
             sync
-            mv "$ROOT_DIRECTORY"/boot/* "$BOOT_DIRECTORY"
+            mv "$_root_directory"/boot/* "$_boot_directory"
             # https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4#aarch64installation
-            sed --in-place 's/mmcblk0/mmcblk1/g' "$ROOT_DIRECTORY"/etc/fstab
+            sed --in-place 's/mmcblk0/mmcblk1/g' "$_root_directory"/etc/fstab
+            # copy evolve scripts to root
+            rsync --recursive --perms --times --verbose --exclude="$_root_directory" --exclude="$_boot_directory" . "$_root_directory"/root/evolve
+
+
+            sed --expression 's/^#PermitRootLogin.*/PermitRootLogin yes/' --in-place $_root_directory/etc/ssh/sshd_config
+            # host name set in preparation step for headless functionality
+                # (easer than using nmap and testing to ssh into a bunch random of ip adresses)
+            echo "$HOST_NAME" > $_root_directory/etc/hostname
+           
+            umount "$_boot_directory" "$_root_directory"
+            rm --recursive --force "$_boot_directory" "$_root_directory"
+        ;;
+        'wrk')
+            # Following: https://wiki.archlinux.org/title/archiso
+            _archiso_profile="custom_iso"
+            _base_directory="$_archiso_profile/airootfs"
+            cp -r /usr/share/archiso/configs/releng/ "$_archiso_profile"
+            rsync --recursive --perms --times --verbose --exclude="$_root_directory" --exclude="$_archiso_profile" \
+                . "$_base_directory"/root/evolve
+            _executables=\
+"
+setup/
+prepare.sh    
+utils.sh
+"
+            for file in $_executables
+            do
+               sed -i "/file_permissions=(/a [\"/root/evolve/$file\"]=\"0:0:755\"" "$_archiso_profile/profiledef.sh"
+            done
+            
+            # Root password it blank by default on Arch ISOs
+            # Something that is not allowed when using SSH
+            echo "root:$(openssl passwd -6 $_ssh_initial_root_passwd):14871::::::" > $_base_directory/etc/shadow
+            sed --expression 's/^#PermitRootLogin.*/PermitRootLogin yes/' --in-place $_base_directory/etc/ssh/sshd_config
+            echo "$HOST_NAME" > $_base_directory/etc/hostname
+
+            # build custom_iso
+            _work_dir="/tmp/archiso-tmp"
+            mkarchiso -v -w "$_work_dir" "$_archiso_profile"
+            # https://wiki.archlinux.org/title/archiso#Removal_of_work_directory
+            findmnt "$_work_dir" || rm --recursive --force "$_work_dir"
+            # archlinux defined in profiledef.sh
+            _iso_name="out/archlinux*.iso"
+            # shellcheck disable=SC2086
+            bsdtar --verbose --extract --preserve-permissions --file $_iso_name --directory "$_root_directory"
+            sync
+            umount "$_root_directory"
+            rm --recursive --force "$_root_directory" out "$_archiso_profile"
         ;;
     esac
-}
-
-misc_preparations() {
-    # copy evolve scripts to root
-    rsync --recursive --perms --times --verbose --exclude=$ROOT_DIRECTORY --exclude=$BOOT_DIRECTORY . "$ROOT_DIRECTORY"/root/evolve
-
-    # host name set in preparation step for headless functionality
-        # (easer than using nmap and testing to ssh into a bunch random of ip adresses)
-    echo "$HOST_NAME" > $ROOT_DIRECTORY/etc/hostname
-
-    # Allow for ssh root login
-    sed --expression 's/^#PermitRootLogin.*/PermitRootLogin yes/' --in-place $ROOT_DIRECTORY/etc/ssh/sshd_config
-}
-
-cleanup(){
-   umount "$BOOT_DIRECTORY" "$ROOT_DIRECTORY"
-   rm --recursive --force "$BOOT_DIRECTORY" "$ROOT_DIRECTORY"
-   echo "Preparation complete, boot USB/SD-card can now safely be removed."
 }
 
 ## Main ##
@@ -119,5 +159,4 @@ select_device
 partition_device
 format_and_mount_partitions
 download_base
-misc_preparations
-cleanup
+echo "Preparation complete, boot USB-drive/SD-card can now safely be removed."
