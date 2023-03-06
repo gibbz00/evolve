@@ -38,12 +38,14 @@ Supported targets that this project currently supports:
 
 | Alias | Base   | Headless (tui) | Desktop (gui) | Extra
 | :---: | :---   | :---:          | :---:         |
-| wrk   | x86_64 | WIP            | WIP           | UEFI, Intel CPU, Nvidia GPU*, Win10 dualboot.
+| wrk   | x86_64 | WIP            | WIP           | UEFI*, Intel CPU, Nvidia GPU**, Win11 dualboot***.
 | rpi4  | Arm    | x              |               |
 | wsl   | WSL    | WIP            |               |
 |       | Docker | WIP            |               |
 
-*Not supporting proprietary Nvidia GPU drivers. Main reason being poor Wayland compatability and extra hassle of getting them to work properly.
+*The ability to support Windows 11 dualbooting is prioritized over legacy BIOS booting.
+**Not supporting proprietary Nvidia GPU drivers. Main reason being poor Wayland compatability and extra hassle of getting them to work properly.
+***Fast Startup and hibernation disabled: TODO: link to limitations.
 
 ### Standard partitions for the given hardware
 
@@ -55,7 +57,20 @@ BOOT: 0-1024MiB FAT32
 ROOT: 1024MiB - Remaining Ext4
 
 #### wrk (workstation)
-Table type: GPT
+
+Partitions are prepared from Windows to then imply how the partitioning is to be automatically setup during the Linux installation.
+The installation script will then crate partitions with the following rules, (so set them up accordinly in Disk Management utility in Windows):
+
+On same disk as the detected boot partition: 
+    If only one unallocated partition is found:
+        -> `/`: Minumum reqirement is at least XX GB for TUI, or XX GB for GUI
+    If two unallocated partitions are found:
+        -> In the one with the smallest size:
+            -> SWAP: Recommended size to be about: XX GB
+        -> In the one with the largest size:
+            -> `/`: Minumum reqirement is at least XX GB for TUI, or XX GB for GUI
+If a second disk is detected with an unallocated partition:
+    -> `/mnt/hdd`
 
 **SSD:**
 WIN10 Recovery: 0 - 500MB
@@ -89,8 +104,8 @@ A further explanation as for why that is the case can be found in that file.
 
 ### Requirements
 
-* A x86_64 machine with UEFI support with Windows 10 already installed (target). It should have at least XX GB unallocated partion of at least XX GB for TUI, and XX GB for GUI.
-// TODO: min usb capacity
+* A x86_64 machine with UEFI support with Windows already installed (target).  Should be using a GPT partition table.
+(EFI system partition created by Windows will be reused.)
 * USB stick with at least XX GB.
 * Internet connection by ethernet on the target machine. Wireless install is currently not implemented.
 * Special dependencies:  `curl`, `parted`, `sshpass`, `archiso`
@@ -119,16 +134,30 @@ Most important requirement is setting `HARDWARE = wrk`.
 sudo ./prepare.sh
 ```
 
-4. Make sure that secure boot is off in the bios settings and boot from live usb.
+4. Preparing the Windows installation: 
+- Make sure that Secure Boot is turned **off**. 
+    * Secure boot must be disabled to boot Arch an installation medium.
+    On Windows 11, disabling Secure Boot prevents Windows Hello, WSM (Windows Subsystem for Android) and Windows Updates from working.
+    This limitation could possibly be removed by following the instructions at: 
+    https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Booting_an_installation_medium
+    and https://wiki.archlinux.org/title/REFInd#Secure_Boot
+- Make sure that Fast Startup and Hibernation is disabled:
+    Windows 8: https://www.eightforums.com/threads/fast-startup-turn-on-or-off-in-windows-8.6320/
+    Windows 10: https://www.tenforums.com/tutorials/4189-turn-off-fast-startup-windows-10-a.html
+    Windows 11: https://www.elevenforum.com/t/turn-on-or-off-fast-startup-in-windows-11.1212/
+    * Why: Risk of data loss when hibernating one OS and then booting from another. For more information:
+    https://wiki.archlinux.org/title/Dual_boot_with_Windows#Fast_Startup_and_hibernation
+- Make sure the disks are prepared to be partitionened:
+    * See: #TODO link for more information on how partitioning can be designed.
 
-5. Still from the first computer:
+5. The boot the target from the USB-stick. Once complete, from the first computer:
 
 ```
-# in evolve-development/
+# still in evolve-development/
 ./setup/ssh.sh
 ```
 
-And that's it! System should now be up and running :)
+And that's it! System should now be fully set up. Last step now is to eject the USB stick and reboot the target.
 
 ## WSL
 
@@ -205,3 +234,14 @@ sudo ./prepare.sh
 ./setup/ssh.sh
 ```
 And that's it! System should now be up and running :)
+
+# Limitations and troubleshooting:
+
+### wrk
+
+* Multiple kernel support out of the box is limited but can be worked around:
+https://wiki.archlinux.org/title/Dual_boot_with_Windows#Bootloader_UEFI_vs_BIOS_limitations
+
+* If system time is overcorrected when booting on Windows:
+Set the time to UTC: https://wiki.archlinux.org/title/System_time#UTC_in_Microsoft_Windows
+Why: https://wiki.archlinux.org/title/System_time#Time_standard

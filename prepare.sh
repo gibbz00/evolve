@@ -118,6 +118,7 @@ download_base() {
             _archiso_profile="custom_iso"
             _base_directory="$_archiso_profile/airootfs"
             cp -r /usr/share/archiso/configs/releng/ "$_archiso_profile"
+
             rsync --recursive --perms --times --verbose --exclude="$_root_directory" --exclude="$_archiso_profile" \
                 . "$_base_directory"/root/evolve
             _executables=\
@@ -142,6 +143,7 @@ utils.sh
             mkarchiso -v -w "$_work_dir" "$_archiso_profile"
             # https://wiki.archlinux.org/title/archiso#Removal_of_work_directory
             findmnt "$_work_dir" || rm --recursive --force "$_work_dir"
+
             # archlinux defined in profiledef.sh
             _iso_name="out/archlinux*.iso"
             # shellcheck disable=SC2086
