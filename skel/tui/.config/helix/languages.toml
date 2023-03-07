@@ -1,0 +1,12 @@
+[[language]]
+name = "rust"
+
+[language.config]
+checkOnSave.command = "clippy"
+
+[language.config.cargo]
+features = "all"
+loadOutDirsFromCheck = true
+# Comment and uncomment this if LSP file lock issues begin to occur.
+# checkOnSave.enable=false
+# checkOnSave.extraArgs = ["--target-dir", "/path/to/proect/target/check"]

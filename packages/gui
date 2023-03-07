@@ -1,3 +1,4 @@
+mesa
 sway
     seatd
     qt5-wayland
@@ -28,6 +29,5 @@ vlc
 transmission-gtk
 # kicad
 # gimp
-# spotify-launcher
+# spotify-launcher (or ncspot)
 # discord
-# zoom?

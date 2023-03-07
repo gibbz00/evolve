@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TODO: change flags to long versions for improved readablity
+# IMPROVEMENT: change flags to long versions for improved readablity
 
 ## Coreutils ##
 alias ls='ls -1Ah --color=auto'
@@ -18,17 +18,29 @@ alias timer='time read -p "Press enter to stop"'
 alias links='find . -maxdepth 1 -type l -ls'
 alias calc='python -qi -c "from math import *"'
 
+# Cargo 
+alias cf='cargo fmt'
+alias cr='cargo run'
+alias ct='cargo test'
+alias cy='cargo clippy'
+
 # Git
-alias gp='git pull'
-alias gf='git fetch'
-alias gc='git clone'
-alias gs='git stash'
+alias ga='git add'
+alias gaa='git add -A'
 alias gb='git branch'
-alias gm='git merge'
+alias gc='git clone'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias gdss='git diff --staged --stat'
+alias gf='git fetch'
+alias gp='git pull'
+alias gi="git commit"
 alias gk='git checkout'
-alias go='git commit -m'
-alias gl='git log --stat'
-alias gu='git push origin HEAD'
+alias gl='git log'
+alias gm='git merge'
+alias gs='git stash'
+alias gt='git status'
+alias gu='git push'
 alias gw='git whatchanged -p --abbrev-commit --pretty=medium'
 
 ## Package management ##

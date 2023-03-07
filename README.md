@@ -25,9 +25,19 @@ Dotfiles are placed in `src/skel` which then serve as the backbone for the user'
 `setup.sh` will internally source `setup.tui.sh`.
 If the GUI is set to `true` in evolve.env; then `setup.gui.sh` is also sourced.
 
-# Config template
+## General Features
 
-TODO: philosophy, stack, features
+Programs used can be checked out by browsing `packages/{tui,gui}` with the respective configs in:
+`skel/`. Some features are added through the install scrpits:
+
+- Sudo: users in wheel group need not type their password on each sudo command. Created user is also added to this group.
+- Pacman: Paralell downloads and color output on by default.
+- AUR: Helper out of the box using `yay`.
+- Console: Supresses info messages popping up in console and adjusts font and size for larger displays to Lat2-Terminus16
+- XDG Base Dir Spec adherence: Keeps $HOME clean. Even `.profile` and `.bashrc` is placed in a `.config/bash/`
+- Bootloader: Refind that gets automatically updates when the `refind` package is updated by using pacman hooks.
+- Sway with dynamic window transparencies: https://github.com/swaywm/sway/pull/7197
+- rpi4: Better out of the box integrated GPU support by using the `linux-rpi` kernel with `raspberrypi-firmware` and `raspberrypi-bootloader` over `linux-aarch64` and `uboot-raspberrypi`.
 
 # evolve.env variables
 
@@ -36,16 +46,17 @@ TODO: philosophy, stack, features
 An alias for specifying the hardware targets and in turn their special setup commands.
 Supported targets that this project currently supports:
 
-| Alias | Base   | Headless (tui) | Desktop (gui) | Extra
+| Alias | Base   | Headless (tui) | Desktop (gui) |
 | :---: | :---   | :---:          | :---:         |
-| wrk   | x86_64 | WIP            | WIP           | UEFI*, Intel CPU, Nvidia GPU**, Win11 dualboot***.
-| rpi4  | Arm    | x              |               |
+| wrk   | x86_64 | WIP            | WIP           | 
+| rpi4  | Arm    | x              | x             | 
 | wsl   | WSL    | WIP            |               |
 |       | Docker | WIP            |               |
 
-*The ability to support Windows 11 dualbooting is prioritized over legacy BIOS booting.
-**Not supporting proprietary Nvidia GPU drivers. Main reason being poor Wayland compatability and extra hassle of getting them to work properly.
-***Fast Startup and hibernation disabled: TODO: link to limitations.
+Footnotes for 'wrk':
+UEFI boot only; supporting Windows 11 dualbooting is prioritized over legacy BIOS booting.
+Not supporting proprietary Nvidia GPU drivers. Main reason being poor Wayland compatability and extra hassle of getting them to work properly.
+Fast Startup and hibernation disabled due to prioritized dualboot support.
 
 ### Standard partitions for the given hardware
 
@@ -59,28 +70,20 @@ ROOT: 1024MiB - Remaining Ext4
 #### wrk (workstation)
 
 Partitions are prepared from Windows to then imply how the partitioning is to be automatically setup during the Linux installation.
-The installation script will then crate partitions with the following rules, (so set them up accordinly in Disk Management utility in Windows):
+The installation script will then crate partitions with the following algorithm, (so prepare the disk partitions accordinly in Disk Management utility in Windows):
 
-On same disk as the detected boot partition: 
-    If only one unallocated partition is found:
-        -> `/`: Minumum reqirement is at least XX GB for TUI, or XX GB for GUI
-    If two unallocated partitions are found:
-        -> In the one with the smallest size:
-            -> SWAP: Recommended size to be about: XX GB
-        -> In the one with the largest size:
-            -> `/`: Minumum reqirement is at least XX GB for TUI, or XX GB for GUI
-If a second disk is detected with an unallocated partition:
-    -> `/mnt/hdd`
+```
+For each storage device with an unallocated space of at least 20GB
+    Make a partition out of the remaining space
+    Format that partition to ext4
+    If the partition is on the same storage device as the EFI system partition
+        mount it to /
+    Otherwise mount it to /dataN, where N is the Nth data drive occurence starting from 0
+    (/data0 for the first created partition after /, /data1 for the second and so on.)
+```
 
-**SSD:**
-WIN10 Recovery: 0 - 500MB
-BOOT: 500MB - 600MB FAT32
-WIN10: 600MB - 100GB NTFS
-ROOT: 100GB - Remaining 
-
-**HDD:**
-WIN10 D:\ drive: 0-800GB 
-/mnt/hdd: 800GB - Remaining
+So in other words: A minumum requirement is making sure that the storage device with the Windows install has at least of free unallocated partition space.
+Check also that only only EFI partition exists!
 
 ### Github
 
@@ -245,3 +248,16 @@ https://wiki.archlinux.org/title/Dual_boot_with_Windows#Bootloader_UEFI_vs_BIOS_
 * If system time is overcorrected when booting on Windows:
 Set the time to UTC: https://wiki.archlinux.org/title/System_time#UTC_in_Microsoft_Windows
 Why: https://wiki.archlinux.org/title/System_time#Time_standard
+
+### General
+
+* Have not prioritised a swap solution.
+And I have am not using swap partitions because:
+    1) Hibernation is tricky as is with dualboot and I don't want swap partition to become an unadviced enabler.
+    2) Extra complexity in the installation script.
+    3) Inability for the partition to trivially be resized.
+A decent amount of RAM is instead assumed with a base system that puts careful consideration into using a program stack that does not bloat memory.
+TODO: add idle usage stats compared with windows 10.
+
+* Have not prioritized exposing a console keymap setting.
+

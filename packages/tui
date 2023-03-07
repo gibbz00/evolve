@@ -1,28 +1,27 @@
-## 
 # Syntax: Tabs allowed but comments must be written as new lines
-# 
-## Optional packages:
+# Optional packages:
 # * github-cli: installed if GITHUB_TOKEN is set in evolve.env
 #
-## Packages installed regardless:
-# * pacman-contrib: used to rank mirrors for non Arm Arch install
+# Packages installed regardless:
+# * if using rpi4: linux-rpi raspberrypi-firmware raspberrypi-bootloader
 # * yay: aur helper and pacman wrapper 
 #       intallation dependends on: 
 #           * git 
 #           * base-devel
 #           * sudo
-# * if using rpi4: linux-rpi raspberrypi-firmware raspberrypi-bootloader
-##
 bash
     fzf
     z
-    # can be added as enabled optional dependency to bash
     bash-completion 
     fd
-man
+# replace the following two with `man` on Arm
+man-pages
+man-db
 tree
 rsync
 usbutils
-net-tools
 tmux
 helix
+# Language servers for Helix
+    rust-analyser
+    marksman

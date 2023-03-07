@@ -3,16 +3,15 @@
 
 # Mod4=Super
 set $mod Mod4
-set $up k
-set $down j
-set $left h
-set $right l
-
+set $up up
+set $down down
+set $left left
+set $right right
 
 ## Autostart
 output eDP-1 disable
 output DP-3 pos 0 0
-output DP-2 pos 1920 0
+output DP-4 pos 1920 0
 output * bg '$WALLPAPER' fill
 
 # Uses inactive-windows-transparency.py (requires i3ipc-python package) 
@@ -20,11 +19,14 @@ output * bg '$WALLPAPER' fill
 exec_always '$XDG_CONFIG_HOME/sway/opacity-toggle.sh'
 
 ## Keyboard layouts (more info: man 5 sway-input)
-input type:keyboard {                                        
-    # Toggle between layout with alt+shift
-    xkb_options grp:alt_shift_toggle                         
+input type:keyboard {
+	# Toggle between layout with alt+shift
+    # xkb_options grp:alt_shift_toggle                         
     # Cycle between US and Swedish layouts
-    xkb_layout us,se                                         
+    # xkb_layout us,se                                         
+	# For special characters
+	# (Currently required for special characters to work on ZMK)
+	xkb_options compose:ralt
 }
 
 # Status Bar:
@@ -63,12 +65,13 @@ bindsym $mod+Shift+o exec '$XDG_CONFIG_HOME/sway/opacity-toggle.sh'
 bindsym $mod+o exec rofi -show drun -show-icons
 # Clipboard manager
 # (Not pasting from primary clipboard, a.k.a visually selected text + middle mouse button)
-exec wl-paste -t text --watch clipman store 
+# Default history size (max-items) is 15
+exec wl-paste -t text --watch clipman store --max-items=200
 bindsym $mod+c exec clipman pick --tool rofi
 # Clear item from clipboard history
 bindsym $mod+Shift+c exec clipman clear --tool rofi
 # Clear the entire clipboard history
-bindsym $mod+Alt+c exec clipman clear --all
+bindsym $mod+Control+c exec clipman clear --all
 # Networkmanager 
 # Config and further information at:
 # $XDG_CONFIG_HOME/networkmanager-dmenu/config.ini
@@ -77,7 +80,7 @@ bindsym $mod+n exec networkmanager_dmenu
 bindsym $mod+w exec rofi -show window -show-icons
 # Exit (lock, poweroff, reboot)
 # lock calls Swaylock which then uses $XDG_CONFIG_HOME/swaylock/config
-bindsym $mod+d exec "$XDG_CONFIG_HOME/rofi/exit.sh"
+bindsym $mod+d exec --no-startup-id "$XDG_CONFIG_HOME/rofi/exit.sh"
 # Termainal emulator
 exec foot --server
 bindsym $mod+Return exec footclient
@@ -106,10 +109,10 @@ bindsym $mod+Shift+$down  move down  90px
 bindsym $mod+Shift+$up    move up    90px
 bindsym $mod+Shift+$right move right 90px
 # Change window size
-bindsym $mod+Alt+$down resize grow height 90 px
-bindsym $mod+Alt+$up resize shrink height 90 px
-bindsym $mod+Alt+$right resize grow width  90 px
-bindsym $mod+Alt+$left resize shrink width  90 px
+bindsym $mod+Control+$down resize grow height 90 px
+bindsym $mod+Control+$up resize shrink height 90 px
+bindsym $mod+Control+$right resize grow width  90 px
+bindsym $mod+Control+$left resize shrink width  90 px
 # Layouts
 bindsym $mod+Shift+t layout tabbed
 bindsym $mod+Shift+s layout stacking
@@ -183,7 +186,7 @@ font pango:monospace 11
 smart_gaps on
 # Border gaps
 gaps inner 8
-gaps outer 8
+gaps outer 4
 
 # Hides titlebar and borders
 default_border pixel none
@@ -197,6 +200,9 @@ default_floating_border pixel none
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec hash dbus-update-activation-environment 2>/dev/null && \
      dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+
+# Needed for screensharing, at least in Nov 2022 with nvidia GPU
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 ## Unimplemented
 
@@ -214,7 +220,6 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 # for_window [title="(?i)(?:copying|deleting|moving)"] floating enable
 # for_window [window_role="(?i)(?:pop-up|setup)"]      floating enable
 
-
 # wayland way?
 # Xresources      var      value       fallback
 # set_from_resource $bg       background  #aa2ca0
@@ -227,45 +232,3 @@ exec hash dbus-update-activation-environment 2>/dev/null && \
 # set_from_resource $color5   color5      #aa2ca0
 # set_from_resource $color6   color6      #aa2ca0
 # set_from_resource $color7   color7      #aa2ca0
-
-# doesn't really seem to be working
-# just tested it with chrome popups
-# bindsym $mod+p focus parent
-# mod+shift+p could be an alternative
-# change to other bindin, mod+c for showing the clipboard (maybe mod+n)
-# bindsym $mod+c focus child
-
-## Screenshots
-#   proper directory and don't open window
-# bindsym Print exec --no-startup-id "scrot '%S.png' -e 'mv $f $$(xdg-user-dir PICTURES)/linux-%S-$wx$h.png ; feh $$(xdg-user-dir PICTURES)/linux-%S-$wx$h.png'"
-
-# audio, pipewire conversion?
-# bindsym XF86AudioPlay        exec --no-startup-id playerctl play-pause
-# bindsym XF86AudioNext        exec --no-startup-id playerctl next
-# bindsym XF86AudioPrev        exec --no-startup-id playerctl previous
-# bindsym XF86AudioStop        exec --no-startup-id playerctl stop
-# bindsym XF86AudioMute        exec --no-startup-id pamixer -t
-# bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 2
-# bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 2
-
-# backlight
-# bindsym XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 10
-# bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10
-
-# # libqalc, learn how to use
-# bindsym $mod+m exec rofi_run -q
-# # browse with surfraw, learn how to use
-# bindsym $mod+s exec rofi_run -b
-# bindsym $mod+e exec rofi -modi "emoji:rofimoji" -show emoji
-
-## Copied from sway reference config: 
-
-## Touchpad config: (copied from reference config)
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-# inputs by running: swaymsg -t get_inputs
-# also: `man 5 sway-input` 
