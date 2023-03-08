@@ -3,12 +3,6 @@ set -e
 
 . "./evolve.env"
 
-if test "$HARDWARE" = "wrk" && ! test -d /sys/firmware/efi/efivars
-then
-    echo "System not booted in UEFI mode, aborting..."
-    exit 1
-fi
-
 . ./setup/tui.sh
 
 if "$GUI"

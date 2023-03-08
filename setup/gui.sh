@@ -7,7 +7,7 @@ sway_setup() {
     # Using seatd to avoid logind and Polkit dependencies
     # Read more at: https://wiki.archlinux.org/title/sway#Starting
     systemctl enable seatd
-    gpasswd --add $USERNAME seat
+    gpasswd --add "$USERNAME" seat
     
     _sway_config_path="/home/$USERNAME/.config/bash/profile.d/sway.bash"
     test "$HARDWARE" = 'rpi4' && echo 'export WLR_NO_HARDWARE_CURSORS=1' >> "$_sway_config_path"

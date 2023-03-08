@@ -1,76 +1,92 @@
 # Introduction
 
-The goal of this project to serve as a template for personally configured Arch Linux systems work out of the box. 
+The goal of this project is to serve as an installation script for personally configured Arch Linux systems to work out of the box. 
 
-The project takes a rather different philosophic stance to many of the existing installers.
-Well documented config variables assumed to be correctly configured and they give few interactive fail-safes if the opposite is the case.
-The benifits gained from this include thinner, readable and customizable scripts, that still provide a high degree of automation. 
+It takes a rather different approach to many of the existing installers. The scripts are thin, readable and customizable. And a "pre-configure once", then "install automatically" approach is used. Setup config variables are assumed to be correctly configured for this to work, and this README attemps to make sure that will be the case.
 
-### High-level architecture
+Current support fo the following hadware:
 
-The scripted install process is usually devided into two parts:
+| Base     | Alias | Headless (tui) | Desktop (gui) | Hardware                               |
+| :---     | :---: | :---:          | :---:         |                                        |          
+| x86_64   | uefi  | WIP            | WIP           | Any system that supports UEFI booting. | 
+| Arm      | rpi4  | Full           | Full          | The Rasberry Pi 4                      | 
+| Docker   |       | TBA            | TBA           |                                        |
+| Live USB |       | TBA            | TBA           |                                        |
 
-1) Preparation with `prepare.sh` of the installation medium on working currently Linux system.
-2) Once the boot installation medium is plugged into the target machine and up and running; `setup/ssh.sh` is excuted from the previous system.
-It sources `setup.sh` on the target machine that then sets up users, package installations and personal configuartions.
+*Partly because the chosen bootloader does not support legacy BIOS, and partly because newer Windows versions don't work on BIOS systems.
 
-The local setup can be seen as having two stages: TUI and GUI.
-The GUI version is always superset of the TUI verison.
-Or in other words, all packages TUI packaeges and configurations are also included in the GUI system.
+## High-level architecture
 
-#### File architecture
+The scripted install process is usually divided into two parts:
 
-Most of the user and system specific configuration that is part of the install process is specified in `src/evolve.env`. 
-Dotfiles are placed in `src/skel` which then serve as the backbone for the user's home directory. 
-`setup.sh` will internally source `setup.tui.sh`.
-If the GUI is set to `true` in evolve.env; then `setup.gui.sh` is also sourced.
+An installation medium is first prepared from a working *NIX system by running `prepare.sh`.
+Once finished, and target machine is and up and running with on it: `setup/ssh.sh` is excuted from the previous system.
+It connects to the target via SSH and and runs `setur/main.sh`. This is where users, package, and personal configuartions are installed.
+`seput/main.sh` has two stages, TUI and GUI setup. Which stage to use can be configured.
+The GUI system is always superset of the TUI verison because it is run after the TUI setup. 
 
-## General Features
+Speaking of configuring. Most of the installation process configuration is specified `src/evolve.env`. All of which are expalained below.
+Dotfiles are placed in `src/skel{tui,gui}` which then serve as the backbone for the user's home directory for the respective UIs.
+Programs to install in similar fashion placed in `packages/{tui,gui}`.
 
-Programs used can be checked out by browsing `packages/{tui,gui}` with the respective configs in:
-`skel/`. Some features are added through the install scrpits:
+Out of the box features can be deduced by browsing the config in `skel` and the packages in `packages`.
+Features are also added through the install scripts only, here are some:
 
-- Sudo: users in wheel group need not type their password on each sudo command. Created user is also added to this group.
-- Pacman: Paralell downloads and color output on by default.
-- AUR: Helper out of the box using `yay`.
-- Console: Supresses info messages popping up in console and adjusts font and size for larger displays to Lat2-Terminus16
+- Pacman with paralell downloads and color output on by default.
+- AUR helper out of the box using `yay`.
 - XDG Base Dir Spec adherence: Keeps $HOME clean. Even `.profile` and `.bashrc` is placed in a `.config/bash/`
-- Bootloader: Refind that gets automatically updates when the `refind` package is updated by using pacman hooks.
 - Sway with dynamic window transparencies: https://github.com/swaywm/sway/pull/7197
-- rpi4: Better out of the box integrated GPU support by using the `linux-rpi` kernel with `raspberrypi-firmware` and `raspberrypi-bootloader` over `linux-aarch64` and `uboot-raspberrypi`.
+- Sudo without password. Created user is added to the `wheel` group, which then configured to not require password entry on each sudo command.
+- For rpi4: Better out of the box integrated GPU support by using the `linux-rpi` kernel with `raspberrypi-firmware` and `raspberrypi-bootloader` over `linux-aarch64` and `uboot-raspberrypi`.
+- Bootloader updates when the `refind` package is updated with pacman hooks.
+- Console: Supresses info messages popping up in console and adjusts font and size for larger displays to Lat2-Terminus16
 
 # evolve.env variables
 
-### Hardware
+### HARDWARE
 
-An alias for specifying the hardware targets and in turn their special setup commands.
-Supported targets that this project currently supports:
+Required specifying the hardware targets and in turn their special setup commands.
 
-| Alias | Base   | Headless (tui) | Desktop (gui) |
-| :---: | :---   | :---:          | :---:         |
-| wrk   | x86_64 | WIP            | WIP           | 
-| rpi4  | Arm    | x              | x             | 
-| wsl   | WSL    | WIP            |               |
-|       | Docker | WIP            |               |
+### PARTITION_ALGO
 
-Footnotes for 'wrk':
-UEFI boot only; supporting Windows 11 dualbooting is prioritized over legacy BIOS booting.
-Not supporting proprietary Nvidia GPU drivers. Main reason being poor Wayland compatability and extra hassle of getting them to work properly.
-Fast Startup and hibernation disabled due to prioritized dualboot support.
+Not used when `$HARDWARE=rpi4`*. It simply uses: MS-DOS partition table, 0-1024MiB FAT32 boot partition, and a 1024MiB to remaining Ext4 root partition.
 
-### Standard partitions for the given hardware
+Partitioning is otherwise tricky to automate since storage layouts come in all shapes and sizes. But this project does allows users the leverage automatic disk partitioning and formating if they so want. If users find the presented partition "algorithms" lacking, there are two choices:
 
-#### rpi4 (Raspberry Pi 4)
-Table type: MS-DOS
+1) Write your own. (PRs are always welcomed :))
+2) Skip setting `PARTITION_ALGO` and partition manually **before** running `./setup/ssh.sh`.
 
-**SD Card:**
-BOOT: 0-1024MiB FAT32
-ROOT: 1024MiB - Remaining Ext4
+Both options must at least result in a GPT partition table with propely sized and formatted root and boot partitions, both mounted to `/mnt` and `/mnt/boot` respectively.
 
-#### wrk (workstation)
+#### PARTITION_ALGO=linux-only
 
-Partitions are prepared from Windows to then imply how the partitioning is to be automatically setup during the Linux installation.
-The installation script will then crate partitions with the following algorithm, (so prepare the disk partitions accordinly in Disk Management utility in Windows):
+My recommendation. The constraints are for most mininal and those wishing to use a second OS do so with a virtual machine. VMs have come pretty far now days with options such as https://looking-glass.io/ offering GPU passthrough. It's what I've been using to access software such as Autodesk's. 
+
+
+#### PARTITION_ALGO=windows-preinstalled
+
+Given that the the following conditions below are, the installation script should work with moders Windows installations:
+
+1) Making sure that the storage device with the Windows install has at least one allocated partition space greater than 20GB.
+2) Each storage device has a GPT partition table already defined.
+3) Making sure that only one EFI partition exists, and that it is at least 300MB in size.
+
+The Linux kernel won't normally fit in the boot partition because Windows defaults it to 100MB, far less then the recommended minimum. 
+There are some workarounds: 
+
+https://wiki.archlinux.org/title/Dual_boot_with_Windows#Bootloader_UEFI_vs_BIOS_limitations
+https://wiki.archlinux.org/title/Dual_boot_with_Windows#UEFI_firmware
+
+Simply removing some bloat it `/boot/EFI/Microsoft/Boot` won't cut it though.
+
+4) Fastboot/hibernation should be turned off on both OSs when dualbooting to mitigate the risk of data loss when hibernating one OS and then booting from another. If some form of hibernation is desired, take the necessary precations listed at: https://wiki.archlinux.org/title/Dual_boot_with_Windows#Fast_Startup_and_hibernation.
+
+5) Secure boot will be turned off. Doing so prevents Windows Hello, WSM (Windows Subsystem for Android) and Windows Updates from working on Windows 11.
+This limitation could possibly be removed by following the instructions at: 
+https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Booting_an_installation_medium
+and https://wiki.archlinux.org/title/REFInd#Secure_Boot
+
+Anywho: `windws-preinstalled` uses the following algorithm:
 
 ```
 For each storage device with an unallocated space of at least 20GB
@@ -82,40 +98,54 @@ For each storage device with an unallocated space of at least 20GB
     (/data0 for the first created partition after /, /data1 for the second and so on.)
 ```
 
-So in other words: A minumum requirement is making sure that the storage device with the Windows install has at least of free unallocated partition space.
-Check also that only only EFI partition exists!
+### USER, ROOT and HOST setup
+$HOST_NAME
+$ROOT_PASSWORD
+    mention _ssh_initial_passwd
+$USER_PASSWORD=''
+$USERNAME=''
 
-### Github
-
-It includes the GITHUB_TOKEN that can be set if Github will be used.
-It's used internally with `gh auth login`, before the autoremoval of evolve.env.
-The token will in other words not be written as plain text once the setup is finished. 
-Minimum required scopes for the provided token are: "repo", "read:org".
- 
 ### Locale
 
+$COUNTRY='SE'
+$TIMEZONE='Europe/Stockholm'
 Locales can be a bit tricky.
 And I've chosen to go the route in which they're defined in .config/locale.conf.
 It's exception to the common system setup steps which is not configured in evolve.env. 
 A further explanation as for why that is the case can be found in that file.
 (src/setup/skel/.config/locale.conf would be the repo path.)
 
+### UI
 
-# Usage
+    $GUI=false
 
-## Workstation
+### Keyboard
 
-### Requirements
+    $SWAP_CAPS_ESCAPE=false
+    $SWAP_LCTRL_LALT=false
 
-* A x86_64 machine with UEFI support with Windows already installed (target).  Should be using a GPT partition table.
-(EFI system partition created by Windows will be reused.)
-* USB stick with at least XX GB.
-* Internet connection by ethernet on the target machine. Wireless install is currently not implemented.
-* Special dependencies:  `curl`, `parted`, `sshpass`, `archiso`
+    Mention that GUI layouts are set in sway config.
 
-### Usage
+### Git
 
-1. Download the necessary scripts.
+$GIT_USERNAME=''
+$GIT_EMAIL_ADRESSS=''
+$GITHUB_TOKEN='XXXX'
+
+If Github will be used. It's used internally with `gh auth login`, before the autoremoval of evolve.env.
+The token will in other words not be written as plain text once the setup has finished. 
+Minimum required scopes for the provided token are: "repo", "read:org".
+ 
+# Useage
+
+0. Meet the requirements. Other than those listed in the supported hardware and the evolve.env explanation sections, the following will neet to be met:
+* Root access on the preparation machine.
+* Physical access and a ethernet connecton to the target machine.
+* Installation medium with at least 8GB. Any important data backed up as the contets will irrevocaly be wiped from it.
+The installation medium is an SD-card on the RPI4 and normally a USB stick in the other cases.
+* Special dependencies installed on current system:  `curl`, `parted`, `sshpass`. And for `uefi`: `archiso`
+
+1. Then download the necessary scripts:
 
 ```bash
 curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
@@ -129,135 +159,39 @@ cd evolve-development
 hx evolve.env # ;)
 ```
 
-Most important requirement is setting `HARDWARE = wrk`.
-
-3. Have the USB-device in hand and run the preparation script. **Backup any important data on the USB-device before proceeding. All data will irrevocaly be wiped.**
+3. With the installation medium in hand, run:
 
 ```
 sudo ./prepare.sh
 ```
 
-4. Preparing the Windows installation: 
-- Make sure that Secure Boot is turned **off**. 
-    * Secure boot must be disabled to boot Arch an installation medium.
-    On Windows 11, disabling Secure Boot prevents Windows Hello, WSM (Windows Subsystem for Android) and Windows Updates from working.
-    This limitation could possibly be removed by following the instructions at: 
-    https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Booting_an_installation_medium
-    and https://wiki.archlinux.org/title/REFInd#Secure_Boot
-- Make sure that Fast Startup and Hibernation is disabled:
-    Windows 8: https://www.eightforums.com/threads/fast-startup-turn-on-or-off-in-windows-8.6320/
-    Windows 10: https://www.tenforums.com/tutorials/4189-turn-off-fast-startup-windows-10-a.html
-    Windows 11: https://www.elevenforum.com/t/turn-on-or-off-fast-startup-in-windows-11.1212/
-    * Why: Risk of data loss when hibernating one OS and then booting from another. For more information:
-    https://wiki.archlinux.org/title/Dual_boot_with_Windows#Fast_Startup_and_hibernation
-- Make sure the disks are prepared to be partitionened:
-    * See: #TODO link for more information on how partitioning can be designed.
+4. Once complete, boot the target from the installation medium.
 
-5. The boot the target from the USB-stick. Once complete, from the first computer:
+5. Still from the first computer, and still in `evolve-development/`
 
 ```
-# still in evolve-development/
 ./setup/ssh.sh
 ```
 
-And that's it! System should now be fully set up. Last step now is to eject the USB stick and reboot the target.
+And that's it! System should now be fully set up and up and running.
 
-## WSL
+# Troubleshooting:
 
-Makes use of ArchWSL: https://github.com/yuk7/ArchWSL#archwsl
-
-### Requirements
-
-* WSL2 cabable computer with Administator access. I.e a x86_64 (x64) system with Windows 10 version 1903 or later.
-
-### Usage
-
-1. Open Powershell as Admininstator and download the necessary scripts.
-
-```bash
-curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
-    | tar --verbose --extract --preserve-permissions --ungzip --file -
-```
-
-
-2. Configure evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script.
-
-```bash
-cd evolve-development
-hx evolve.env # ;)
-```
-
-Only requirement is setting `HARDWARE = wsl`.
-
-3. Now run prepare.cmd
-
-```
-prepare.cmd
-```
-
-## ARMv8 on Raspberry Pi 4 (rpi4)
-
-### Requirements
-
-* An SD-card. Recommended size is at least 8GB. (TUI base install is about 2GB)
-* Root access on the preparation machine.
-* Internet connection by ethernet. Wireless install is currently not implemented.
-* Special dependencies:  `curl`, `parted`, `sshpass`.
-
-### Usage
-
-1. Download the necessary scripts.
-
-```bash
-curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
-    | tar --verbose --extract --preserve-permissions --ungzip --file -
-```
-
-2. Configure evolve.env to your liking with your favorite text editor. It will be put into /root during the preparation script, but self-removed by the end of the setup script.
-
-```bash
-cd evolve-development
-hx evolve.env # ;)
-```
-
-Only requirement is setting `HARDWARE = rpi4`.
-
-3. Have the SD-card in hand and run the preparation script. **Backup any important data on the SD-card before proceeding. All data will irrevocaly be wiped.**
-
-```
-sudo ./prepare.sh
-```
-
-4. Insert the SD into the Raspberry Pi 4 and power it up.
-
-5. Still from the first computer:
-
-```
-# in evolve-development/
-./setup/ssh.sh
-```
-And that's it! System should now be up and running :)
-
-# Limitations and troubleshooting:
-
-### wrk
-
-* Multiple kernel support out of the box is limited but can be worked around:
-https://wiki.archlinux.org/title/Dual_boot_with_Windows#Bootloader_UEFI_vs_BIOS_limitations
-
-* If system time is overcorrected when booting on Windows:
+* If system time is overcorrected when booting Windows:
 Set the time to UTC: https://wiki.archlinux.org/title/System_time#UTC_in_Microsoft_Windows
 Why: https://wiki.archlinux.org/title/System_time#Time_standard
 
-### General
+# Limitatons and TODOS:
 
-* Have not prioritised a swap solution.
-And I have am not using swap partitions because:
-    1) Hibernation is tricky as is with dualboot and I don't want swap partition to become an unadviced enabler.
-    2) Extra complexity in the installation script.
-    3) Inability for the partition to trivially be resized.
-A decent amount of RAM is instead assumed with a base system that puts careful consideration into using a program stack that does not bloat memory.
-TODO: add idle usage stats compared with windows 10.
+* Automatic setup of a wireless internet connetion when starting the target machine is currently not implemented.
 
 * Have not prioritized exposing a console keymap setting.
 
+* Not supporting proprietary Nvidia GPU drivers. Main reason being poor Wayland compatability and extra hassle of getting them to work properly.
+
+* Swap solution hasn't been implemented yet. Partly because I'm not too keen on using a swap partition. It can't be resiezed and dual boot hibernation is tricky as is. I don't want the partition them to to become an uninteded enabler for it. Going for another route adds a lot of extra complexity with paraemeters that can yeild vastly different result depenting on which hardware is used and for what. So yeah, swap is left on hold for now.
+Hopefully it's a non-issue for systems with a decent amount of RAM, and the base template emphasizes a program stack that doen't exessively bloat memory useage.
+
+TODO: add idle usage stats compared with windows 10:
+memory,
+disk usage,

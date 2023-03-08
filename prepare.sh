@@ -3,18 +3,6 @@ set -e
 . ./evolve.env
 . ./hidden.env
 
-check_hardware() {
-    supported_hardware="
-        rpi4
-        wrk
-    "
-
-    if ! (echo "$supported_hardware" | grep --quiet --fixed-string --word-regexp "$HARDWARE")
-    then
-        printf "Invalid hardware option. Edit HARDWARE in evolve.env by choosing one of: %s" "$supported_hardware"
-    fi
-}
-
 select_device() {
     printf "Take out boot USB/SD-card. When NOT be plugged in; press enter."
     read -r
@@ -49,7 +37,7 @@ partition_device() {
                 set 1 boot on \
                 mkpart primary "1024MiB" "100%" \
         ;;
-        'wrk')
+        'uefi')
             parted --script --align optimal /dev/"$device" \
                 mklabel "gpt" \
                 mkpart primary fat32 "0%" "100%" \
@@ -81,7 +69,7 @@ format_and_mount_partitions() {
             mkdir "$_root_directory"
             mount /dev/"$2" "$_root_directory"
         ;;
-        'wrk')
+        'uefi')
             mkfs.fat -F 32 /dev/"$1"
             mkdir "$_root_directory"
             mount /dev/"$1" "$_root_directory"
@@ -113,7 +101,7 @@ download_base() {
             umount "$_boot_directory" "$_root_directory"
             rm --recursive --force "$_boot_directory" "$_root_directory"
         ;;
-        'wrk')
+        'uefi')
             # Following: https://wiki.archlinux.org/title/archiso
             _archiso_profile="custom_iso"
             _base_directory="$_archiso_profile/airootfs"

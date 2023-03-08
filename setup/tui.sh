@@ -1,45 +1,13 @@
 #!/bin/bash
 . ./utils.sh
-
-# Searches each storage device for an unallocated space of at least 10GB
-# If found, make a parition out of the remaining space
-# Format that partition to ext4
-# If the partition is on the same storage device as the EFI system partition, then mount it to /.
-# Otherwise mount it to /dataN. (/data0 for the first created partition after /, /data1 for the second and so on.)
+ 
 prepare_and_mount_partitions() {
-    _data_drives_count=0
-    _physical_devices=$(lsblk --noheadings --output NAME --tree | grep -E "^(sd|nvme|mmcblk)\w*")
-    for _physical_device in $_physical_devices
-    do
-        _unallocated_space="$(parted --script /dev/"$_physical_device" \
-            print free | \
-            grep -E 'GB *Free Space')"
-        _unallocated_size="$(echo "$_unallocated_space" | grep --only-matching --perl-regexp '\w*(?=GB\ *Free)')"
-        if test "$_unallocated_size" -gt 20
-        then
-            _start=$(echo "$_unallocated_space" | grep --only-matching -E "^ *\w*" | tr --delete ' ')
-            parted --script --align optimal /dev/"$_physical_device" \
-                 mkpart primary "$_start" "100%"           
-            partprobe /dev/"$_physical_device"
-            # Format the newly created partition to ext4
-            _new_partition_label=$(lsblk --noheadings --output NAME --sort NAME \
-                    | grep "^$_physical_device" \
-                    | grep --invert-match --fixed-string --word-regexp "$_physical_device" \
-                    | tail --line 1)
-            mkfs.ext4 -v /dev/"$_new_partition_label"
-            # Check which new partition had the EFI partition on the same device.
-            # (Using fdisk as it prints the full device path)
-            _boot_device_path=$(fdisk -l /dev/"$_physical_device" | grep --fixed-strings "EFI System" | grep --only-matching "^/dev/\w*")
-            if test "$_boot_device_path"
-            then
-                mount /dev/"$_new_partition_label" /mnt
-                mount --mkdir "$_boot_device_path" /mnt/boot
-            else
-                mount --mkdir /dev/"$_new_partition_label" /mnt/data"$_data_drives_count"
-                _data_drives_count=$((_data_drives_count + 1))
-            fi
-        fi
-    done
+    . ./setup/partition_algos.sh
+    case "$PARTITION_ALGO" in
+        'linux-only') linux-only ;;
+        'windows-preinstalled') windows-preinstalled ;;
+        '') ;;
+    esac
 
     mkdir /mnt/etc 
     genfstab -U /mnt >> /mnt/etc/fstab
@@ -66,7 +34,7 @@ pacman_setup() {
         		pacman --remove --recursive --noconfirm linux-aarch64 uboot-raspberrypi
         		pacman -S --needed --noconfirm linux-rpi raspberrypi-firmware raspberrypi-bootloader
         ;;
-        'wrk')
+        'uefi')
             # Pacstrap copies over host (usb) /etc/pacmand.d/mirrorlist
             # -P flag copies over the host /etc/pacman.conf as well.
             pacstrap -P -K /mnt base linux linux-firmware
@@ -217,10 +185,10 @@ misc_setup() {(
     fi
 )}
 
-test "$HARDWARE" = "wrk" && prepare_and_mount_partitions
+test "$HARDWARE" = "uefi" && prepare_and_mount_partitions 
 setup_mirrors
 pacman_setup
-test "$HARDWARE" = "wrk" && chroot_mnt
+test "$HARDWARE" = "uefi" && chroot_mnt
 clock_setup
 localization_setup
 user_setup
@@ -228,5 +196,5 @@ yay_setup
 install_packages_util "packages/tui"
 bash_force_xdg_base_spec
 swap_keys_option
-test "$HARDWARE" = "wrk" && install_bootloader
+test "$HARDWARE" = "uefi" && install_bootloader
 misc_setup
