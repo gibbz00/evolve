@@ -7,8 +7,8 @@ It takes a rather different approach to many of the existing installers. The scr
 Current support fo the following hadware:
 
 | Base     | Alias | Headless (tui) | Desktop (gui) | Hardware                               |
-| :---     | :---: | :---:          | :---:         |                                        |          
-| x86_64   | uefi  | WIP            | WIP           | Any system that supports UEFI booting. | 
+| :---     | :---: | :---:          | :---:         | :---:                                  |          
+| x86_64   | uefi  | WIP            | WIP           | Any UEFI system                        | 
 | Arm      | rpi4  | Full           | Full          | The Rasberry Pi 4                      | 
 | Docker   |       | TBA            | TBA           |                                        |
 | Live USB |       | TBA            | TBA           |                                        |
@@ -60,7 +60,7 @@ Both options must at least result in a GPT partition table with propely sized an
 
 #### PARTITION_ALGO=linux-only
 
-My recommendation. The constraints are for most mininal and those wishing to use a second OS do so with a virtual machine. VMs have come pretty far now days with options such as https://looking-glass.io/ offering GPU passthrough. It's what I've been using to access software such as Autodesk's. 
+My recommendation. The constraints are for most mininal and those wishing to use a second OS do so with a virtual machine. VMs have come pretty far now days with options such as [Looking Glass](https://looking-glass.io/) offering GPU passthrough. It's what I've been using to access software such as Autodesk's. 
 
 
 #### PARTITION_ALGO=windows-preinstalled
@@ -72,19 +72,19 @@ Given that the the following conditions below are, the installation script shoul
 3) Making sure that only one EFI partition exists, and that it is at least 300MB in size.
 
 The Linux kernel won't normally fit in the boot partition because Windows defaults it to 100MB, far less then the recommended minimum. 
-There are some workarounds: 
-
-https://wiki.archlinux.org/title/Dual_boot_with_Windows#Bootloader_UEFI_vs_BIOS_limitations
-https://wiki.archlinux.org/title/Dual_boot_with_Windows#UEFI_firmware
+There are some workarounds:
+[1](https://wiki.archlinux.org/title/Dual_boot_with_Windows#Bootloader_UEFI_vs_BIOS_limitations), 
+[2](https://wiki.archlinux.org/title/Dual_boot_with_Windows#UEFI_firmware).
 
 Simply removing some bloat it `/boot/EFI/Microsoft/Boot` won't cut it though.
 
-4) Fastboot/hibernation should be turned off on both OSs when dualbooting to mitigate the risk of data loss when hibernating one OS and then booting from another. If some form of hibernation is desired, take the necessary precations listed at: https://wiki.archlinux.org/title/Dual_boot_with_Windows#Fast_Startup_and_hibernation.
+4) Fastboot/hibernation should be turned off on both OSs when dualbooting to mitigate the risk of data loss when hibernating one OS and then booting from another. If some form of hibernation is desired, take the necessary precations listed at [3](https://wiki.archlinux.org/title/Dual_boot_with_Windows#Fast_Startup_and_hibernation).
 
 5) Secure boot will be turned off. Doing so prevents Windows Hello, WSM (Windows Subsystem for Android) and Windows Updates from working on Windows 11.
-This limitation could possibly be removed by following the instructions at: 
-https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Booting_an_installation_medium
-and https://wiki.archlinux.org/title/REFInd#Secure_Boot
+This limitation could possibly be removed by following the instructions at 
+[4](https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Booting_an_installation_medium)
+and
+[5](https://wiki.archlinux.org/title/REFInd#Secure_Boot).
 
 Anywho: `windws-preinstalled` uses the following algorithm:
 
@@ -136,7 +136,7 @@ If Github will be used. It's used internally with `gh auth login`, before the au
 The token will in other words not be written as plain text once the setup has finished. 
 Minimum required scopes for the provided token are: "repo", "read:org".
  
-# Useage
+# Usage
 
 0. Meet the requirements. Other than those listed in the supported hardware and the evolve.env explanation sections, the following will neet to be met:
 * Root access on the preparation machine.
@@ -175,13 +175,10 @@ sudo ./prepare.sh
 
 And that's it! System should now be fully set up and up and running.
 
-# Troubleshooting:
+# Limitatons, troubleshooting and TODOS:
 
 * If system time is overcorrected when booting Windows:
-Set the time to UTC: https://wiki.archlinux.org/title/System_time#UTC_in_Microsoft_Windows
-Why: https://wiki.archlinux.org/title/System_time#Time_standard
-
-# Limitatons and TODOS:
+Set the time to UTC on Arch [6](https://wiki.archlinux.org/title/System_time#UTC_in_Microsoft_Windows). Why? Because [7](https://wiki.archlinux.org/title/System_time#Time_standard
 
 * Automatic setup of a wireless internet connetion when starting the target machine is currently not implemented.
 
