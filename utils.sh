@@ -6,8 +6,7 @@ uncomment_util(){
 }
 
 # $1 packages list path
-install_packages_util() {(
+install_packages_util() {
     PACKAGES=$(sed -e '/#/d' "$1" | tr --squeeze-repeats '\n ' ' ')
-    # shellcheck disable=SC2086
-    sudo -u "$USERNAME" yay -S $PACKAGES --noconfirm --needed
-)}
+    sudo -u "$USERNAME" sh -c "yay -S $PACKAGES --noconfirm --needed"
+}

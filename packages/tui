@@ -22,6 +22,4 @@ rsync
 usbutils
 tmux
 helix
-# Language servers for Helix
-    rust-analyser
-    marksman
+# TODO: add language servers for helix; rust-analyser and marksman

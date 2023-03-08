@@ -35,12 +35,13 @@ prepare_and_mount_partitions() {
                 mount /dev/"$_new_partition_label" /mnt
                 mount --mkdir "$_boot_device_path" /mnt/boot
             else
-                mount --mkdir /dev/"$_new_partition_label" "/mnt/data$_data_drives_count"
+                mount --mkdir /dev/"$_new_partition_label" /mnt/data"$_data_drives_count"
                 _data_drives_count=$((_data_drives_count + 1))
             fi
         fi
     done
 
+    mkdir /mnt/etc 
     genfstab -U /mnt >> /mnt/etc/fstab
 }
 
@@ -82,8 +83,9 @@ pacman_setup() {
 chroot_mnt() {
     cp /etc/hostname /mnt/etc/hostname
     cp -r /root/evolve /mnt/root/evolve
+    # TODO: execution stopped after chroot
     arch-chroot /mnt
-    cd /root
+    cd /root/evolve
     . "./evolve.env"
 }
 
@@ -179,7 +181,8 @@ install_bootloader() {
     mkdir /boot/EFI    
     pacman -S refind --needed --noconfirm 
     refind-install --root /boot
-    cp evolve/sys/refind.hook /etc/pacman.d/hooks/
+    mkdir --parents /etc/pacman.d/hooks
+    cp sys/refind.hook /etc/pacman.d/hooks/
 }
 
 misc_setup() {(
@@ -206,8 +209,10 @@ misc_setup() {(
             echo $GITHUB_TOKEN | gh auth login --with-token 
 	    cd /home/$USERNAME
             gh auth setup-git
-            mkdir --parent ~/.config/git
-            mv .gitconfig ~/.config/git/config
+            # TODO: remove
+            # Does not seem to be an issue anymore:
+            # mkdir --parent ~/.config/git
+            # mv .gitconfig ~/.config/git/config
         "
     fi
 )}
