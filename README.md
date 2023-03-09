@@ -45,7 +45,8 @@ Features are also added through the install scripts only, here are some:
 
 ### HARDWARE
 
-Required specifying the hardware targets and in turn their special setup commands.
+$HARWARE: Required specifying the hardware targets and in turn their special setup commands. Match value to alias in TODO: #Supported hardware
+$CPU_MANUFACTURER: 'intel' or 'amd'. Used to install and setup the [cpu microcode](https://wiki.archlinux.org/title/Microcode).
 
 ### PARTITION_ALGO
 

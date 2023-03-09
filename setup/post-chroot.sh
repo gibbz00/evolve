@@ -91,8 +91,13 @@ swap_keys_option() {
 
 install_bootloader() {
     mkdir /boot/EFI    
+    pacman -S "$CPU_MANUFACTURER-ucode"
     pacman -S refind gdisk --needed --noconfirm 
+    # TODO: do manually? might be possible to remove gdisk dependency
     refind-install --root /boot
+    # A refind_linux.conf would normally not be neccessary the bootlaoader supports autodetection of kernel parameters, root partition and initramfs.
+    # But this breaks down when an extra initrd key is used for the microcode img, hence the manual entry.
+    echo "\"Boot using default options\" \"root=PARTUUID=$_sd_gpt_root_part_uuid rw initrd=$CPU_MANUFACTURER-ucode.img initrd=initramfs.img\"" > /boot/refind_linux.conf
     mkdir --parents /etc/pacman.d/hooks
     cp sys/refind.hook /etc/pacman.d/hooks/
 }

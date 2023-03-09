@@ -87,6 +87,10 @@ linux_only() {
         set 1 esp on
     partprobe /dev/"$_smallest_device"
     _boot_device_path="/dev/$(get_newest_partition_label "$_smallest_device")"                    
+    # Set the correct Partition UUID type in accordance with the The Discoverable Partitions Specification (DPS)
+    # https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
+    # Makes easier to create a correct /boot/refind_linux.conf
+    sgdisk --typecode 1:8303 "$_boot_device_path"
     mkfs.fat -F 32 "$_boot_device_path"
 
     parted --script /dev/"$_smallest_device" \
