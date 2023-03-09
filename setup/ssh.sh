@@ -1,8 +1,5 @@
 #!/bin/sh
-set -e
-
-. './evolve.env'
-. './hidden.env'
+. ./context.sh
 
 # Somewhat less exposed way of non-interactive ssh password login
 # See man 1 sshpass

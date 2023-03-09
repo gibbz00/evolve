@@ -1,7 +1,5 @@
 #!/bin/bash
-set -e
-. ./utils.sh
-. ./evolve.env
+. ./context.sh
 
 clock_setup() {
     # Network time syncronization

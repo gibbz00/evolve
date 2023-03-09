@@ -1,7 +1,5 @@
 #!/bin/sh
-set -e 
-. ./evolve.env
-. ./hidden.env
+. ./context.sh
 
 select_device() {
     printf "Take out boot USB/SD-card. When NOT be plugged in; press enter."

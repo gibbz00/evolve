@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+. ./context.sh
 
 get_storage_devices() {
     _devices=$(lsblk --noheadings --output=NAME --tree | grep -E "^(sd|nvme|mmcblk)\w*")

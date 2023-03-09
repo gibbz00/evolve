@@ -1,7 +1,5 @@
 #!/bin/bash
-set -e
-. ./evolve.env
-. ./utils.sh
+. ./context.sh
  
 prepare_and_mount_partitions() {
     . ./setup/partition_algos.sh
