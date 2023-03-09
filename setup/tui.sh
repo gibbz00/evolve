@@ -1,11 +1,13 @@
 #!/bin/bash
+set -e
+. ./evolve.env
 . ./utils.sh
  
 prepare_and_mount_partitions() {
     . ./setup/partition_algos.sh
     case "$PARTITION_ALGO" in
-        'linux-only') linux-only ;;
-        'windows-preinstalled') windows-preinstalled ;;
+        'linux-only') linux_only ;;
+        'windows-preinstalled') windows_preinstalled ;;
         '') ;;
     esac
 
@@ -53,7 +55,6 @@ chroot_mnt() {
     cp -r /root/evolve /mnt/root/evolve
     arch-chroot /mnt /bin/bash -c "
 cd /root/evolve
-. ./evolve.env
 . ./setup/post-chroot.sh
     "
 }
@@ -61,5 +62,9 @@ cd /root/evolve
 test "$HARDWARE" = "uefi" && prepare_and_mount_partitions 
 setup_mirrors
 pacman_setup
-test "$HARDWARE" = "uefi" && chroot_mnt
-. ./setup/post-chroot.sh
+if test "$HARDWARE" = "uefi"
+then
+    chroot_mnt
+else
+    . ./setup/post-chroot.sh
+fi

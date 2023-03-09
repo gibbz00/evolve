@@ -40,7 +40,7 @@ partition_device() {
         'uefi')
             parted --script --align optimal /dev/"$device" \
                 mklabel "gpt" \
-                mkpart primary fat32 "0%" "100%" \
+                mkpart liveusb fat32 "0%" "100%" \
         ;;
     esac
 
@@ -143,7 +143,6 @@ utils.sh
 }
 
 ## Main ##
-check_hardware
 select_device
 partition_device
 format_and_mount_partitions

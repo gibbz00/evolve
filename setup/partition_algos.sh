@@ -1,11 +1,14 @@
+#!/bin/bash
+set -e
+
 get_storage_devices() {
     _devices=$(lsblk --noheadings --output=NAME --tree | grep -E "^(sd|nvme|mmcblk)\w*")
     _filtered_devices=""
     IFS=$'\n'
     for _device in $_devices
     do
-        # Do not include installation medium. Assumes its UUID remains constant.
-        if ! lsblk --noheadings --output=UUID "/dev/$_device"| grep --quiet --fixed-strings "9200-A6F4"
+        # Do not include installation medium.
+        if ! fdisk -x "/dev/$_device"| grep --quiet --fixed-strings "liveusb"
         then
             _filtered_devices="$_filtered_devices $_device"
         fi
@@ -59,7 +62,7 @@ get_newest_partition_label() {
 # For the remaining storage devices.
     # Give them  ext4 partition that spans the entirety of the storage spacet.
     # Mount that partition /dataN where N is the Nth data drive occurence, starting from 0.
-linux-only() {
+linux_only() {
     _physical_devices=$(get_storage_devices)
     _available_devices=""
 
@@ -79,15 +82,15 @@ linux-only() {
 
     _smallest_device=$(get_smallest_storage_device)
 
-    parted --script --align optimal /dev/"$_smallest_device" \
-        mkpart primary fat32 "1MiB" "512MiB" \
+    parted --script /dev/"$_smallest_device" \
+        mkpart primary fat32 "1MiB" "500MB" \
         set 1 esp on
     partprobe /dev/"$_smallest_device"
     _boot_device_path="/dev/$(get_newest_partition_label "$_smallest_device")"                    
     mkfs.fat -F 32 "$_boot_device_path"
 
-    parted --script --align optimal /dev/"$_smallest_device" \
-        mkpart primary "512MiB" "100%"
+    parted --script /dev/"$_smallest_device" \
+        mkpart primary "500MiB" "100%"
     partprobe /dev/"$_smallest_device"
     _root_device_path="/dev/$(get_newest_partition_label "$_smallest_device")"                    
     mkfs.ext4 -v "$_root_device_path"
@@ -102,11 +105,11 @@ linux-only() {
         if test "$_phy" != "$_smallest_device"
         then
             parted --script --align optimal /dev/"$_phy" \
-                mkpart primary "1MiB" "100%"
+                mkpart primary "1MB" "100%"
             partprobe /dev/"$_phy"
-            _dev_path=$("/dev/$(get_newest_partition_label "$_phy")")
+            _dev_path="/dev/$(get_newest_partition_label "$_phy")"
             mkfs.ext4 -v "$_dev_path"
-            mount "$_dev_path" "/mnt/data$_data_drives_count"
+            mount --mkdir "$_dev_path" "/mnt/data$_data_drives_count"
             _data_drives_count=$((_data_drives_count + 1))
         fi
     done
@@ -118,7 +121,7 @@ linux-only() {
 # Format that partition to ext4
 # If the partition is on the same storage device as the EFI system partition, then mount it to /.
 # Otherwise mount it to /dataN. (/data0 for the first created partition after /, /data1 for the second and so on.)
-windows-preinstalled() {
+windows_preinstalled() {
     _data_drives_count=0
     _physical_devices=$(get_storage_devices)
     for _physical_device in $_physical_devices

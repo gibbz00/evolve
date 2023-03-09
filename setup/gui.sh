@@ -1,6 +1,7 @@
-#!/bin/sh
-
+#!/bin/bash
+set -e
 . ./utils.sh
+. ./evolve.env
 
 sway_setup() {
     # Sway privilege escalation and session activation setup

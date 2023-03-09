@@ -1,3 +1,8 @@
+#!/bin/bash
+set -e
+. ./utils.sh
+. ./evolve.env
+
 clock_setup() {
     # Network time syncronization
     ln -sf /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
@@ -88,7 +93,7 @@ swap_keys_option() {
 
 install_bootloader() {
     mkdir /boot/EFI    
-    pacman -S refind --needed --noconfirm 
+    pacman -S refind gdisk --needed --noconfirm 
     refind-install --root /boot
     mkdir --parents /etc/pacman.d/hooks
     cp sys/refind.hook /etc/pacman.d/hooks/
