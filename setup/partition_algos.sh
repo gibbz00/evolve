@@ -87,10 +87,6 @@ linux_only() {
         mkpart primary fat32 "1MiB" "500MB" \
         set 1 esp on
     partprobe /dev/"$_smallest_device"
-    # Set the correct Partition UUID type in accordance with the The Discoverable Partitions Specification (DPS)
-    # https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
-    # Makes easier to create a correct /boot/refind_linux.conf
-    sgdisk --typecode 1:8303 "/dev/$_smallest_device"
     _boot_device_path="/dev/$(get_newest_partition_label "$_smallest_device")"                    
     mkfs.fat -F 32 "$_boot_device_path"
 
@@ -99,6 +95,9 @@ linux_only() {
     partprobe /dev/"$_smallest_device"
     _root_device_path="/dev/$(get_newest_partition_label "$_smallest_device")"                    
     mkfs.ext4 -v "$_root_device_path"
+
+    # Used for refind-linux.conf
+    echo "$_root_device_path" > /mnt/root_device_path
 
     mount "$_root_device_path" /mnt
     mkdir --parents /mnt/boot
@@ -148,6 +147,8 @@ windows_preinstalled() {
             if test "$_boot_device_path"
             then
                 mount /dev/"$_new_partition_label" /mnt
+                # Used for refind-linux.conf
+                echo "/dev/$_new_partition_label" > /mnt/root_device_path
                 mount --mkdir "$_boot_device_path" /mnt/boot
             else
                 mount --mkdir /dev/"$_new_partition_label" /mnt/data"$_data_drives_count"

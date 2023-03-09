@@ -172,11 +172,6 @@ curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
 
 2. Configure evolve.env to your liking with your favorite text editor. It will be put into usb stick's /root during the preparation script.
 
-```bash
-cd evolve-development
-hx evolve.env # ;)
-```
-
 3. With the installation medium in hand, run:
 
 ```
