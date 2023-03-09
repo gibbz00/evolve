@@ -19,7 +19,7 @@ get_storage_devices() {
 }
 
 get_smallest_storage_device() {
-    _names=$(get_storage_devices)
+    _names="$1"
     _sizes=''
     for _name in $_names
     do
@@ -73,6 +73,7 @@ linux_only() {
             _size=$(lsblk "/dev/$_phy" --bytes --noheadings --output SIZE | head --lines=1)
             if test "$_size" -gt "200000000000" # 20 GB
             then
+                wipefs --all /dev/"$_phy"
                 # Give them a GPT partition table.
                 parted --script /dev/"$_phy" mklabel "gpt"
                 _available_devices="$_phy $_available_devices"
@@ -80,17 +81,17 @@ linux_only() {
         fi
     done
 
-    _smallest_device=$(get_smallest_storage_device)
+    _smallest_device=$(get_smallest_storage_device "$_available_devices")
 
     parted --script /dev/"$_smallest_device" \
         mkpart primary fat32 "1MiB" "500MB" \
         set 1 esp on
     partprobe /dev/"$_smallest_device"
-    _boot_device_path="/dev/$(get_newest_partition_label "$_smallest_device")"                    
     # Set the correct Partition UUID type in accordance with the The Discoverable Partitions Specification (DPS)
     # https://uapi-group.org/specifications/specs/discoverable_partitions_specification/
     # Makes easier to create a correct /boot/refind_linux.conf
-    sgdisk --typecode 1:8303 "$_boot_device_path"
+    sgdisk --typecode 1:8303 "/dev/$_smallest_device"
+    _boot_device_path="/dev/$(get_newest_partition_label "$_smallest_device")"                    
     mkfs.fat -F 32 "$_boot_device_path"
 
     parted --script /dev/"$_smallest_device" \
