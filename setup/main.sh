@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . ./setup/tui.sh
 rm --recursive --force /root/evolve
 # Setup depends on some systemd services that can't be started in chroot.

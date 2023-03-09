@@ -19,7 +19,7 @@ Current support fo the following hadware:
 
 The scripted install process is usually divided into two parts:
 
-An installation medium is first prepared from a working *NIX system by running `prepare.sh`.
+An installation medium is first prepared from a working *NIX system with bash by running `prepare.sh`.
 Once finished, and target machine is and up and running with on it: `setup/ssh.sh` is excuted from the previous system.
 It connects to the target via SSH and and runs `setur/main.sh`. This is where users, package, and personal configuartions are installed.
 `seput/main.sh` has two stages, TUI and GUI setup. Which stage to use can be configured.
