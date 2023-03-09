@@ -60,8 +60,25 @@ Both options must at least result in a GPT partition table with propely sized an
 
 #### PARTITION_ALGO=linux-only
 
-My recommendation. The constraints are for most mininal and those wishing to use a second OS do so with a virtual machine. VMs have come pretty far now days with options such as [Looking Glass](https://looking-glass.io/) offering GPU passthrough. It's what I've been using to access software such as Autodesk's. 
+My recommendation. The constraints are for most mininal and those wishing to use a second OS do so with a virtual machine. The KMS/VFIO/looking-glass/wl-roots projects have come so far these days that it is now possible to dynamically attach a dedicated GPU for full pass through between the Linux host and a Windows 10 VM without restarting Sway. Looking glass makes it also possible to show the contents of this VM inside normal application window.
 
+The partition algorithm for `linux-only` is something like this:
+
+```
+Gather all storage devices are not mounted and which store at least 20GB.
+  Give them a GPT partition table.
+  Add them to the list of available devices.
+Find the smallest the gathered storage devices
+  (Usually, smaller storage devices tend to be faster.)
+  Make the first 0.5GB of that device the EFI boot partition
+  Set the remaning part of the storage device to be the root partition using the ext4 filesystem.
+For the remaining storage devices.
+  Give them  ext4 partition that spans the entirety of the storage spacet.
+  Mount that partition /dataN where N is the Nth data drive occurence, starting from 0.
+```
+
+This will remove anything stored on the storage devices so make sure to move that data somewhere else if needed.
+If using drives with pre-existing partition tables, use `wipefs --all <device_path>` on each target devices to avoid the "are you sure".
 
 #### PARTITION_ALGO=windows-preinstalled
 

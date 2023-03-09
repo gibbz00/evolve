@@ -44,7 +44,6 @@ partition_device() {
         ;;
     esac
 
-    # Inform kernel about new partition table changes
     partprobe /dev/"$device"
 }
 
