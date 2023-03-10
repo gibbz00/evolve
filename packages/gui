@@ -13,9 +13,10 @@ sway
 	swaylock
 		# also used for foot
 		noto-fonts
-	# noto-fonts-emoji
-	# noto-fonts-cjk
-	# noto-fonts-extra  
+		# noto-fonts-emoji
+		# noto-fonts-cjk
+		# noto-fonts-extra  
+	sway-interactive-screenshot
 pipewire
 	wireplumber
 	pipewire-jack

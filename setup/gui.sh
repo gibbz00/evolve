@@ -13,7 +13,7 @@ sway_setup() {
     echo "[[ ! \$DISPLAY && XDG_VTNR -eq 1 ]] && exec sway" >> "$_sway_config_path"
 
     # Using personal version until https://github.com/swaywm/sway/pull/7197 gets merged.
-    cp sys/inactive-windows-transparency.py /usr/share/sway/scripts/
+    cp --preserve=mode sys/inactive-windows-transparency.py /usr/share/sway/scripts/
 }
 
 misc_packages_setup() {

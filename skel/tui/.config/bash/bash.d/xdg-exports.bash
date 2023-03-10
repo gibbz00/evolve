@@ -42,3 +42,6 @@ export PERL_MM_OPT="INSTALL_BASE=$XDG_DATA_HOME/perl5"
 export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
 
 export ELECTRUMDIR="$XDG_DATA_HOME/electrum"
+
+export GOPATH="$XDG_DATA_HOME"/go
+export GOMODCACHE="$XDG_CACHE_HOME"/go/mod
