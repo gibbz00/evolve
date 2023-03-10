@@ -90,15 +90,13 @@ swap_keys_option() {
 }
 
 install_bootloader() {
-    mkdir /boot/EFI    
+    mkdir --parents /boot/EFI    
     pacman -S "$CPU_MANUFACTURER-ucode" --needed --noconfirm
     pacman -S refind gdisk --needed --noconfirm 
     refind-install --root /boot
     # A refind_linux.conf would normally not be neccessary the bootlaoader supports autodetection of kernel parameters, root partition and initramfs.
     # But this breaks down when an extra initrd key is used for the microcode img, hence the workarounds.
-    echo "\"Boot using default options\" \"root=$(cat /root_device_path) rw initrd=$CPU_MANUFACTURER-ucode.img initrd=initramfs-linux.img\"" > /boot/refind_linux.conf
-    rm /root_device_path
-
+    echo "\"Boot using default options\" \"root=$ROOT_DEVICE rw initrd=$CPU_MANUFACTURER-ucode.img initrd=initramfs-linux.img\"" > /boot/refind_linux.conf
     mkdir --parents /etc/pacman.d/hooks
     cp sys/refind.hook /etc/pacman.d/hooks/
 }

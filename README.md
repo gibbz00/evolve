@@ -58,6 +58,7 @@ Partitioning is otherwise tricky to automate since storage layouts come in all s
 2) Skip setting `PARTITION_ALGO` and partition manually **before** running `./setup/ssh.sh`.
 
 Both options must at least result in a GPT partition table with propely sized and formatted root and boot partitions, both mounted to `/mnt` and `/mnt/boot` respectively.
+The root device appended to written to `context.sh`. Say with `echo "ROOT_DEVICE=$_root_device_path" >> ./context.sh`.
 
 #### PARTITION_ALGO=linux-only
 

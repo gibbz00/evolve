@@ -97,7 +97,7 @@ linux_only() {
     mkfs.ext4 -v "$_root_device_path"
 
     # Used for refind-linux.conf
-    echo "$_root_device_path" > /mnt/root_device_path
+    echo "ROOT_DEVICE=$_root_device_path" >> ./context.sh
 
     mount "$_root_device_path" /mnt
     mkdir --parents /mnt/boot
@@ -148,7 +148,7 @@ windows_preinstalled() {
             then
                 mount /dev/"$_new_partition_label" /mnt
                 # Used for refind-linux.conf
-                echo "/dev/$_new_partition_label" > /mnt/root_device_path
+                echo "ROOT_DEVICE=$_root_device_path" >> ./context.sh
                 mount --mkdir "$_boot_device_path" /mnt/boot
             else
                 mount --mkdir /dev/"$_new_partition_label" /mnt/data"$_data_drives_count"

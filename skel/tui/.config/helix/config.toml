@@ -9,7 +9,8 @@ idle-timeout = 0
 completion-trigger-len = 1
 scrolloff = 0
 bufferline = "always"
-sorted-infobox = true
+# Depends on https://github.com/helix-editor/helix/pull/5635
+# sorted-infobox = true
 
 [editor.lsp]
 # Until it stops being placed aver autocompletion when writing closures in function calls.
@@ -94,14 +95,20 @@ l = "flip_selections"
 "A-right" = "no_op"
 
 [keys.select.g]
-e = { description = "Goto file end", exec = ["goto_last_line", "goto_line_end_newline"]}
+# Depends on https://github.com/helix-editor/helix/pull/5635
+# e = { description = "Goto file end", exec = ["goto_last_line", "goto_line_end_newline"]}
+e = ["goto_last_line", "goto_line_end_newline"]
 
 ### GLOBAL/GOTO
 [keys.normal.g]
 # Movements that put cursor in akward position relative to scroll
-g = { description = "Goto file start", exec = ["goto_file_start", "align_view_center"]}
-e = { description = "Goto file end", exec = ["goto_last_line", "goto_line_end_newline"]}
-"." = { description = "Goto last edit", exec = ["goto_last_modification", "align_view_center"]}
+# Depends on https://github.com/helix-editor/helix/pull/5635
+# g = { description = "Goto file start", exec = ["goto_file_start", "align_view_center"]}
+# e = { description = "Goto file end", exec = ["goto_last_line", "goto_line_end_newline"]}
+# "." = { description = "Goto last edit", exec = ["goto_last_modification", "align_view_center"]}
+g = ["goto_file_start", "align_view_center"]
+e = ["goto_last_line", "goto_line_end_newline"]
+"." = ["goto_last_modification", "align_view_center"]
 
 # gs replaced by normal "home"
 s = "no_op"
@@ -123,11 +130,15 @@ p = "no_op"
 "=" = ":format"
 "up" = "add_newline_above"
 "down" = "add_newline_below"
-C-s = { description = "Sort selection", exec = ["split_selection_on_newline", ":sort", "collapse_selection", "keep_primary_selection"]}
+# Depends on https://github.com/helix-editor/helix/pull/5635
+# C-s = { description = "Sort selection", exec = ["split_selection_on_newline", ":sort", "collapse_selection", "keep_primary_selection"]}
+C-s = ["split_selection_on_newline", ":sort", "collapse_selection", "keep_primary_selection"]
 
-[keys.normal.space.space]
-description = "Write to disk"
-exec = ":write"
+# Depends on https://github.com/helix-editor/helix/pull/5635
+# [keys.normal.space.space]
+# description = "Write to disk"
+# exec = ":write"
+"space" = ":write"
 
 ### NEXT
 [keys.normal."]"]
