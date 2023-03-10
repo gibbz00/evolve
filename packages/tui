@@ -22,5 +22,14 @@ rsync
 usbutils
 tmux
 helix
+    # Language servers for helix
+    rust-analyser
+    taplo
+    marksman-bin
+    clang
+    bash-language-server
+    python-lsp-server
+    typescript-language-server
+    svelte-server
 btop
 # TODO: add language servers for helix; rust-analyser and marksman
