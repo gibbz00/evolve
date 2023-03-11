@@ -148,7 +148,7 @@ windows_preinstalled() {
             then
                 mount /dev/"$_new_partition_label" /mnt
                 # Used for refind-linux.conf
-                echo "ROOT_DEVICE=$_root_device_path" >> ./context.sh
+                echo -e "\nROOT_DEVICE=$_root_device_path" >> ./context.sh
                 mount --mkdir "$_boot_device_path" /mnt/boot
             else
                 mount --mkdir /dev/"$_new_partition_label" /mnt/data"$_data_drives_count"

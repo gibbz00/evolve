@@ -21,7 +21,7 @@ tree
 rsync
 usbutils
 tmux
-helix
+helix-git
     # Language servers for helix
     rust-analyser
     taplo
