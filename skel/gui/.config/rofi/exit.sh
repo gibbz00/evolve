@@ -1,5 +1,5 @@
 #!/bin/sh
-ANS="$(echo "Lock|Logout|Reboot|Shutdown" | rofi -font "Monospace 14" -dmenu -sep "|" -p 'System Exit' -hide-scrollbar )"
+ANS="$(echo "Lock|Logout|Reboot|Shutdown" | rofi -dmenu -sep "|" -p 'System Exit' -hide-scrollbar )"
 
 case "$ANS" in
 	*Lock) swaylock --image '$WALLPAPER' ;;

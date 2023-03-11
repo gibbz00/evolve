@@ -5,6 +5,7 @@
 */
 * {
     highlight: bold italic;
+    font: "Monospace 16";
     /* Theme colors */
     background: rgba(0,0,0,100%);
     foreground: rgba(255,255,255,100%);
