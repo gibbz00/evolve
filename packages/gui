@@ -10,13 +10,16 @@ sway
     # Used for inactive window transparency 
     python-i3ipc
     swaybg
+	noto-fonts
+	# noto-fonts-emoji
+	# noto-fonts-cjk
+	# noto-fonts-extra  
 	swaylock
-		# also used for foot
-		noto-fonts
-		# noto-fonts-emoji
-		# noto-fonts-cjk
-		# noto-fonts-extra  
 	sway-interactive-screenshot
+	flat-remix-gtk
+	qgnomeplatform-qt5-git
+	qgnomeplatform-qt6-git
+	archdroid-icon-theme-git
 pipewire
 	wireplumber
 	pipewire-jack
@@ -27,8 +30,14 @@ foot
 firefox
 zathura
 vlc
-transmission-gtk
-# kicad
-# gimp
+
 # spotify-launcher (or ncspot)
 # discord
+
+# Dev version has both GTK3 and wayland support
+# gimp-devel
+# kicad
+
+# qbittorrent
+# jackett-bin
+# jellyfin-bin

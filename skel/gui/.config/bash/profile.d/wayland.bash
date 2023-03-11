@@ -6,6 +6,8 @@
 export GDK_BACKEND=wayland
 # Qt - requires the qt5-wayland and qt6-wayland plugins
 export QT_QPA_PLATFORM=wayland
+# Use gnome theme settings in qt using qgnomeplatform-qt5-git and qgnomeplatform-qt6-git
+export QT_QPA_PLATFORMTHEME=gnome
 # Clutter - discontinued, but adding anyways in case a clutter program happens to get installed.
 export CLUTTER_BACKEND=wayland
 # SDL2 - check wiki article if having issues with proprietary games
