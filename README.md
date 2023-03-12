@@ -154,6 +154,14 @@ $GITHUB_TOKEN='XXXX'
 If Github will be used. It's used internally with `gh auth login`, before the autoremoval of evolve.env.
 The token will in other words not be written as plain text once the setup has finished. 
 Minimum required scopes for the provided token are: "repo", "read:org".
+
+### Rust
+
+RUST_TOOLCHAIN='' # stable/nightly/version or none
+
+If set; installs rustup as an [arch linux package](https://wiki.archlinux.org/title/Rust#Arch_Linux_package) and installs the given toolchain to be used as a default.
+Additional toolchains can always be installed with `rustup toolchain install <toolchain>`.)
+The LSP server for rust (`rust-analyzer`) is opitonally added by listing it in `packages`.
  
 # Usage
 

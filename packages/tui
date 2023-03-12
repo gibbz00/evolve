@@ -23,13 +23,13 @@ usbutils
 tmux
 helix-git
     # Language servers for helix
-    rust-analyser
+    rust-analyzer
     taplo
     marksman-bin
     clang
     bash-language-server
     python-lsp-server
     typescript-language-server
-    svelte-server
+    nodejs-svelte-language-server
 btop
 # TODO: add language servers for helix; rust-analyser and marksman

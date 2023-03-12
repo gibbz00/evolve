@@ -129,6 +129,13 @@ mkdir --parent ~/.config/git
 mv .gitconfig ~/.config/git/config
         "
     fi
+
+    # Rust
+    if "$RUST_TOOLCHAIN"
+    then
+        pacman -S rustup
+        rustup default "$RUST_TOOLCHAIN"
+    fi
 )}
   
 clock_setup
