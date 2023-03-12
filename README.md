@@ -33,7 +33,7 @@ Out of the box features can be deduced by browsing the config in `skel` and the 
 Features are also added through the install scripts only, here are some:
 
 - Pacman with paralell downloads and color output on by default.
-- AUR helper out of the box using `yay`.
+- AUR helper out of the box using `paru`.
 - XDG Base Dir Spec adherence: Keeps $HOME clean. Even `.profile` and `.bashrc` is placed in a `.config/bash/`
 - Sway with dynamic window transparencies: https://github.com/swaywm/sway/pull/7197
 - Sudo without password. Created user is added to the `wheel` group, which then configured to not require password entry on each sudo command.

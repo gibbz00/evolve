@@ -8,5 +8,5 @@ uncomment_util(){
 # $1 packages list path
 install_packages_util() {
     PACKAGES=$(sed -e '/#/d' "$1" | tr --squeeze-repeats '\n ' ' ')
-    sudo -u "$USERNAME" sh -c "yay -S $PACKAGES --noconfirm --needed"
+    sudo -u "$USERNAME" sh -c "paru -S $PACKAGES --noconfirm --needed"
 }

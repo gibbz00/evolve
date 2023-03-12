@@ -4,11 +4,7 @@
 #
 # Packages installed regardless:
 # * if using rpi4: linux-rpi raspberrypi-firmware raspberrypi-bootloader
-# * yay: aur helper and pacman wrapper 
-#       intallation dependends on: 
-#           * git 
-#           * base-devel
-#           * sudo
+# * paru: aur helper and pacman wrapper 
 bash
     fzf
     z

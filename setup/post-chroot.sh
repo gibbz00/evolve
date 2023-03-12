@@ -28,7 +28,7 @@ localization_setup() {(
     . skel/tui/.config/locale.conf
 )}
 
-# Setup before yay since makepkg can't be run as root
+# Setup before paru since makepkg can't be run as root
 user_setup() {(
     printf "%s\n%s" "$ROOT_PASSWORD" "$ROOT_PASSWORD" | passwd
 
@@ -48,15 +48,15 @@ user_setup() {(
     fi
 )}
 
-yay_setup() {
+paru_setup() {
     pacman -S git base-devel sudo --needed --noconfirm 
     uncomment_util ' %wheel ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
     sudo -u "$USERNAME" sh -c "
         cd /home/$USERNAME 
-        git clone https://aur.archlinux.org/yay-bin.git
-        cd yay-bin
+        git clone https://aur.archlinux.org/paru.git
+        cd paru
         makepkg --syncdeps --install --noconfirm --needed
-        cd .. && rm --recursive --force yay-bin
+        cd .. && rm --recursive --force paru
     "
 }
 
@@ -118,15 +118,16 @@ misc_setup() {(
     # Github
     if test -n "$GITHUB_TOKEN"
     then
-        # HACK: creation of gitconfig doesn't respect .config of XDG_CONFIG_HOME as of 2022-09-28
+        # HACK: creation of gitconfig through gh auth setup-git
+        # doesn't respect XDG_CONFIG_HOME as of 2022-09-28
         sudo -u "$USERNAME" sh -c "
-yay -S --noconfirm --needed github-cli
-echo $GITHUB_TOKEN | gh auth login --with-token 
-cd /home/$USERNAME
-gh auth setup-git
-Does not seem to be an issue anymore:
-mkdir --parent ~/.config/git
-mv .gitconfig ~/.config/git/config
+            paru -S --noconfirm --needed github-cli
+            echo $GITHUB_TOKEN | gh auth login --with-token 
+            cd /home/$USERNAME
+            gh auth setup-git
+            Does not seem to be an issue anymore:
+            mkdir --parent ~/.config/git
+            mv .gitconfig ~/.config/git/config
         "
     fi
 
@@ -141,7 +142,7 @@ mv .gitconfig ~/.config/git/config
 clock_setup
 localization_setup
 user_setup
-yay_setup
+paru_setup
 install_packages_util "packages/tui"
 bash_force_xdg_base_spec
 swap_keys_option

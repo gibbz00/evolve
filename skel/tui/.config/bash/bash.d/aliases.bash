@@ -46,7 +46,5 @@ alias gu='git push'
 alias gw='git whatchanged -p --abbrev-commit --pretty=medium'
 
 ## Package management ##
-alias update='sudo pacman -Syyu --noconfirm'
-alias install='yay -S --noconfirm --needed'
-alias remove='yay -Rs'
+alias update='sudo paru -Syyu --noconfirm'
 alias removeOrphans='pacman -Rns $(pacman -Qtdq)'
