@@ -13,7 +13,9 @@ sway_setup() {
     echo "[[ ! \$DISPLAY && XDG_VTNR -eq 1 ]] && exec sway" >> "$_sway_config_path"
 
     # Using personal version until https://github.com/swaywm/sway/pull/7197 gets merged.
-    cp --preserve=mode sys/inactive-windows-transparency.py /usr/share/sway/scripts/
+    install -D --mode 755 sys/inactive-windows-transparency.py /usr/share/sway/scripts/
+    chmod +x "/home/$USERNAME/.config/rofi/exit.sh"
+    chmod +x "/home/$USERNAME/.config/sway/opacity-toggle.sh"
 }
 
 misc_packages_setup() {
