@@ -1,20 +1,21 @@
 mesa
+noto-fonts
+# noto-fonts-emoji
+# noto-fonts-cjk
+# noto-fonts-extra  
 sway
-    seatd
     qt5-wayland
     qt6-wayland
-    wl-clipboard
-    clipman
-    rofi-lbonn-wayland-git
-    networkmanager-dmenu-git
-    # Used for inactive window transparency 
+    seatd
+    # Used for dynamic window transparencies
     python-i3ipc
-    swaybg
-	noto-fonts
-	# noto-fonts-emoji
-	# noto-fonts-cjk
-	# noto-fonts-extra  
+    rofi-lbonn-wayland-only-git
+	dunst
+    clipman
+    wl-clipboard
 	swaylock
+    swaybg
+    networkmanager-dmenu-git
 	sway-rofi-screenshot
 	flat-remix-gtk
 	qgnomeplatform-qt5-git
