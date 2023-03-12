@@ -81,8 +81,7 @@ bindsym $mod+c exec clipman pick --tool rofi
 bindsym $mod+Shift+c exec clipman clear --tool rofi
 # Clear the entire clipboard history
 bindsym $mod+Control+c exec clipman clear --all
-# Screenshots using rofi
-bindsym $mod+s exec --no-startup-id sway-interactive-screenshot
+bindsym $mod+s exec --no-startup-id sway-rofi-screenshot
 # Networkmanager 
 # Config and further information at:
 # $XDG_CONFIG_HOME/networkmanager-dmenu/config.ini

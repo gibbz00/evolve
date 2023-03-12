@@ -15,7 +15,7 @@ sway
 	# noto-fonts-cjk
 	# noto-fonts-extra  
 	swaylock
-	sway-interactive-screenshot
+	sway-rofi-screenshot
 	flat-remix-gtk
 	qgnomeplatform-qt5-git
 	qgnomeplatform-qt6-git
