@@ -122,16 +122,11 @@ misc_setup() {(
     # Github
     if test -n "$GITHUB_TOKEN"
     then
-        # HACK: creation of gitconfig through gh auth setup-git
-        # doesn't respect XDG_CONFIG_HOME as of 2022-09-28
         sudo -u "$USERNAME" sh -c "
             paru -S --noconfirm --needed github-cli
             echo $GITHUB_TOKEN | gh auth login --with-token 
             cd /home/$USERNAME
             gh auth setup-git
-            Does not seem to be an issue anymore:
-            mkdir --parent ~/.config/git
-            mv .gitconfig ~/.config/git/config
         "
     fi
 

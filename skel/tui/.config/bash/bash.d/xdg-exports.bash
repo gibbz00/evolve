@@ -2,6 +2,8 @@
 # https://wiki.archlinux.org/index.php/XDG_Base_Directory_support
 # https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 
+source "$HOME/.config/bash/xdg_base.env"
+
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 
 export _Z_DATA="$XDG_DATA_HOME/z"

@@ -97,7 +97,7 @@ linux_only() {
     mkfs.ext4 -v "$_root_device_path"
 
     # Used for refind-linux.conf
-    echo "ROOT_DEVICE=$_root_device_path" >> ./context.sh
+    echo -e "\nROOT_DEVICE=$_root_device_path" >> ./context.sh
 
     mount "$_root_device_path" /mnt
     mkdir --parents /mnt/boot
