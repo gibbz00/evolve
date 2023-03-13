@@ -120,12 +120,16 @@ For each storage device with an unallocated space of at least 20GB
 ### USER, ROOT and HOST setup
 $HOST_NAME
 $ROOT_PASSWORD
-    mention _ssh_initial_passwd
 $USER_PASSWORD=''
 $USERNAME=''
 
 The installation script makes that the entiry evolve directory is removed upon successful install, both on target machine and on installation medium. 
 By then it will also remove the the plain-text passwords and the Git Hub token from `evolve.env` on the preparation machine.
+
+$SSH_SERVER=true/false
+
+Will install `openssh` and enable the ssh deamon on the target device if set to true.
+This currently happens regardless when `HARDWARE=rpi4`
 
 ### Locale
 

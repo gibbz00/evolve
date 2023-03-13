@@ -130,10 +130,15 @@ misc_setup() {(
         "
     fi
 
-    # Rust
-    if "$RUST_TOOLCHAIN"
+    if test "$SSH_SERVER" = "true"
     then
-        pacman -S rustup
+        pacman -S openssh --needed --noconfirm
+        systemctl enable sshd
+    fi
+
+    if test "$RUST_TOOLCHAIN"
+    then
+        pacman -S rustup --needed --noconfirm
         rustup default "$RUST_TOOLCHAIN"
     fi
 )}

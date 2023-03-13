@@ -18,7 +18,7 @@ _remove-value ROOT_PASSWORD
 _remove-value USER_PASSWORD
 _remove-value GITHUB_TOKEN
 
-echo "
+$SSH_SERVER || test "$HARDWARE" = "rpi4" && echo "
 Finished :) Future ssh logins done by:
 
 $ ssh $USERNAME@$HOST_NAME

@@ -24,10 +24,6 @@ export QT_STYLE_OVERRIDE=kvantum
 
 export WALLPAPER="$HOME/media/wallpapers/fish.jpg"
 
-_screenshot_dir="/tmp/screenshots"
-mkdir --parents "$_screenshot_dir"
-export SWAY_ROFI_SCREENSHOT_SAVEDIR="$_screenshot_dir"
-# used in sway config
-export XDG_CONFIG_HOME="$HOME/.config"
+export SWAY_ROFI_SCREENSHOT_SAVEDIR="/tmp/screenshots"
 
 ## Sway TTY startup inserted from evolve/setup/gui.sh 
