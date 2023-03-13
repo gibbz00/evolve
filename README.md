@@ -124,6 +124,9 @@ $ROOT_PASSWORD
 $USER_PASSWORD=''
 $USERNAME=''
 
+The installation script makes that the entiry evolve directory is removed upon successful install, both on target machine and on installation medium. 
+By then it will also remove the the plain-text passwords and the Git Hub token from `evolve.env` on the preparation machine.
+
 ### Locale
 
 $COUNTRY='SE'

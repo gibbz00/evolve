@@ -2,8 +2,6 @@
 
 # IMPROVEMENT: change flags to long versions for improved readablity
 
-alias hx='helix'
-
 ## Coreutils ##
 alias ls='ls -1Ah --color=auto'
 alias mkdir='mkdir -pv'

@@ -153,3 +153,5 @@ if "$GUI"
 then 
     . ./setup/gui.sh
 fi
+
+rm -rf /root/evolve

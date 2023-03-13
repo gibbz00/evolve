@@ -16,7 +16,7 @@ sway
 	swaylock
     swaybg
     networkmanager-dmenu-git
-	sway-rofi-screenshot
+	sway-rofi-screenshot-git
 	flat-remix-gtk
 	kvantum
 	archdroid-icon-theme-git
@@ -28,16 +28,14 @@ pipewire
 	rtkit
 foot
 firefox
+imv
 zathura
 vlc
 
 # spotify-launcher (or ncspot)
 # discord
-
-# Dev version has both GTK3 and wayland support
-# gimp-devel
+# gimp-devel (Dev version has both GTK3 and wayland support)
 # kicad
-
 # qbittorrent
 # jackett-bin
 # jellyfin-bin

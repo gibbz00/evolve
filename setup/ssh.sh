@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 . ./context.sh
 
 # Somewhat less exposed way of non-interactive ssh password login
@@ -9,6 +9,14 @@ sshpass -e ssh -o StrictHostKeyChecking=no root@"$HOST_NAME" "
     ./setup/main.sh
 "
 unset SSHPASS
+
+_remove-value() {
+    perl -i -pe "s/(?<=^$1=)'.*'/''/" evolve.env
+}
+
+_remove-value ROOT_PASSWORD
+_remove-value USER_PASSWORD
+_remove-value GITHUB_TOKEN
 
 echo "
 Finished :) Future ssh logins done by:
