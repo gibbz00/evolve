@@ -18,8 +18,7 @@ sway
     networkmanager-dmenu-git
 	sway-rofi-screenshot
 	flat-remix-gtk
-	qgnomeplatform-qt5-git
-	qgnomeplatform-qt6-git
+	kvantum
 	archdroid-icon-theme-git
 pipewire
 	wireplumber
