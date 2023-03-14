@@ -100,10 +100,8 @@ download_base() {
         ;;
         'uefi')
             # Following: https://wiki.archlinux.org/title/archiso
-            _archiso_profile="custom_iso"
+            _archiso_profile="install_iso"
             _base_directory="$_archiso_profile/airootfs"
-            cp -r /usr/share/archiso/configs/releng/ "$_archiso_profile"
-
             rsync --recursive --perms --times --verbose --exclude="$_root_directory" --exclude="$_archiso_profile" \
                 . "$_base_directory"/root/evolve
             _executables=\
@@ -123,7 +121,7 @@ utils.sh
             sed --expression 's/^#PermitRootLogin.*/PermitRootLogin yes/' --in-place $_base_directory/etc/ssh/sshd_config
             echo "$HOST_NAME" > $_base_directory/etc/hostname
 
-            # build custom_iso
+            # build install_iso
             _work_dir="/tmp/archiso-tmp"
             mkarchiso -v -w "$_work_dir" "$_archiso_profile"
             # https://wiki.archlinux.org/title/archiso#Removal_of_work_directory
