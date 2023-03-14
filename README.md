@@ -4,11 +4,11 @@ The goal of this project is to serve as an installation script for personally co
 
 It takes a rather different approach to many of the existing installers. The scripts are thin, readable and customizable. And a "pre-configure once", then "install automatically" approach is used. Setup config variables are assumed to be correctly configured for this to work, and this README attemps to make sure that will be the case.
 
-Current support fo the following hadware:
+Current support of the following hadware:
 
 | Base     | Alias | Headless (tui) | Desktop (gui) | Hardware                               |
 | :---     | :---: | :---:          | :---:         | :---:                                  |          
-| x86_64   | uefi  | WIP            | WIP           | Any UEFI system                        | 
+| x86_64   | uefi  | Full           | Full          | Any UEFI system*                       | 
 | Arm      | rpi4  | Full           | Full          | The Rasberry Pi 4                      | 
 | Docker   |       | TBA            | TBA           |                                        |
 | Live USB |       | TBA            | TBA           |                                        |
