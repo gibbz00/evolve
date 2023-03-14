@@ -3,7 +3,7 @@
 
 # helper funlction to make sure xdg base exports are used when using sh with user
 suserdo() {
-    sudo -u "$USERNAME" sh -c "
+    su "$USERNAME" --login -c "
         cd /home/$USERNAME 
         . .config/bash/xdg_base.env
         $1
@@ -172,4 +172,7 @@ then
     . ./setup/gui.sh
 fi
 
+# Remove orphaned packages
+pacman -Qtdq | pacman -Rns -
+# Remove from target
 rm -rf /root/evolve
