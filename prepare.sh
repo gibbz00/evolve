@@ -101,6 +101,7 @@ download_base() {
         'uefi')
             # Following: https://wiki.archlinux.org/title/archiso
             _archiso_profile="install_iso"
+            cp -r /usr/share/archiso/configs/releng "$_archiso_profile"
             _base_directory="$_archiso_profile/airootfs"
             rsync --recursive --perms --times --verbose --exclude="$_root_directory" --exclude="$_archiso_profile" \
                 . "$_base_directory"/root/evolve
@@ -133,7 +134,7 @@ utils.sh
             bsdtar --verbose --extract --preserve-permissions --file $_iso_name --directory "$_root_directory"
             sync
             umount "$_root_directory"
-            rm --recursive --force "$_root_directory" out
+            rm --recursive --force "$_root_directory" out "$_archiso_profile"
         ;;
     esac
 }
