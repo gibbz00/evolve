@@ -99,7 +99,7 @@ install_bootloader() {
     echo "\"Boot using default options\" \"root=$ROOT_DEVICE rw initrd=$CPU_MANUFACTURER-ucode.img initrd=initramfs-linux.img\"" > /boot/refind_linux.conf
     mkdir --parents /etc/pacman.d/hooks
     cp sys/refind.hook /etc/pacman.d/hooks/
-    sudo -u "$GIT_USERNAME" sh -c "
+    sudo -u "$USERNAME" sh -c "
         paru -S refind-theme-regular-git --needed --noconfirm
     "
     cp sys/refind-theme.conf /boot/EFI/refind/themes/refind-theme-regular/theme.conf
