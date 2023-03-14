@@ -1,6 +1,14 @@
 #!/bin/bash
 . ./context.sh
 
+# helper funlction to make sure xdg base exports are used when using sh with user
+suserdo() {
+    sudo -u "$USERNAME" sh -c "
+        . $HOME/.config/bash/xdg_base.env
+        $1
+    "
+}
+
 clock_setup() {
     # Network time syncronization
     ln -sf /usr/share/zoneinfo/"$TIMEZONE" /etc/localtime
@@ -51,7 +59,7 @@ user_setup() {(
 paru_setup() {
     pacman -S git base-devel sudo --needed --noconfirm 
     uncomment_util ' %wheel ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
-    sudo -u "$USERNAME" sh -c "
+    suserdo "
         cd /home/$USERNAME 
         git clone https://aur.archlinux.org/paru.git
         cd paru
@@ -63,6 +71,7 @@ paru_setup() {
 rust_setup() {
     pacman -S rustup --needed --noconfirm
     sudo -u "$USERNAME" sh -c "
+        . $HOME/.config/bash/xdg_base.env
         rustup default $RUST_TOOLCHAIN
     "
 }
@@ -106,7 +115,7 @@ install_bootloader() {
     echo "\"Boot using default options\" \"root=$ROOT_DEVICE rw initrd=$CPU_MANUFACTURER-ucode.img initrd=initramfs-linux.img\"" > /boot/refind_linux.conf
     mkdir --parents /etc/pacman.d/hooks
     cp sys/refind.hook /etc/pacman.d/hooks/
-    sudo -u "$USERNAME" sh -c "
+    suserdo "
         paru -S refind-theme-regular-git --needed --noconfirm
     "
     cp sys/refind-theme.conf /boot/EFI/refind/themes/refind-theme-regular/theme.conf
@@ -124,7 +133,7 @@ misc_setup() {(
     # Make changes immediate
     test "$HARDWARE" = "rpi4" && systemctl restart systemd-vconsole-setup
 
-    sudo -u "$USERNAME" sh -c "
+    suserdo "
         git config --global user.name $GIT_USERNAME
         git config --global user.email $GIT_EMAIL_ADRESSS
         git config --global advice.addIgnoredFile false
@@ -133,16 +142,10 @@ misc_setup() {(
     # Github
     if test -n "$GITHUB_TOKEN"
     then
-        # HACK: creation of gitconfig through gh auth setup-git
-        # doesn't respect XDG_CONFIG_HOME as of 2022-09-28
-        sudo -u "$USERNAME" sh -c "
+        suserdo "
             paru -S --noconfirm --needed github-cli
             echo $GITHUB_TOKEN | gh auth login --with-token 
-            cd /home/$USERNAME
             gh auth setup-git
-            Does not seem to be an issue anymore:
-            mkdir --parent ~/.config/git
-            mv .gitconfig ~/.config/git/config
         "
     fi
 
