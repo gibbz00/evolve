@@ -1,9 +1,12 @@
+alsa-utils
 amd-ucode
 arch-install-scripts
 archinstall
+b43-fwcutter
 base
 bind
 brltty
+broadcom-wl
 btrfs-progs
 clonezilla
 cloud-init
@@ -31,6 +34,7 @@ gpart
 gpm
 gptfdisk
 grml-zsh-config
+grub
 hdparm
 hyperv
 intel-ucode
@@ -55,6 +59,8 @@ man-db
 man-pages
 mc
 mdadm
+memtest86+
+memtest86+-efi
 mkinitcpio
 mkinitcpio-archiso
 mkinitcpio-nfs-utils
@@ -80,6 +86,7 @@ pcsclite
 ppp
 pptpclient
 pv
+qemu-guest-agent
 refind
 reflector
 reiserfsprogs
@@ -93,6 +100,7 @@ smartmontools
 sof-firmware
 squashfs-tools
 sudo
+syslinux
 systemd-resolvconf
 tcpdump
 terminus-font
@@ -104,7 +112,11 @@ usb_modeswitch
 usbmuxd
 usbutils
 vim
+virtualbox-guest-utils-nox
 vpnc
+wireless-regdb
+wireless_tools
+wpa_supplicant
 wvdial
 xfsprogs
 xl2tpd
