@@ -173,6 +173,6 @@ then
 fi
 
 # Remove orphaned packages
-pacman -Qtdq | pacman -Rns -
+pacman -Qtdq | pacman --noconfirm -Rns -
 # Remove from target
 rm -rf /root/evolve
