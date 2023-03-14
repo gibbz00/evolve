@@ -158,9 +158,9 @@ misc_setup() {(
 clock_setup
 localization_setup
 user_setup
+# Done before package installation in order to aviod package conflicts with `rust`
+test "$RUST_TOOLCHAIN" &&  rust_setup
 paru_setup
-# Done before package installation in order to aviod package conflicts with rust-analyzer
-test "$RUST_TOOLCHAIN" && setup_rust
 install_packages_util "packages/tui"
 bash_force_xdg_base_spec
 swap_keys_option
