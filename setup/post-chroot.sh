@@ -62,7 +62,7 @@ paru_setup() {
 
 rust_setup() {
     pacman -S rustup --needed --noconfirm
-    rustup default "$RUST_TOOLCHAIN"
+    rustup default $RUST_TOOLCHAIN
 }
 
 bash_force_xdg_base_spec() {
@@ -108,6 +108,9 @@ install_bootloader() {
         paru -S refind-theme-regular-git --needed --noconfirm
     "
     cp sys/refind-theme.conf /boot/EFI/refind/themes/refind-theme-regular/theme.conf
+    echo "
+include themes/refind-theme-regular/theme.conf
+    " >> /boot/EFI/refind/refind.conf
 }
 
 misc_setup() {(

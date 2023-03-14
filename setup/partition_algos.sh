@@ -90,8 +90,10 @@ linux_only() {
     _boot_device_path="/dev/$(get_newest_partition_label "$_smallest_device")"                    
     mkfs.fat -F 32 "$_boot_device_path"
 
+    # Naming the partition arch_linux helps refind to match it with an icon.
+    # http://www.rodsbooks.com/refind/configfile.html#icons
     parted --script /dev/"$_smallest_device" \
-        mkpart primary "500MiB" "100%"
+        mkpart arch_linux "500MiB" "100%"
     partprobe /dev/"$_smallest_device"
     _root_device_path="/dev/$(get_newest_partition_label "$_smallest_device")"                    
     mkfs.ext4 -v "$_root_device_path"
@@ -137,8 +139,10 @@ windows_preinstalled() {
         if test "$_unallocated_size" -gt 20
         then
             _start=$(echo "$_unallocated_space" | grep --only-matching -E "^ *\w*" | tr --delete ' ')
+            # Naming the partition arch_linux helps refind to match it with an icon.
+            # http://www.rodsbooks.com/refind/configfile.html#icons
             parted --script --align optimal /dev/"$_physical_device" \
-                 mkpart primary "$_start" "100%"           
+                 mkpart arch_linux "$_start" "100%"           
             partprobe /dev/"$_physical_device"
             # Format the newly created partition to ext4
             _new_partition_label=$(get_newest_partition_label "$_physical_device")
