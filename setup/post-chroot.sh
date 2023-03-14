@@ -62,7 +62,9 @@ paru_setup() {
 
 rust_setup() {
     pacman -S rustup --needed --noconfirm
-    rustup default $RUST_TOOLCHAIN
+    sudo -u "$USERNAME" sh -c "
+        rustup default $RUST_TOOLCHAIN
+    "
 }
 
 bash_force_xdg_base_spec() {
