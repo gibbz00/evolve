@@ -26,6 +26,6 @@ helix-git
     bash-language-server
     python-lsp-server
     typescript-language-server
-    nodejs-svelte-language-server
+    svelte-language-server
 btop
 # TODO: add language servers for helix; rust-analyser and marksman
