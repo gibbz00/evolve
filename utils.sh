@@ -8,5 +8,9 @@ uncomment_util(){
 # $1 packages list path
 install_packages_util() {
     PACKAGES=$(sed -e '/#/d' "$1" | tr --squeeze-repeats '\n ' ' ')
-    sudo -u "$USERNAME" sh -c "paru -S $PACKAGES --noconfirm --needed"
+    su "$USERNAME" --login -c "
+        cd /home/$USERNAME 
+        . .config/bash/xdg_base.env
+        paru -S $PACKAGES --noconfirm --needed
+    "
 }
