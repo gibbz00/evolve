@@ -66,6 +66,10 @@ bindsym $mod+Shift+r reload
 # opacity toggle
 bindsym $mod+Shift+o exec '$XDG_CONFIG_HOME/sway/opacity-toggle.sh'
 
+# Notification handling
+bindsym $mod+BackSpace exec dunstctl close
+bindsym $mod+Colon exec dunstctl context
+
 ## Launcher: rofi (wayland fork: lbonn/rofi)
     # introduction: man rofi
     # theming: man rofi-theme 
