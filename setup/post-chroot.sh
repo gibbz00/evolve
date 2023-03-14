@@ -60,6 +60,11 @@ paru_setup() {
     "
 }
 
+rust_setup() {
+    pacman -S rustup --needed --noconfirm
+    rustup default "$RUST_TOOLCHAIN"
+}
+
 bash_force_xdg_base_spec() {
     # Appended to /etc/profile rather then added to /etc/profile.d to ensure
     # that everything in profile.d/ (e.g locale.sh) is sourced first. 
@@ -135,18 +140,14 @@ misc_setup() {(
         pacman -S openssh --needed --noconfirm
         systemctl enable sshd
     fi
-
-    if test "$RUST_TOOLCHAIN"
-    then
-        pacman -S rustup --needed --noconfirm
-        rustup default "$RUST_TOOLCHAIN"
-    fi
 )}
   
 clock_setup
 localization_setup
 user_setup
 paru_setup
+# Done before package installation in order to aviod package conflicts with rust-analyzer
+test "$RUST_TOOLCHAIN" && setup_rust
 install_packages_util "packages/tui"
 bash_force_xdg_base_spec
 swap_keys_option
