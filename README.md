@@ -14,6 +14,8 @@ Current support of the following hadware:
 | Live USB |       | TBA            | TBA           |                                        |
 
 *Partly because the chosen bootloader does not support legacy BIOS, and partly because newer Windows versions don't work on BIOS systems.
+
+Check out [ARCHITECTURE.md](ARCHITECTURE.md) for a high level introcution to how it all works, and [CONFIGURING.md](CONFIGURING.md) for an explanation on how to configure `evolve.env`.
  
 # Usage
 
