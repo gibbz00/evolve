@@ -4,7 +4,8 @@
 # helper funlction to make sure xdg base exports are used when using sh with user
 suserdo() {
     sudo -u "$USERNAME" sh -c "
-        . $HOME/.config/bash/xdg_base.env
+        cd /home/$USERNAME 
+        . .config/bash/xdg_base.env
         $1
     "
 }
@@ -60,7 +61,6 @@ paru_setup() {
     pacman -S git base-devel sudo --needed --noconfirm 
     uncomment_util ' %wheel ALL=(ALL:ALL) NOPASSWD: ALL' /etc/sudoers
     suserdo "
-        cd /home/$USERNAME 
         git clone https://aur.archlinux.org/paru.git
         cd paru
         makepkg --syncdeps --install --noconfirm --needed
@@ -70,8 +70,7 @@ paru_setup() {
 
 rust_setup() {
     pacman -S rustup --needed --noconfirm
-    sudo -u "$USERNAME" sh -c "
-        . $HOME/.config/bash/xdg_base.env
+    suserdo "
         rustup default $RUST_TOOLCHAIN
     "
 }
