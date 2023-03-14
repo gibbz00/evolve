@@ -124,19 +124,25 @@ misc_setup() {(
     # Make changes immediate
     test "$HARDWARE" = "rpi4" && systemctl restart systemd-vconsole-setup
 
-    # Git
-    git config --global user.name "$GIT_USERNAME"
-    git config --global user.email "$GIT_EMAIL_ADRESSS"
-    git config --global advice.addIgnoredFile false
+    sudo -u "$USERNAME" sh -c "
+        git config --global user.name $GIT_USERNAME
+        git config --global user.email $GIT_EMAIL_ADRESSS
+        git config --global advice.addIgnoredFile false
+    "
 
     # Github
     if test -n "$GITHUB_TOKEN"
     then
+        # HACK: creation of gitconfig through gh auth setup-git
+        # doesn't respect XDG_CONFIG_HOME as of 2022-09-28
         sudo -u "$USERNAME" sh -c "
             paru -S --noconfirm --needed github-cli
             echo $GITHUB_TOKEN | gh auth login --with-token 
             cd /home/$USERNAME
             gh auth setup-git
+            Does not seem to be an issue anymore:
+            mkdir --parent ~/.config/git
+            mv .gitconfig ~/.config/git/config
         "
     fi
 
