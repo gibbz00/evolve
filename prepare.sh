@@ -133,7 +133,7 @@ utils.sh
             bsdtar --verbose --extract --preserve-permissions --file $_iso_name --directory "$_root_directory"
             sync
             umount "$_root_directory"
-            rm --recursive --force "$_root_directory" out "$_archiso_profile"
+            rm --recursive --force "$_root_directory" out
         ;;
     esac
 }
