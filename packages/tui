@@ -17,6 +17,7 @@ tree
 rsync
 usbutils
 tmux
+# using git version for softwrap and built in evolve theme
 helix-git
     # Language servers for helix
     rust-analyzer
