@@ -4,7 +4,7 @@ The goal of this project is to serve as an installation script for personally co
 
 It takes a rather different approach to many of the existing installers. The scripts are thin, readable and customizable. And a "pre-configure once", then "install automatically" approach is used. Setup config variables are assumed to be correctly configured for this to work, and this README attemps to make sure that will be the case.
 
-Current support of the following hadware:
+Currently supporting the following hadware:
 
 | Base     | Alias | Headless (tui) | Desktop (gui) | Hardware                               |
 | :---     | :---: | :---:          | :---:         | :---:                                  |          
