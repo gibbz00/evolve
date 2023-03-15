@@ -1,6 +1,6 @@
 # Commands can be found at 
 # https://docs.helix-editor.com/configuration.html
-theme = 'evolve'
+theme = 'ayu_evolve'
 
 [editor]
 mouse=false
