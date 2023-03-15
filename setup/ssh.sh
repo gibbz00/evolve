@@ -6,7 +6,7 @@
 export SSHPASS="$_ssh_initial_root_passwd"
 sshpass -e ssh -o StrictHostKeyChecking=no root@"$HOST_NAME" "
     cd /root/evolve
-    ./setup/main.sh
+    ./setup/tui.sh
 "
 unset SSHPASS
 
