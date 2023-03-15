@@ -123,6 +123,40 @@ include themes/refind-theme-regular/theme.conf
     " >> /boot/EFI/refind/refind.conf
 }
 
+git_setup() {
+    if test "$GIT_USERNAME$GIT_EMAIL_ADRESSS$GITHUB_TOKEN"
+    then
+        # single quotes to avioid preemptive variable expansion
+        # shellcheck disable=SC2016
+        # https://git-scm.com/docs/git-config#Documentation/git-config.txt---global
+        suserdo '
+            git_config_dir=$XDG_CONFIG_HOME/git
+            mkdir --parents $git_config_dir
+            touch $git_config_dir/config
+        '
+    else
+        return 0
+    fi
+
+    # No `test "$ENV_VAR" &&` statements are needed as git config
+    # commands will just attempt to return current value if no value
+    # is provided.
+    suserdo "
+        git config --global user.name $GIT_USERNAME
+        git config --global user.email $GIT_EMAIL_ADRESSS
+        git config --global advice.addIgnoredFile false
+    "
+
+    if test -n "$GITHUB_TOKEN"
+    then
+        suserdo "
+            paru -S --noconfirm --needed github-cli
+            echo $GITHUB_TOKEN | gh auth login --with-token 
+            gh auth setup-git
+        "
+    fi
+}
+
 misc_setup() {(
     # Supress some error messages in console
     cp sys/20-quiet-printk.conf /etc/sysctl.d/
@@ -132,21 +166,6 @@ misc_setup() {(
     # Make changes immediate
     test "$HARDWARE" = "rpi4" && systemctl restart systemd-vconsole-setup
 
-    suserdo "
-        git config --global user.name $GIT_USERNAME
-        git config --global user.email $GIT_EMAIL_ADRESSS
-        git config --global advice.addIgnoredFile false
-    "
-
-    # Github
-    if test -n "$GITHUB_TOKEN"
-    then
-        suserdo "
-            paru -S --noconfirm --needed github-cli
-            echo $GITHUB_TOKEN | gh auth login --with-token 
-            gh auth setup-git
-        "
-    fi
 
     if test "$SSH_SERVER" = "true"
     then
@@ -165,6 +184,7 @@ install_packages_util "packages/tui"
 bash_force_xdg_base_spec
 swap_keys_option
 test "$HARDWARE" = "uefi" && install_bootloader
+git_setup
 misc_setup
 
 if "$GUI"
