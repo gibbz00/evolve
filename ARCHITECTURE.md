@@ -4,13 +4,13 @@ The scripted install process is usually divided into two parts:
 
 An installation medium is first prepared from a working *NIX system with bash by running `prepare.sh`.
 Once finished, and target machine is and up and running; `setup/ssh.sh` is executed from the preparation system.
-It connects to the target via SSH and and runs `setup/main.sh`. This is where users, package, and personal configurations are installed.
+It connects to the target via SSH and runs `setup/main.sh`. This is where users, package, and personal configurations are installed.
 `setup/main.sh` has two stages, TUI and GUI setup. Which stage to use can be configured.
 The GUI system is always superset of the TUI version because it is run after the TUI setup. 
 
 Speaking of configuring. Most of the installation process configuration is specified `src/evolve.env` (see [CONFIGURING.md](CONFIGURING.md)).
 Dotfiles are placed in `src/skel{tui,gui}` which then serve as the backbone for the user's home directory for the respective UIs.
-Programs to install are in a similar fashion placed in `packages/{tui,gui}`.
+Programs to install are similarly placed in `packages/{tui,gui}`.
 
 Out of the box features can be deduced by browsing the config in `skel` and the packages in `packages`.
 Features are also added through the installation scripts only, here are some:
