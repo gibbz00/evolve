@@ -29,4 +29,5 @@ helix-git
     typescript-language-server
     svelte-language-server
 btop
-# TODO: add language servers for helix; rust-analyser and marksman
+# Waiting for https://github.com/charmbracelet/glow/pull/427
+# glow
