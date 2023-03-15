@@ -1,6 +1,5 @@
 mesa
 noto-fonts
-# noto-fonts-emoji
 # noto-fonts-cjk
 # noto-fonts-extra  
 sway
@@ -17,9 +16,13 @@ sway
     swaybg
     networkmanager-dmenu-git
 	sway-rofi-screenshot-git
-	flat-remix-gtk
-	kvantum
-	archdroid-icon-theme-git
+	rofimoji
+		wtype
+		noto-fonts-emoji
+	# Theming
+		flat-remix-gtk
+		kvantum
+		archdroid-icon-theme-git
 pipewire
 	wireplumber
 	pipewire-jack

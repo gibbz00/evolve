@@ -70,31 +70,33 @@ bindsym $mod+Shift+o exec '$XDG_CONFIG_HOME/sway/opacity-toggle.sh'
 bindsym $mod+BackSpace exec dunstctl close
 bindsym $mod+Colon exec dunstctl context
 
-## Launcher: rofi (wayland fork: lbonn/rofi)
-    # introduction: man rofi
-    # theming: man rofi-theme 
-    # custom modes: man rofi-script
-# Applications
+### Rofi Launchers ###
+## Application
 bindsym $mod+o exec rofi -show drun -show-icons
-# Clipboard manager
-# (Not pasting from primary clipboard, a.k.a visually selected text + middle mouse button)
-# Default history size (max-items) is 15
+
+## Clipboard manager
 exec wl-paste -t text --watch clipman store --max-items=200
 bindsym $mod+c exec clipman pick --tool rofi
-# Clear item from clipboard history
 bindsym $mod+Shift+c exec clipman clear --tool rofi
-# Clear the entire clipboard history
 bindsym $mod+Control+c exec clipman clear --all
+
+## Screenshots
 bindsym $mod+s exec --no-startup-id sway-rofi-screenshot
-# Networkmanager 
+
+## Networkmanager
 # Config and further information at:
 # $XDG_CONFIG_HOME/networkmanager-dmenu/config.ini
 bindsym $mod+n exec networkmanager_dmenu
-# Windows
+
+## Window
 bindsym $mod+w exec rofi -show window -show-icons
-# Exit (lock, poweroff, reboot)
-# lock calls Swaylock which then uses $XDG_CONFIG_HOME/swaylock/config
+
+## Exit (lock, poweroff, reboot)
 bindsym $mod+d exec --no-startup-id "$XDG_CONFIG_HOME/rofi/exit.sh"
+
+## Emoji
+bindsym $mod+e exec --no-startup-id rofimoji --selector-args="-theme $XDG_CONFIG_HOME/rofi/grid.rasi" --hidden-descriptions --max-recent 5
+
 # Termainal emulator
 exec foot --server
 bindsym $mod+Return exec footclient
