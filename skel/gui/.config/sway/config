@@ -25,7 +25,7 @@ output * bg '$WALLPAPER' fill
 
 # Uses inactive-windows-transparency.py (requires i3ipc-python package) 
 # Copied over personal version until https://github.com/swaywm/sway/pull/7197 gets merged.
-exec_always '$XDG_CONFIG_HOME/sway/opacity-toggle.sh'
+exec '$XDG_CONFIG_HOME/sway/opacity-toggle.sh'
 
 ## Keyboard layouts (more info: man 5 sway-input)
 input type:keyboard {
