@@ -17,10 +17,10 @@ set $down down
 set $left left
 set $right right
 
-## Autostart
-output eDP-1 disable
-output DP-3 pos 0 0
-output DP-4 pos 1920 0
+## Autostart (swaymsg --type get_outputs)
+# output eDP-1 disable
+# output DP-3 pos 0 0
+# output DP-4 pos 1920 0
 output * bg '$WALLPAPER' fill
 
 # Uses inactive-windows-transparency.py (requires i3ipc-python package) 
