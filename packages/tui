@@ -10,11 +10,12 @@ bash
     z
     bash-completion 
     fd
+    ripgrep
+    tree
+    rsync
 # replace the following two with `man` on Arm
 man-pages
 man-db
-tree
-rsync
 usbutils
 tmux
 # using git version for softwrap and built in evolve theme
