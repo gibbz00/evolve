@@ -33,8 +33,8 @@ foot
 firefox
 imv
 zathura
-vlc
-
+	zathura-pdf-mupdf
+# vlc
 # spotify-launcher (or ncspot)
 # discord
 # gimp-devel (Dev version has both GTK3 and wayland support)
