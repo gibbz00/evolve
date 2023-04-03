@@ -18,6 +18,11 @@ export SDL_VIDEODRIVER=wayland
 # check out https://wiki.archlinux.org/title/wayland#Configuration_file
 #   Tried to quickly create electron-flags.conf but didn't check if it actually worked
 #   Adding non-sensical flags showed no error messages
+# in .config/electron-flags.conf
+# --enable-webrtc-pipewire-capturer
+# --enable-features=UseOzonePlatform 
+# --ozone-platform=wayland
+# --ozone-platform-hint=auto
 
 export QT_FONT_DPI=128
 export QT_STYLE_OVERRIDE=kvantum
