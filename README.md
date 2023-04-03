@@ -37,7 +37,7 @@ curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
 
 3. With the installation medium in hand, run:
 
-```
+```bash
 sudo ./prepare.sh
 ```
 
@@ -45,7 +45,7 @@ sudo ./prepare.sh
 
 5. Still from the first computer, and still in `evolve-development/`
 
-```
+```bash
 ./setup/ssh.sh
 ```
 
