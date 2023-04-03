@@ -17,7 +17,8 @@ bash
 man-pages
 man-db
 usbutils
-tmux
+zip
+unzip
 # using git version for softwrap and built in evolve theme
 helix-git
     # Language servers for helix
@@ -32,3 +33,4 @@ helix-git
 btop
 # Waiting for https://github.com/charmbracelet/glow/pull/427
 # glow
+# tmux

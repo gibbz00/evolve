@@ -29,6 +29,7 @@ pipewire
 	pipewire-alsa
 	pipewire-pulse
 	rtkit
+	pavucontrol
 foot
 firefox
 imv
