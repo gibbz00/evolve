@@ -93,6 +93,11 @@ fi"
     echo "$code" >> '/etc/bash.bashrc'
 }
 
+bluetooth_setup() {
+    pacman -S bluez bluez-utils --needed --noconfirm
+    systemctl enable bluetooth
+}
+
 swap_keys_option() {
     ($SWAP_CAPS_ESCAPE || $SWAP_LCTRL_LALT) || return 0
     
@@ -182,6 +187,7 @@ test "$RUST_TOOLCHAIN" &&  rust_setup
 paru_setup
 install_packages_util "packages/tui"
 bash_force_xdg_base_spec
+test "$BLUETOOTH" && bluetooth_setup
 swap_keys_option
 test "$HARDWARE" = "uefi" && install_bootloader
 git_setup
