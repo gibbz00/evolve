@@ -2,6 +2,7 @@ mesa
 noto-fonts
 # noto-fonts-cjk
 # noto-fonts-extra  
+xorg-xwayland
 sway
     qt5-wayland
     qt6-wayland
@@ -25,6 +26,7 @@ sway
 		archdroid-icon-theme-git
 pipewire
 	wireplumber
+	xdg-desktop-portal-wlr
 	pipewire-jack
 	pipewire-alsa
 	pipewire-pulse
