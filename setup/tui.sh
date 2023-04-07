@@ -25,6 +25,15 @@ pacman_setup() {
     uncomment_util "ParallelDownloads" /etc/pacman.conf
     uncomment_util "Color" /etc/pacman.conf
     case $HARDWARE in 
+        'm1') 
+            pacman-key --init
+            pacman-key --populate archlinuxarm 
+            pacman -Sy archlinux-keyring --noconfirm
+            pacman -Syyu --noconfirm
+            # Better GPU support https://asahilinux.org/2023/03/road-to-vulkan/
+        		pacman -S --needed --noconfirm linux-asahi-edge mesa-asahi-edge
+            update-grub
+        ;;
         'rpi4') 
             pacman-key --init
             pacman-key --populate archlinuxarm 

@@ -10,6 +10,7 @@ Hardware configuration support:
 | :---     | :---: | :---:          | :---:         | :---:                                  |          
 | x86_64   | uefi  | Full           | Full          | Any UEFI system*                       | 
 | Arm      | rpi4  | Full           | Full          | The Rasberry Pi 4                      | 
+| Arm      | m1    | WIP            | WIP           | Mac Mini 2020 (M1)                     | 
 | Docker   |       | TBA            | TBA           |                                        |
 | Live USB |       | TBA            | TBA           |                                        |
 

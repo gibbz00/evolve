@@ -50,7 +50,7 @@ user_setup() {(
     useradd --skel merged-skel --create-home --shell /bin/bash --groups users,wheel "$USERNAME"
     printf "%s\n%s" "$USER_PASSWORD" "$USER_PASSWORD" | passwd "$USERNAME"
 
-    if test "$HARDWARE" = 'rpi4'
+    if test "$HARDWARE" = 'rpi4' || test "$HARDWARE" = 'm1'
     then
         # remove default alarm user
         userdel --remove alarm
