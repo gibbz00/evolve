@@ -15,7 +15,7 @@ prepare_and_mount_partitions() {
 
 setup_mirrors() {
     # Arch Arm treats mirrors a bit differently: https://archlinuxarm.org/about/mirrors
-    if test "$HARDWARE" != "rpi4"
+    if test "$HARDWARE" = "uefi"
     then
         reflector --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
     fi
