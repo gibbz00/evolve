@@ -9,8 +9,8 @@ Hardware configuration support:
 | Base     | Alias | Headless (TUI) | Desktop (GUI) | Hardware                               |
 | :---     | :---: | :---:          | :---:         | :---:                                  |          
 | x86_64   | uefi  | Full           | Full          | Any UEFI system*                       | 
+| Arm      | m1    | Full           | Full          | Mac Mini 2020 (M1)                     | 
 | Arm      | rpi4  | Full           | Full          | The Rasberry Pi 4                      | 
-| Arm      | m1    | WIP            | WIP           | Mac Mini 2020 (M1)                     | 
 | Docker   |       | TBA            | TBA           |                                        |
 | Live USB |       | TBA            | TBA           |                                        |
 
@@ -19,6 +19,8 @@ Hardware configuration support:
 Check out [ARCHITECTURE.md](ARCHITECTURE.md) for a high level introduction to how it all works, and [CONFIGURING.md](CONFIGURING.md) for an explanation on how to configure `evolve.env`.
  
 # Usage
+
+(For the M1; see [#M1 Installation].)
 
 0. Other than those listed in the supported hardware and the `evolve.env` explanation sections, the following needs to be met:
 * Root access on the preparation machine.
@@ -51,6 +53,32 @@ sudo ./prepare.sh
 ```
 
 And that's it! System should now be fully set up and up and running.
+
+## M1 Installation
+
+1. Carefully read up on the requirements and expectations at: [Asahi Linux Feature Support](https://github.com/AsahiLinux/docs/wiki/Feature-Support) and [Alpha installer](https://asahilinux.org/2022/03/asahi-linux-alpha-release/). Then begin the **minimal arch** installation process with:
+
+```bash
+  curl https://alx.sh | sh  
+```
+
+2. Log in with `root` pass=`root` once installed.
+
+3. Curl the project:
+
+```bash
+# in /root
+curl --location https://github.com/gibbz00/evolve/archive/development.tar.gz \
+    | tar --verbose --extract --preserve-permissions --ungzip --file -
+```
+
+4. Edit `evolve.env` to your liking but with `HARDWARE='m1'`.
+
+5. And then finally: 
+
+```bash
+./setup/tui.sh
+```
 
 # Limitations, troubleshooting and TODOS:
 
