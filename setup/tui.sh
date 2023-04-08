@@ -57,8 +57,19 @@ pacman_setup() {
     esac
 }
 
+hostname_setup() {
+    case $HARDWARE in 
+        'm1') 
+            # Usually inserted in prepare.sh for the other plattforms.
+            echo "$HOST_NAME" > $/etc/hostname
+        ;;
+        'uefi') 
+            cp /etc/hostname /mnt/etc/hostname
+        ;;
+    esac
+}
+
 chroot_mnt() {
-    cp /etc/hostname /mnt/etc/hostname
     cp -r /root/evolve /mnt/root/evolve
     arch-chroot /mnt /bin/bash -c "
 cd /root/evolve
@@ -69,6 +80,7 @@ cd /root/evolve
 test "$HARDWARE" = "uefi" && prepare_and_mount_partitions 
 setup_mirrors
 pacman_setup
+hostname_setup
 if test "$HARDWARE" = "uefi"
 then
     chroot_mnt
