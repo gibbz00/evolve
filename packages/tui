@@ -13,10 +13,8 @@ bash
     ripgrep
     tree
     rsync
-# replace the following two with `man` on Arm
-man
-# man-pages
-# man-db
+man-pages
+man-db
 usbutils
 zip
 unzip
