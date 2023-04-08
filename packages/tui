@@ -23,7 +23,6 @@ helix-git
     # Language servers for helix
     rust-analyzer
     taplo
-    marksman-bin
     clang
     bash-language-server
     python-lsp-server

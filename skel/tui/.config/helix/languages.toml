@@ -10,3 +10,11 @@ loadOutDirsFromCheck = true
 # Comment and uncomment this if LSP file lock issues begin to occur.
 # checkOnSave.enable=false
 # checkOnSave.extraArgs = ["--target-dir", "/path/to/proect/target/check"]
+
+[[language]]
+name = "markdown"
+language-server = { command = "ltex-ls"}
+
+[[language]]
+name = "git-commit"
+language-server = { command = "ltex-ls"}
