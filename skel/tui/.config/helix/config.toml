@@ -47,6 +47,8 @@ C-w = ":toggle soft-wrap.enable"
 "C-left" = "select_prev_sibling"
 "C-right" = "select_next_sibling"
 
+A-r = ":reflow"
+
 "A-o" = "no_op"
 "A-up" = "no_op"
 "A-i" = "no_op"
