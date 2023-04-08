@@ -41,12 +41,12 @@ pacman_setup() {
             pacman -Syyu --noconfirm
             # Better GPU support out of the box:
         		pacman --remove --recursive --noconfirm linux-aarch64 uboot-raspberrypi
-        		pacman -S --needed --noconfirm linux-rpi raspberrypi-firmware raspberrypi-bootloader
+        		pacman -S --needed --noconfirm linux-rpi raspberrypi-firmware raspberrypi-bootloader mesa
         ;;
         'uefi')
             # Pacstrap copies over host (usb) /etc/pacmand.d/mirrorlist
             # -P flag copies over the host /etc/pacman.conf as well.
-            pacstrap -P -K /mnt base linux linux-firmware
+            pacstrap -P -K /mnt base linux linux-firmware mesa
         ;;
         * ) 
             pacman-key --init
