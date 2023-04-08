@@ -11,6 +11,8 @@ scrolloff = 0
 bufferline = "always"
 # Depends on https://github.com/helix-editor/helix/pull/5635
 # sorted-infobox = true
+# Until https://github.com/helix-editor/helix/pull/6656 gets merged.
+soft-wrap.enable = true
 
 [editor.lsp]
 # Until it stops being placed aver autocompletion when writing closures in function calls.
@@ -37,7 +39,7 @@ D = "delete_char_backward"
 "pageup" = "goto_previous_buffer"
 
 # Prefer to just use space+w
-C-w = "no_op"
+C-w = ":toggle soft-wrap.enable"
 
 # Tree-sitter aware movements
 "C-up" = "expand_selection"
