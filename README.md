@@ -20,8 +20,6 @@ Check out [ARCHITECTURE.md](ARCHITECTURE.md) for a high level introduction to ho
  
 # Usage
 
-(For the M1; see [#M1 Installation].)
-
 0. Other than those listed in the supported hardware and the `evolve.env` explanation sections, the following needs to be met:
 * Root access on the preparation machine.
 * Physical access and an Ethernet connection to the target machine.

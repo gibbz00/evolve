@@ -19,7 +19,6 @@
 - GIT_EMAIL_ADRESSS: Ditto.
 - GITHUB_TOKEN: For GitHub CLI authentication. Minimum required scopes for the provided token are: "repo", "read:org".*
 - RUST_TOOLCHAIN=`stable/nightly/<version_number>`: Installs rustup as an [Arch inux package](https://wiki.archlinux.org/title/Rust#Arch_Linux_package) and installs the given toolchain to be used as a default. Additional toolchains can always be installed with `rustup toolchain install <toolchain>`.)
-The LSP server for rust (`rust-analyzer`) is optionally added by listing it in `packages`.
 
 Optional env values that are not `boolean` are simply opted out from by not filling them in.
 
