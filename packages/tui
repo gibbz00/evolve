@@ -21,13 +21,15 @@ unzip
 # using git version for softwrap and built in evolve theme
 helix-git
     # Language servers for helix
-    rust-analyzer
     taplo
     clang
     bash-language-server
     python-lsp-server
     typescript-language-server
     svelte-language-server
+    tailwindcss-language-server
+    ltex-ls-bin
+    marksman-bin
 btop
 # Waiting for https://github.com/charmbracelet/glow/pull/427
 # glow

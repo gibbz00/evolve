@@ -1,20 +1,26 @@
-[[language]]
-name = "rust"
+[language-server]
+ltex-ls = { command = "ltex-ls" }
 
-[language.config]
+[language-server.rust-analyzer.config]
 checkOnSave.command = "clippy"
+procMacro.ignored = { leptos_macro = ["component", "server", "island"] }
+# rustfmt.overrideCommand = ["leptosfmt", "--stdin", "--rustfmt"]
+diagnostics.disabled = [ "inactive-code" ]
 
-[language.config.cargo]
+[language-server.rust-analyzer.config.cargo]
 features = "all"
 loadOutDirsFromCheck = true
-# Comment and uncomment this if LSP file lock issues begin to occur.
-# checkOnSave.enable=false
-# checkOnSave.extraArgs = ["--target-dir", "/path/to/proect/target/check"]
 
 [[language]]
 name = "markdown"
-language-server = { command = "ltex-ls"}
+language-servers = ["ltex-ls", "marksman"]
 
 [[language]]
 name = "git-commit"
-language-server = { command = "ltex-ls"}
+language-servers = ["ltex-ls"]
+
+[[language]]
+name = "svelte"
+auto-format = true
+roots = ["svelte.config.js"]
+language-servers = ["tailwindcss-ls", "svelteserver"]

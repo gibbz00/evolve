@@ -72,6 +72,7 @@ rust_setup() {
     pacman -S rustup --needed --noconfirm
     suserdo "
         rustup default $RUST_TOOLCHAIN
+        rustup component add rust-analyzer
     "
 }
 
