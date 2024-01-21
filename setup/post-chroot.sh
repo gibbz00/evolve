@@ -171,11 +171,21 @@ misc_setup() {(
     # Make changes immediate
     test "$HARDWARE" = "rpi4" && systemctl restart systemd-vconsole-setup
 
+    if test "$ROOTLESS_DOCKER" = "true"
+    then
+        pacman -S docker --needed --noconfirm
+
+        sudo groupadd docker
+        sudo usermod -aG docker $USERNAME
+        newgrp docker
+
+        systemctl enable --now docker
+    fi
 
     if test "$SSH_SERVER" = "true"
     then
         pacman -S openssh --needed --noconfirm
-        systemctl enable sshd
+        systemctl enable --now sshd
     fi
 )}
   
