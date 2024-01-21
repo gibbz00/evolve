@@ -3,10 +3,12 @@
 theme = 'ayu_evolve'
 
 [editor]
-mouse=false
+mouse=true
 line-number = "relative"
 idle-timeout = 0
 completion-trigger-len = 1
+# Until https://github.com/helix-editor/helix/pull/7480 get merged.
+completion-keep-placeholders = true
 scrolloff = 0
 bufferline = "always"
 # Depends on https://github.com/helix-editor/helix/pull/5635
@@ -23,9 +25,8 @@ render = true
 [editor.statusline]
 # Mode does not need to be shown as the evolve theme indicates it 
 # with the cursor color instead.
-# Neither does row number when it is placed in the gutter.
 left = ["file-name", "position-percentage"]
-right = ["spinner", "diagnostics"]
+right = ["spinner", "diagnostics", "position"]
 
 [keys.normal]
 X = "extend_line_above"
@@ -47,11 +48,13 @@ C-w = ":toggle soft-wrap.enable"
 "C-left" = "select_prev_sibling"
 "C-right" = "select_next_sibling"
 
+# Overrides delete_selection_noyank
+A-d = ":reset-diff-change"
+A-i = ":toggle-option lsp.display-inlay-hints"
 A-r = ":reflow"
 
 "A-o" = "no_op"
 "A-up" = "no_op"
-"A-i" = "no_op"
 "A-down" = "no_op"
 "A-p" = "no_op"
 "A-left" = "no_op"
