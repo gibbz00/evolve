@@ -69,10 +69,14 @@ paru_setup() {
 }
 
 rust_setup() {
-    pacman -S rustup --needed --noconfirm
+    pacman -S rustup mold --needed --noconfirm
     suserdo "
         rustup default $RUST_TOOLCHAIN
         rustup component add rust-analyzer
+    "
+    # https://github.com/rust-lang/cargo/issues/1734
+    suserdo "
+        ln -s $XDG_CONFIG_HOME/cargo/config.toml $CARGO_HOME/cargo/
     "
 }
 
