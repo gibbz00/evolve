@@ -150,6 +150,7 @@ git_setup() {
         git config --global user.name $GIT_USERNAME
         git config --global user.email $GIT_EMAIL_ADRESSS
         git config --global advice.addIgnoredFile false
+        git config --global init.defaultBranch $GIT_DEFAULT_BRANCH
     "
 
     if test -n "$GITHUB_TOKEN"
