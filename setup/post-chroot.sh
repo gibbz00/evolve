@@ -189,6 +189,14 @@ misc_setup() {(
         pacman -S openssh --needed --noconfirm
         systemctl enable --now sshd
     fi
+
+    # GnuPG does not seem to create it by it self:
+    suserdo "
+        _gnu_dir="$XDG_DATA_HOME/gnupg"
+        mkdir "$_gnu_dir"
+        find "$_gnu_dir" -type f -exec chmod 600 {} \;
+        find "$_gnu_dir" -type d -exec chmod 700 {} \;
+    "
 )}
   
 clock_setup
