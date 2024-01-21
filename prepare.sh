@@ -68,7 +68,7 @@ format_and_mount_partitions() {
         ;;
         'uefi')
             mkfs.fat -F 32 /dev/"$1"
-            mkdir "$_root_directory"
+            mkdir -p "$_root_directory"
             mount /dev/"$1" "$_root_directory"
         ;;
     esac
@@ -102,6 +102,7 @@ download_base() {
             # Following: https://wiki.archlinux.org/title/archiso
             _archiso_profile="install_iso"
             cp -r /usr/share/archiso/configs/releng "$_archiso_profile"
+            cp "$_archiso_profile/airootfs/etc/ssh/sshd_config.d/10-archiso.conf" "$_archiso_profile/airootfs/etc/ssh/sshd_config"
             _base_directory="$_archiso_profile/airootfs"
             rsync --recursive --perms --times --verbose --exclude="$_root_directory" --exclude="$_archiso_profile" \
                 . "$_base_directory"/root/evolve
