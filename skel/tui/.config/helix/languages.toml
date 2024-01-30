@@ -5,11 +5,15 @@ ltex-ls = { command = "ltex-ls" }
 checkOnSave.command = "clippy"
 procMacro.ignored = { leptos_macro = ["component", "server", "island"] }
 # rustfmt.overrideCommand = ["leptosfmt", "--stdin", "--rustfmt"]
-diagnostics.disabled = [ "inactive-code" ]
+diagnostics.disabled = ["inactive-code"]
 
 [language-server.rust-analyzer.config.cargo]
 features = "all"
 loadOutDirsFromCheck = true
+
+[[language]]
+name = "toml"
+auto-format = true
 
 [[language]]
 name = "markdown"
