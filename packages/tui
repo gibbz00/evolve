@@ -13,6 +13,8 @@ bash
     ripgrep
     tree
     rsync
+    bat
+    ouch
 man-pages
 man-db
 usbutils
