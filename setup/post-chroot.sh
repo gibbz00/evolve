@@ -181,7 +181,6 @@ misc_setup() {(
     then
         pacman -S docker --needed --noconfirm
 
-        sudo groupadd docker
         sudo usermod -aG docker $USERNAME
         newgrp docker
 
