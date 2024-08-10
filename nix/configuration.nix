@@ -1,7 +1,8 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  # TODO: parameterize
+  imports = [ ./hardware/workstation/hardware-configuration.nix ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
