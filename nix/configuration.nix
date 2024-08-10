@@ -1,94 +1,67 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ ./hardware-configuration.nix ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  networking.wireless = {
-    enable = true;
-    userControlled.enable = true;
-  };
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  # TODO: parameterize
+  networking.hostName = "nixos";
+  networking.networkmanager.enable = true;
 
-  # Enable networking
-  # networking.networkmanager.enable = true;
-
-  # Set your time zone.
+  # TODO: parameterize
   time.timeZone = "Europe/Stockholm";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "sv_SE.UTF-8";
-    LC_IDENTIFICATION = "sv_SE.UTF-8";
-    LC_MEASUREMENT = "sv_SE.UTF-8";
-    LC_MONETARY = "sv_SE.UTF-8";
-    LC_NAME = "sv_SE.UTF-8";
-    LC_NUMERIC = "sv_SE.UTF-8";
-    LC_PAPER = "sv_SE.UTF-8";
-    LC_TELEPHONE = "sv_SE.UTF-8";
-    LC_TIME = "sv_SE.UTF-8";
-  };
-
   # Configure keymap in X11
+  # TODO: move to home?
   services.xserver = {
     layout = "us";
     xkbVariant = "";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  # TODO: to separate file
   users.users.gibbz = {
     isNormalUser = true;
-    description = "Gabriel Hansson";
     extraGroups = [ "networkmanager" "wheel" ];
+    # TODO: users sets up his own
     packages = with pkgs; [];
   };
 
-  # Allow unfree packages
+  # TODO: to separate file
   nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
+  # TODO: to separate file
   services.openssh.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
+  # TODO: to separate file?
   system.stateVersion = "unstable";
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = true;
   system.autoUpgrade.channel = "https://channels.nixos.org/nixos-unstable";
+
+  # TODO: either move to home, remove or parameterize
+  #   networking.wireless = {
+  #     enable = true;
+  #     userControlled.enable = true;
+  #   };
+  # TODO: move to home?
+  # i18n.extraLocaleSettings = {
+  #   LC_ADDRESS = "sv_SE.UTF-8";
+  #   LC_IDENTIFICATION = "sv_SE.UTF-8";
+  #   LC_MEASUREMENT = "sv_SE.UTF-8";
+  #   LC_MONETARY = "sv_SE.UTF-8";
+  #   LC_NAME = "sv_SE.UTF-8";
+  #   LC_NUMERIC = "sv_SE.UTF-8";
+  #   LC_PAPER = "sv_SE.UTF-8";
+  #   LC_TELEPHONE = "sv_SE.UTF-8";
+  #   LC_TIME = "sv_SE.UTF-8";
+  # };
 }
