@@ -7,8 +7,15 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # SSH
+  services.openssh.enable = true;
+  users.users.root.openssh.authorizedKeys.keys = [
+    # TODO: parameterize
+    "CHANGE_ME"
+  ];
+
   # TODO: parameterize
-  networking.hostName = "nixos";
+  networking.hostName = "evolve-nixos-workstation";
   networking.networkmanager.enable = true;
 
   # TODO: parameterize
@@ -38,8 +45,6 @@
   environment.systemPackages = with pkgs; [
   ];
 
-  # TODO: to separate file
-  services.openssh.enable = true;
 
   # TODO: to separate file?
   system.stateVersion = "unstable";
