@@ -4,7 +4,6 @@
   # TODO: parameterize
   imports = [
     ./hardware/workstation/hardware-configuration.nix
-    ./disko/uefi/disk-config.nix
   ];
 
   # Bootloader.
