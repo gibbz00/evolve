@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 let
-  hostName = "evolve-nixos-workstation";
   sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZLVfPatp7YOYiWAmpDMibN9CNLCmqEOhWZ8bsqvENa gibbz@evolve-leissner";
 in
 {
@@ -18,10 +17,7 @@ in
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = [ sshKey ];
 
-  networking = {
-    inherit hostName;
-    networkmanager.enable = true;
-  };
+  networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Stockholm";
   i18n.defaultLocale = "en_US.UTF-8";

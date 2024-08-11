@@ -1,16 +1,31 @@
 {
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-  inputs.disko.url = "github:nix-community/disko";
-  inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
   outputs = { nixpkgs, disko, ... }:
     {
-      nixosConfigurations.workstation = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          disko.nixosModules.disko
-          ./hosts/workstation/default.nix
-        ];
+      colmena = {
+        meta = {
+          nixpkgs = import nixpkgs {
+            system = "x86_64-linux";
+          };
+        };
+
+        workstation = {
+          deployment = {
+            targetHost = "evolve-nixos-workstation.lan";
+          };
+          networking.hostName = "evolve-nixos-workstation";
+          imports = [
+            ./hosts/workstation/default.nix
+            disko.nixosModules.disko
+          ];
+        };
       };
     };
 }
