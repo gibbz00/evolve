@@ -1,9 +1,13 @@
 { pkgs, ... }:
 
-let hostName = "evolve-nixos-workstation"; in
+let
+  hostName = "evolve-nixos-workstation";
+  sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAZLVfPatp7YOYiWAmpDMibN9CNLCmqEOhWZ8bsqvENa gibbz@evolve-leissner";
+in
 {
   imports = [
     ./hardware.nix
+    ../applications/podman.nix
   ];
 
   # Bootloader.
@@ -12,10 +16,7 @@ let hostName = "evolve-nixos-workstation"; in
 
   # SSH
   services.openssh.enable = true;
-  users.users.root.openssh.authorizedKeys.keys = [
-    # TODO: parameterize
-    "CHANGE_ME"
-  ];
+  users.users.root.openssh.authorizedKeys.keys = [ sshKey ];
 
   networking = {
     inherit hostName;
