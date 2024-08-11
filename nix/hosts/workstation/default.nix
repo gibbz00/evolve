@@ -1,5 +1,6 @@
 { pkgs, ... }:
 
+let hostName = "evolve-nixos-workstation"; in
 {
   # TODO: parameterize
   imports = [
@@ -18,8 +19,10 @@
   ];
 
   # TODO: parameterize
-  networking.hostName = "evolve-nixos-workstation";
-  networking.networkmanager.enable = true;
+  networking = {
+    inherit hostName;
+    networkmanager.enable = true;
+  };
 
   # TODO: parameterize
   time.timeZone = "Europe/Stockholm";

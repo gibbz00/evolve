@@ -5,7 +5,7 @@
 
   outputs = { nixpkgs, disko, ... }:
     {
-      nixosConfigurations.evolve-nixos-workstation = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.workstation = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           disko.nixosModules.disko
