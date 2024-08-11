@@ -54,6 +54,8 @@ let hostName = "evolve-nixos-edge"; in
   system.autoUpgrade.enable = true;
   system.autoUpgrade.allowReboot = true;
   system.autoUpgrade.channel = "https://channels.nixos.org/nixos-unstable";
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
 
   # TODO: either move to home, remove or parameterize
   networking.wireless = {
