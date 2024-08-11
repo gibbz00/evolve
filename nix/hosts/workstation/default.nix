@@ -7,7 +7,7 @@ in
 {
   imports = [
     ./hardware.nix
-    ../applications/podman.nix
+    ../../applications/podman.nix
   ];
 
   # Bootloader.
