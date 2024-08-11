@@ -37,7 +37,9 @@ in
     # Generated with `mkpasswd`
     hashedPassword = "$y$j9T$xKGza1jEG4B/sjLUrd8NI/$mDS1esp/CbAJrVnDe4fD0ngC2wB0BPRF13Tsu3qjMP7";
     # TODO: to separate file?
-    packages = with pkgs; [];
+    packages = with pkgs; [
+      git
+    ];
   };
 
   # TODO: to separate file?
