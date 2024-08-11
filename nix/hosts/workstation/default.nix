@@ -42,6 +42,8 @@ let hostName = "evolve-nixos-workstation"; in
   users.users.gibbz = {
     isNormalUser = true;
     extraGroups = [ "networkmanager" "wheel" ];
+    # Generated with `mkpasswd`
+    hashedPassword = "$y$j9T$xKGza1jEG4B/sjLUrd8NI/$mDS1esp/CbAJrVnDe4fD0ngC2wB0BPRF13Tsu3qjMP7"
     # TODO: users sets up his own
     packages = with pkgs; [];
   };
