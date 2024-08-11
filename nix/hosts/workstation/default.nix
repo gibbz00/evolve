@@ -3,7 +3,7 @@
 {
   # TODO: parameterize
   imports = [
-    ./hardware/workstation/hardware-configuration.nix
+    ./hardware.nix
   ];
 
   # Bootloader.
