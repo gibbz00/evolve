@@ -16,13 +16,13 @@
           };
         };
 
-        workstation = {
+        workstation = { name, ... }: {
           deployment = {
-            targetHost = "evolve-nixos-workstation.lan";
+            targetHost = "${name}.lan";
           };
-          networking.hostName = "evolve-nixos-workstation";
+          networking.hostName = name;
           imports = [
-            ./hosts/workstation/default.nix
+            ./hosts/${name}/default.nix
             disko.nixosModules.disko
           ];
         };
