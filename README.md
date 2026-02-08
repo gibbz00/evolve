@@ -1,3 +1,7 @@
+# [NOTE] Archived Project
+
+Migrated to use Nixos in https://github.com/gibbz00/dotfiles
+
 # Introduction
 
 The goal of this project is to serve as an installation script for personally configured Arch Linux systems to work out of the box. 
